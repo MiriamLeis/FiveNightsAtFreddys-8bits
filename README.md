@@ -3,7 +3,7 @@
 ¡Bienvenido a tu nuevo trabajo de verano en Freddy Fazbear's Pizza, dónde padres e hijos por igual vienen a comer y pasar un buen rato!
 La atracción principal es, sin lugar a dudas, Freddy Fazbear y sus dos amigos, ¡robots animatrónicos programados para entretener a los visitantes!
 Pero... de alguna forma, el comportamiento de los robots por la noche se ha vuelto... ¿Cómo decirlo?... Impredecible, y es mucho más barato contrarte a ti como guardia de seguridad que contratar a un técnico.
-Desde tu pequeña oficina debes vigilar con atención las cámaras de seguridad. Eso sí, ahorra batería ya que tienes una cantidad limitada de energía en tu poder (recortes, ya sabes). Eso significa que, si te quedas sin ella en mitad de la noche ¡No más puertas de seguridad ni luz! 
+Desde tu pequeña oficina debes vigilar con atención las cámaras de seguridad. Eso sí, ahorra la batería ya que cuentas una cantidad limitada de energía en tu poder (recortes, ya sabes). Eso significa que, si te quedas sin ella en mitad de la noche ¡No más puertas de seguridad ni luz! 
 Si algo no va bien, más bien, si Freddy o sus amigos no se encuentran en sus lugares correspondientes, te recomiendo buscarlos en el monitor y protegerte en caso de... bueno, tu no te preocupes, no debería suceder nada.
 ¡Suerte con tu guardia en Freddy Fazbear's Pizza!
 
