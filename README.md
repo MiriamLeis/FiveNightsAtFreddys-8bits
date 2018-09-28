@@ -7,7 +7,7 @@
 
 ##### But... Somehow, the robots' behavior has become... How could i explain it?... Unpredictable at night, and it was much cheaper to hire you as a security guard than to find a repairman.
 
-##### From your small office you must watch the security cameras. But be careful with the batery because you have a limited amount of it (corporate budget cuts, you know). That means that if you run out of energy at the middle of the night, no more security doors and light!
+##### From your small office you must watch the security cameras. But be careful with the battery because you have a limited amount of it (corporate budget cuts, you know). That means that if you run out of energy at the middle of the night, no more security doors and light!
 
 ##### If something goes wrong - namely if Freddy and his friends are not in their right places, I recommend you to find them in the monitor and protect yourself in case of... well, don't worry, everything will be alright.
 
