@@ -1,5 +1,4 @@
 # Five Nights At Freddy's 8-bits
-[Original Game](https://store.steampowered.com/app/319510/Five_Nights_at_Freddys)
 
 ##### Welcome to your new summer job at Freddy Fazbear's Pizza, where kids and parents alike come for entertainment and food as far as the eye can see! The main attraction is Freddy Fazbear, of course; and his two friends. They are animatronic robots, programmed to please the crowds!
 
@@ -40,6 +39,7 @@
 * Miriam Leis Baltanás.
 * Pablo Joaquín Rodríguez Hidalgo.
 
+[Original Game](https://store.steampowered.com/app/319510/Five_Nights_at_Freddys)
 
 
 
