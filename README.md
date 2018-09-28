@@ -5,7 +5,7 @@
 
 ##### Welcome to your new summer job at Freddy Fazbear's Pizza, where kids and parents alike come for entertainment and food as far as the eye can see! The main attraction is Freddy Fazbear, of course; and his two friends. They are animatronic robots, programmed to please the crowds!
 
-##### But... Somehow, the robots' behavior has become... How could i explain it?... Unpredictable at night, and it was much cheaper to hire you as a security guard than to find a repairman.
+##### But... Somehow, the robot's behavior has become... How could i explain it?... Unpredictable at night, and it was much cheaper to hire you as a security guard than to find a repairman.
 
 ##### From your small office you must watch the security cameras. But be careful with the battery because you have a limited amount of it (corporate budget cuts, you know). That means that if you run out of energy at the middle of the night, no more security doors and light!
 
