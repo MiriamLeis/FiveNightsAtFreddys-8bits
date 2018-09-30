@@ -2,6 +2,7 @@
 
 var PlayScene = require('./play_scene.js');
 var Menu = require('./menu.js');
+var Oficina = require('./oficina.js')
 
 
 var BootScene = {
@@ -40,6 +41,7 @@ window.onload = function () {
   game.state.add('preloader', PreloaderScene);
   game.state.add('play', PlayScene);
   game.state.add('menu', Menu);
+  game.state.add('oficina', Oficina);
 
   game.state.start('boot');
 };
