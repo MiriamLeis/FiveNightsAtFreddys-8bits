@@ -2,7 +2,7 @@
 
 var PlayScene = require('./play_scene.js');
 var Menu = require('./menu.js');
-var Oficina = require('./oficina.js')
+var Office = require('./office.js')
 
 
 var BootScene = {
@@ -25,7 +25,8 @@ var PreloaderScene = {
 
     // TODO: load here the assets for the game
     this.game.load.image('logo', 'images/phaser.png');
-    this.game.load.image('carta', 'assets/HSNZ.png');
+    this.game.load.spitesheet('carta', 'assets/HSNZ.png',50,50);
+    this.game.load.image('button', 'assets/button.jpg');
   },
 
   create: function () {
@@ -41,7 +42,7 @@ window.onload = function () {
   game.state.add('preloader', PreloaderScene);
   game.state.add('play', PlayScene);
   game.state.add('menu', Menu);
-  game.state.add('oficina', Oficina);
+  game.state.add('office', Office);
 
   game.state.start('boot');
 };
