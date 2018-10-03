@@ -25,7 +25,7 @@ var PreloaderScene = {
 
     // TODO: load here the assets for the game
     this.game.load.image('logo', 'images/phaser.png');
-    this.game.load.spitesheet('carta', 'assets/HSNZ.png',50,50);
+    this.game.load.image('carta', 'assets/HSNZ.png',50,50);
     this.game.load.image('button', 'assets/button.jpg');
   },
 
