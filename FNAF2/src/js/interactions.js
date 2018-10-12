@@ -46,13 +46,10 @@ function Monitor ()
     
 
 }
-this.hola = function()
+
+Monitor.prototype.hola = function()
 {
     console.log("hola");
-}
-hola.prototype.changeMonitorStatus = function()
-{
-    console.log("yah");
 }
 
 

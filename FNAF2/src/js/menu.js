@@ -1,12 +1,14 @@
 'use strict';
 
-var Pepe = require('./interactions.js');
-
+  require('./interactions.js');
 
 var Menu = {
     create: function () {
 
-        Pepe.hola().changeMonitorStatus();
+        var holi = new Monitor(); 
+        holi.hola();
+      //  var holi = new Monitor();
+        //holi.hola();
 
         
         this.game.add.sprite(0,0,'carta');
