@@ -14,9 +14,9 @@ Animatronics.prototype.changeHourIni = function(hour)
 {
     this._hourIni = hour;
 };
-Animatronics.prototype.showScreamer()
+Animatronics.prototype.showScreamer = new function()
 {
-    this.game.add.sprite(0,0,this._screamer);
+   
 };
 
 //FreddyFoxy
@@ -65,3 +65,31 @@ Freddy.prototype.move = function(){};
 Freddy.prototype.attack = function(){};
 
 
+function Room(name,room1,room2,room3)
+{
+    this._name = name;
+    this._room1 = room1;
+    this._number =1;
+
+    if(room2 != null)
+    {
+        this.room2 = room2;
+        this._number++;
+    }
+    if (room3 != null)
+    {
+        this._room3 = room3
+        this._number++;
+    }
+}
+
+
+var pathBonnie = [6];
+pathBonnie[0] = new Room ('showStage',pathBonnie[1],null,null);
+pathBonnie[1] = new Room ('diningArea',pathBonnie[2],pathBonnie[3],null);
+pathBonnie[2] = new Room ('backStage',pathBonnie[1],null,null);
+pathBonnie[3] = new Room ('westHallUp',pathBonnie[1],pathBonnie[4],pathBonnie[5]);
+pathBonnie[4] = new Room ('supplyCloset',pathBonnie[3],pathBonnie[5],null);
+pathBonnie[5] = new Room ('westHallDown',pathBonnie[3],pathBonnie[4],null);
+
+//pathBonnie[5].attack = Bonnie.attack();

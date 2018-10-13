@@ -1,12 +1,14 @@
 'use strict';
 
-  require('./interactions.js');
+  require('./Animatronics.js');
 
 var Menu = {
     create: function () {
 
-        var holi = new Monitor(); 
-        holi.hola();
+      var pathBonnie = [6];
+      pathBonnie[0] = new Room ('backStage',pathBonnie[1],null,null);
+      
+      console.log(pathBonnie[0]._number);
       //  var holi = new Monitor();
         //holi.hola();
 
