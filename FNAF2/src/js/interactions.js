@@ -1,55 +1,34 @@
 'use strict';
 
 
-var Interact = {
-     active: undefined,
-     button: undefined,
+function Interact (button) {
+     this._active = false;
+     this._button = button;
 }
 
-var Door = function()
+
+function DoorLight(button)
 {
-     var doorInteract = new Interact;
-
-     this.doorInteract.active = false;
-
-    function createButton(x,y)
-    {
-        //Declarar boton
-    }
-
-     function changeDoorStatus()
-     {
-         this.doorInteract.active = !this.doorInteract.active;
-     }
+    Interact.apply(this,[button]);
 }
 
-var Light = function()
+DoorLight.prototype = Object.create(Interact.prototype);
+DoorLight.prototype.constructor = DoorLight;
+
+DoorLight.prototype.changeStatus = function()
 {
-     var doorInteract = new Interact;
+    _active = !_active;
+};
 
-     this.doorInteract.active = false;
-
-     function createButton(x,y)
-     {
-         //Declarar boton
-     }
-
-     function changeLightStatus()
-     {
-         //Intentar hacer un invoke
-         this.doorInteract.active = !this.doorInteract.active;
-     }
-}
 
 function Monitor ()
 {
     
 
-}
+};
+Monitor.prototype = Object.create(Interact.prototype);
+Monitor.prototype.constructor = Monitor;
 
-Monitor.prototype.hola = function()
-{
-    console.log("hola");
-}
+
 
 
