@@ -75,12 +75,14 @@ function Room(name,room1,room2,room3)
     {
         this.room2 = room2;
         this._number++;
+        
+        if (room3 != null)
+        {
+            this._room3 = room3
+            this._number++;
+        }
     }
-    if (room3 != null)
-    {
-        this._room3 = room3
-        this._number++;
-    }
+
 }
 
 

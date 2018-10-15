@@ -30,7 +30,7 @@ var PreloaderScene = {
   },
 
   create: function () {
-    this.game.state.start('menu');
+    this.game.state.start('play');
   }
 };
 
@@ -41,8 +41,7 @@ window.onload = function () {
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
   game.state.add('play', PlayScene);
-  game.state.add('menu', Menu);
-  game.state.add('office', Office);
+
 
   game.state.start('boot');
 };
