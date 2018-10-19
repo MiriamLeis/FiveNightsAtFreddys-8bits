@@ -9,12 +9,12 @@ var PlayScene = {
       pathBonnie[0] = new Room ('backStage',pathBonnie[1],null,null);
       
       console.log(pathBonnie[0]._number);
-      //  var holi = new Monitor();
-        //holi.hola();
 
         
-        this.game.add.sprite(0,0,'carta');
-        //this.game.state.start('office');
+      var bonnie = this.game.add.sprite(0,0,"bonnie");
+      bonnie.frame = 1;
+      var chica = this.game.add.sprite(66,0,"chica");
+      chica.frame = 1;
     }
   };
 

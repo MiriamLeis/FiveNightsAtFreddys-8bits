@@ -1,8 +1,6 @@
 'use strict';
 
 var PlayScene = require('./play_scene.js');
-var Menu = require('./menu.js');
-var Office = require('./office.js')
 
 
 var BootScene = {
@@ -24,9 +22,22 @@ var PreloaderScene = {
     this.load.setPreloadSprite(this.loadingBar);
 
     // TODO: load here the assets for the game
-    this.game.load.image('logo', 'images/phaser.png');
-    this.game.load.image('carta', 'assets/HSNZ.png',50,50);
-    this.game.load.image('button', 'assets/button.jpg');
+    //Habitaciones
+    this.game.load.image('showStage','./images/ShowStage.png');
+    this.game.load.image('dinningRoom','./images/DinningRoom.png');
+    this.game.load.image('backstage','./images/Backstage.png');
+    this.game.load.image('wHallCorner','./images/W.Hall Corner.png');
+    this.game.load.image('eHallCorner','./images/E.Hall Corner.png');
+    this.game.load.image('eastHall','./images/East Hall.png');
+    this.game.load.image('restrooms','./images/Restrooms.png');
+    //Animatronicos
+    this.game.load.spritesheet('bonnie','./images/Bonnie.png', 33, 66, 2);
+    this.game.load.spritesheet('chica','./images/Chica.png', 33, 66, 2);
+    this.game.load.spritesheet('freddy','./images/Freddy.png', 33, 66, 2);
+    this.game.load.image('darkFreddy','./images/FreddyDark.png');
+    this.game.load.image('foxy','./images/Foxy.png');
+    this.game.load.spritesheet('foxyRun','./images/FoxyRun.png', 33, 66, 2);
+
   },
 
   create: function () {
