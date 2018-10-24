@@ -57,7 +57,7 @@ var PreloaderScene = {
 
 
 window.onload = function () {
-  var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game');
+  var game = new Phaser.Game(792, 594, Phaser.AUTO, 'game');
 
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
