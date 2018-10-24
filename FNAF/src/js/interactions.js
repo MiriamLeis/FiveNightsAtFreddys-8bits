@@ -44,26 +44,18 @@ Monitor.prototype.changeCamara = function()
 {
     //SE CAMBIA LA CAMARA SEGUN EL BOTON PULSADO.
 }
-
-function RoomCamera (sprite)
+function Camera(sprite, button)
 {
     this._sprite = sprite;
     this._occupied = false;
-}
-RoomCamera.prototype.amIOccupied = function()
+    this._button = button;
+};
+Camera.prototype.amIOccupied = function()
 {
     return this._occupied;
-}
+};
 
-RoomCamera.prototype.changeOccuppied = function()
+Camera.prototype.changeOccuppied = function()
 {
     this._occupied = !this._occupied;
-}
-
-function Camera(sprite, button)
-{
-    RoomCamera.apply(this, [sprite]);
-    this._button = button;
-}
-Camera.prototype = Object.create(RoomCamera);
-Camera.prototype.constructor = Camera;
+};
