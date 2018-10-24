@@ -1,5 +1,5 @@
 'use strict';
-var Animatronics = require('./animatronics.js');
+Animatronics = require('./animatronics.js');
 
 function Night (phoneGuy)
 {

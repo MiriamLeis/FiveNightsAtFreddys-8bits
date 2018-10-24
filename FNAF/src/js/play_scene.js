@@ -1,6 +1,6 @@
 'use strict';
 
-  require('./Animatronics.js');
+  require('./animatronics.js');
 
 var PlayScene = {
     create: function () {

@@ -66,3 +66,32 @@ window.onload = function () {
 
   game.state.start('boot');
 };
+
+
+function Main()
+{
+  /*
+  Create
+  {
+    Se crea 1 menu,
+    Se crea phoneguy,
+    Se crea 1 night,
+    Se crea 1 office.
+  }
+
+  Update
+  {
+    Audio phoneGuy.
+
+    Bucle del juego
+    {
+      Booleano de finPartida,
+      Cambio a escena oficina,
+      Actualizacion de los animatronicos,
+      Input.
+    }
+  }
+
+
+  */
+}
