@@ -40,22 +40,23 @@ function Monitor (button)
 Monitor.prototype = Object.create(Interact.prototype);
 Monitor.prototype.constructor = Monitor;
 
-Monitor.prototype.changeCamara = function()
+Monitor.prototype.changeCamera = function()
 {
     //SE CAMBIA LA CAMARA SEGUN EL BOTON PULSADO.
 }
-function Camera(sprite, button)
+
+function Camera (sprite, button)
 {
     this._sprite = sprite;
     this._occupied = false;
     this._button = button;
-};
+}
 Camera.prototype.amIOccupied = function()
 {
     return this._occupied;
-};
+}
 
 Camera.prototype.changeOccuppied = function()
 {
     this._occupied = !this._occupied;
-};
+}
