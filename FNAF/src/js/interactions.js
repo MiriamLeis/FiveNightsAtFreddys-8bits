@@ -2,8 +2,8 @@
 
 function Interact (button) 
 {
-     this._active = false;
-     this._button = button;
+    this._active = false;
+    this._button = button;
 };
 Interact.prototype.changeStatus = function()
 {
