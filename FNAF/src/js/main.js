@@ -35,6 +35,7 @@ var PreloaderScene = {
     this.game.load.image('pirateCov1', './images/rooms/PirateCove.png');
     this.game.load.image('pirateCov2', './images/rooms/PirateCove2.png');
     this.game.load.image('pirateCov3', './images/rooms/PirateCove3.png');
+    this.game.load.image('pirateCov3', './images/rooms/Office.png');
 
     //Animatronics
     this.game.load.spritesheet('bonnie','./images/Bonnie.png', 33, 66, 2);
