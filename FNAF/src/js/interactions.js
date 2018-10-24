@@ -28,9 +28,9 @@ function Monitor (button)
     cameras[3] = new Camera("restrooms", null);
     cameras[4] = new Camera(null, null);
     cameras[5] = new Camera("eastHall", null);
-    cameras[6] = new Camera("", null);
+    cameras[6] = new Camera("supplyCloset", null);
     cameras[7] = new Camera("eHallCorner", null);
-    cameras[8] = new Camera("", null);
+    cameras[8] = new Camera("westHall", null);
     cameras[9] = new Camera("wHallCorner", null);
     cameras[10] = new Camera("", null); //Foxy
 
