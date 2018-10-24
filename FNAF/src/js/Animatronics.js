@@ -1,4 +1,3 @@
-
 //Clase Animatronicos
 function Animatronics(sprite,screamer,animation,path,posIni,hourIni,actTime)
 {
