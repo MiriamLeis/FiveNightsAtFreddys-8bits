@@ -1,6 +1,7 @@
 'use strict';
 
 var PlayScene = require('./play_scene.js');
+var MenuScene = require('./menu.js');
 
 
 var BootScene = {
@@ -29,7 +30,7 @@ var PreloaderScene = {
     this.game.load.image('supplyCloset', './images/rooms/SupplyCloset.png');
     this.game.load.image('wHallCorner','./images/rooms/W.Hall Corner.png');
     this.game.load.image('westHall', './images/rooms/West Hall.png');
-    this.game.load.image('eHallCorner','./images/E.Hall Corner.png');
+    this.game.load.image('eHallCorner','./images/rooms/E.Hall Corner.png');
     this.game.load.image('eastHall','./images/rooms/East Hall.png');
     this.game.load.image('restrooms','./images/rooms/Restrooms.png');
     this.game.load.image('pirateCov1', './images/rooms/PirateCove.png');
@@ -52,7 +53,7 @@ var PreloaderScene = {
   },
 
   create: function () {
-    this.game.state.start('play');
+    this.game.state.start('menu');
   }
 };
 
@@ -63,6 +64,7 @@ window.onload = function () {
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
   game.state.add('play', PlayScene);
+  game.state.add('menu', MenuScene);
 
 
   game.state.start('boot');
