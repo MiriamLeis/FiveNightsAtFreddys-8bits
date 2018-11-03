@@ -6,11 +6,12 @@ var Menu =
 {
     create: function()
     {
-        this._buttonNew = this.game.add.button(0, 0, 'bonnie', actionOnClick, this);
+        //this._buttonNew = this.game.add.button(0, 0, 'bonnie', actionOnClick, this);
         //this._buttonContinue = buttonC;
         //this._buttonExit = buttonE;
         
     }
+    
 };
 
 //LUCES Y PUERTAS

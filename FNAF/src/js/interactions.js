@@ -7,7 +7,7 @@ function Interact (button)
 };
 Interact.prototype.changeStatus = function()
 {
-    this._activo = !this.activo; // y os odiaré
+    this._activo = !this.activo; 
 
     if(!this._activo)
     {

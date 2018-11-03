@@ -6,7 +6,6 @@ function Night(phoneGuy)
     this._night = night;
     this._phoneGuy = phoneGuy; //Array audios. Implementar cuando sepamos como funcionan los audios
     //Freddy
-    // var pathFreddy = [6];
     var pathFreddy = [];
     pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
 
@@ -20,7 +19,7 @@ function Night(phoneGuy)
     this._Freddy = new Freddy('freddy', '', '', pathFreddy, 0, [[null, null], [null, null], [3, 4], [2, 3], [0, 1], [0, 0]], [[null, null], [null, null], [,], [,], [,], [,]]);
 
     //Foxy
-    var pathFoxy = [4]; //Mirar mejor
+    var pathFoxy = []; //Mirar mejor
     pathFoxy.push('hide');
     pathFoxy.push('half-hide');
     pathFoxy.push('spotted');
@@ -29,7 +28,7 @@ function Night(phoneGuy)
     this._Foxy = new Foxy('foxy', '', 'foxyRun', pathFoxy, 0, [[null, null], [null, null], [3, 4], [2, 3], [0, 1], [0, 0]], [[, ], [, ], [,], [,], [,], [,]]);
 
     //Chica
-    var pathChica = [6];
+    var pathChica = [];
     pathChica.push (new Room ('showStage', pathChica[1], null, null));
     pathChica.push (new Room ('diningRoom', pathChica[2], pathChica[3], pathChica[4]));
     pathChica.push (new Room ('restroom', pathChica[1], null, null));
@@ -40,7 +39,7 @@ function Night(phoneGuy)
     this._Chica = new BonnieChica('chica', '', '', pathChica, 0, [[2, 3], [0, 3], [0, 1], [0, 2], [0, 1], [0, 0]], [[,], [,], [,], [,], [,], [,]]);
 
     //Bonnie
-    var pathBonnie = [6];
+    var pathBonnie = [];
     pathBonnie.push(new Room ('showStage', pathBonnie[1], null, null));
     pathBonnie.push(new Room ('diningRoom', pathBonnie[2], pathBonnie[3], null));
     pathBonnie.push(new Room ('backStage', pathBonnie[1], null, null));

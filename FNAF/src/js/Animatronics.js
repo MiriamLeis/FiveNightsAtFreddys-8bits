@@ -1,7 +1,7 @@
 //Clase Animatronicos
-function Animatronics(sprite,screamer,animation,path,posIni,hourIni,actTime)//Añadir Game?
+function Animatronics(game,sprite,screamer,animation,path,posIni,hourIni,actTime)//Añadir Game?
 {
-    Phaser.Sprite.apply(this,sprite)
+    Phaser.Sprite.apply(this,game,sprite)
     //this.add.child(....) // buscarlo que no es así (puede que no queráis eso)
     this._screamer = screamer;
     this._animation = animation;
@@ -13,7 +13,7 @@ function Animatronics(sprite,screamer,animation,path,posIni,hourIni,actTime)//A�
     this._punActTime = null;//Puntero a la noche en actTime
 };
 
-Animatronics.prototype = Object.create(Sprite.prototype);
+Animatronics.prototype = Object.create(Phaser.Sprite.prototype);
 Animatronics.prototype.constructor = Animatronics;
 
 Animatronics.prototype.showScreamer = function()
