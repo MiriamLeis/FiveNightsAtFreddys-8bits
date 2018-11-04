@@ -1,23 +1,29 @@
 'use strict';
 
 var PlayScene = require('./play_scene.js');
-var MenuScene = require('./menu.js');
+var MenuScene = require('./menuScene.js');
+var CameraScene = require('./cameraScene.js');
 
 
-var BootScene = {
-  preload: function () {
+var BootScene = 
+{
+  preload: function () 
+  {
     // load here assets required for the loading screen
     this.game.load.image('preloader_bar', 'images/preloader_bar.png');
   },
 
-  create: function () {
+  create: function () 
+  {
     this.game.state.start('preloader');
   }
 };
 
 
-var PreloaderScene = {
-  preload: function () {
+var PreloaderScene =
+{
+  preload: function () 
+  {
     this.loadingBar = this.game.add.sprite(0, 240, 'preloader_bar');
     this.loadingBar.anchor.setTo(0, 0.5);
     this.load.setPreloadSprite(this.loadingBar);
@@ -42,29 +48,32 @@ var PreloaderScene = {
     this.game.load.spritesheet('bonnie','./images/Bonnie.png', 33, 66, 2);
     this.game.load.spritesheet('chica','./images/Chica.png', 33, 66, 2);
     this.game.load.spritesheet('freddy','./images/Freddy.png', 33, 66, 2);
-    this.game.load.image('darkFreddy','./images/FreddyDark.png');
+    this.game.load.spritesheet('darkFreddy','./images/FreddyDark.png', 33, 66, 2);
     this.game.load.image('foxy','./images/Foxy.png');
     this.game.load.spritesheet('foxyRun','./images/FoxyRun.png', 33, 66, 2);
 
     //Screamers
 
     //Objects
-
+    this.game.load.image('button','./images/button.png');
   },
 
-  create: function () {
-    this.game.state.start('menu');
+  create: function () 
+  {
+    this.game.state.start('cameras');
   }
 };
 
 
-window.onload = function () {
+window.onload = function () 
+{
   var game = new Phaser.Game(792, 594, Phaser.AUTO, 'game');
 
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
   game.state.add('play', PlayScene);
   game.state.add('menu', MenuScene);
+  game.state.add('cameras', CameraScene);
 
 
   game.state.start('boot');

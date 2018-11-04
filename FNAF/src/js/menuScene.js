@@ -1,12 +1,10 @@
 'use strict';
 
-var PlayScene = require('./play_scene.js');
-
 var Menu =
 {
     create: function()
     {
-        //this._buttonNew = this.game.add.button(0, 0, 'bonnie', actionOnClick, this);
+        this._buttonNew = this.game.add.button(0, 0, 'bonnie', actionOnClick, this);
         //this._buttonContinue = buttonC;
         //this._buttonExit = buttonE;
         
@@ -15,7 +13,7 @@ var Menu =
 };
 
 //LUCES Y PUERTAS
-/*
+
 function actionOnClick ()
 {
     if(!this.activo)
@@ -29,7 +27,7 @@ function actionOnClick ()
         this._buttonNew.frame = 0;
     }
 }
-*/
+
 
 
 module.exports = Menu;
