@@ -48,149 +48,35 @@ var CameraScene =
         }
 
     //Buttons
-        this.cam1A = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.ShowStage)}, this);
-        this.cam1A.scale.setTo(0.05, 0.05);
-        this.cam1A.anchor.setTo(0, 0);
-        this.cam1A.fixedToCamera = true;
+        this.cam1A = addButton(this.game,Rooms,Rooms.ShowStage, 0, 0, 0.05);
+        this.cam1B = addButton(this.game,Rooms,Rooms.DinningRoom, -1, 0, 0.05);
+        this.cam5 = addButton(this.game,Rooms,Rooms.Backstage, -2, 0, 0.05);
+        this.cam7 = addButton(this.game,Rooms,Rooms.Restrooms, -3, 0, 0.05);
+        this.cam6 = addButton(this.game,Rooms,Rooms.Kitchen, -4, 0, 0.05);
+        this.cam4A = addButton(this.game,Rooms,Rooms.EastHall, -5, 0, 0.05);
+        this.cam3 = addButton(this.game,Rooms,Rooms.SupplyCloset, -6, 0, 0.05);
+        this.cam4B = addButton(this.game,Rooms,Rooms.EHallCorner, -7, 0, 0.05);
+        this.cam2A = addButton(this.game,Rooms,Rooms.WestHall, -8, 0, 0.05);
+        this.cam2B = addButton(this.game,Rooms,Rooms.WHallCorner, -9, 0, 0.05);
+        this.cam1C = addButton(this.game,Rooms,Rooms.PirateCove, -10, 0, 0.05);
 
-        this.cam1B = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.DinningRoom)}, this);
-        this.cam1B.scale.setTo(0.05, 0.05);
-        this.cam1B.anchor.setTo(-1, 0);
-        this.cam1B.fixedToCamera = true;
-
-        this.cam5 = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.Backstage)}, this);
-        this.cam5.scale.setTo(0.05, 0.05);
-        this.cam5.anchor.setTo(-2, 0);
-        this.cam5.fixedToCamera = true;
-
-        this.cam7 = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.Restrooms)}, this);
-        this.cam7.scale.setTo(0.05, 0.05);
-        this.cam7.anchor.setTo(-3, 0);
-        this.cam7.fixedToCamera = true;
-
-        this.cam6 = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.Kitchen)}, this);
-        this.cam6.scale.setTo(0.05, 0.05);
-        this.cam6.anchor.setTo(-4, 0);
-        this.cam6.fixedToCamera = true;
-
-        this.cam4A = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.EastHall)}, this);
-        this.cam4A.scale.setTo(0.05, 0.05);
-        this.cam4A.anchor.setTo(-5, 0);
-        this.cam4A.fixedToCamera = true;
-
-        this.cam3 = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.SupplyCloset)}, this);
-        this.cam3.scale.setTo(0.05, 0.05);
-        this.cam3.anchor.setTo(-6, 0);
-        this.cam3.fixedToCamera = true;
-
-        this.cam4B = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.EHallCorner)}, this);
-        this.cam4B.scale.setTo(0.05, 0.05);
-        this.cam4B.anchor.setTo(-7, 0);
-        this.cam4B.fixedToCamera = true;
-
-        this.cam2A = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.WestHall)}, this);
-        this.cam2A.scale.setTo(0.05, 0.05);
-        this.cam2A.anchor.setTo(-8, 0);
-        this.cam2A.fixedToCamera = true;
-
-        this.cam2B = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.WHallCorner)}, this);
-        this.cam2B.scale.setTo(0.05, 0.05);
-        this.cam2B.anchor.setTo(-9, 0);
-        this.cam2B.fixedToCamera = true;
-
-        this.cam1C = this.game.add.button(0, 0, 'button', function (){actionOnClick(this.game, Rooms, Rooms.PirateCove)}, this);
-        this.cam1C.scale.setTo(0.05, 0.05);
-        this.cam1C.anchor.setTo(-10, 0);
-        this.cam1C.fixedToCamera = true;
 
     //Draw cameras
-        /*ShowStage*/
-        Rooms.cameraPositions[Rooms.ShowStage].sprite.scale.setTo(1.5, 1.5);
+        
+        addCamera( Rooms.cameraPositions[Rooms.ShowStage],tamX,tamY,1.5);
 
-        Rooms.cameraPositions[Rooms.ShowStage].sprite.x =  
-            Rooms.cameraPositions[Rooms.ShowStage].x + (tamX - Rooms.cameraPositions[Rooms.ShowStage].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.ShowStage].sprite.y =  
-            Rooms.cameraPositions[Rooms.ShowStage].y + (tamY - Rooms.cameraPositions[Rooms.ShowStage].sprite.height)/2;
+        addCamera( Rooms.cameraPositions[Rooms.DinningRoom],tamX,tamY,1.5);
+        addCamera( Rooms.cameraPositions[Rooms.Backstage],tamX,tamY,1.5);
+        addCamera( Rooms.cameraPositions[Rooms.Restrooms],tamX,tamY,1.5);
+        addCamera( Rooms.cameraPositions[Rooms.Kitchen],tamX,tamY,1.5);
 
-        /*DinningRoom*/
-        Rooms.cameraPositions[Rooms.DinningRoom].sprite.scale.setTo(1.5, 1.5);
+        addCamera( Rooms.cameraPositions[Rooms.EastHall],tamX,tamY,1.5);
+        addCamera( Rooms.cameraPositions[Rooms.SupplyCloset],tamX,tamY,1.5);
+        addCamera( Rooms.cameraPositions[Rooms.EHallCorner],tamX,tamY,1.5);
+        addCamera( Rooms.cameraPositions[Rooms.WestHall],tamX,tamY,1.5);
+        addCamera( Rooms.cameraPositions[Rooms.WHallCorner],tamX,tamY,1.5);
+        addCamera( Rooms.cameraPositions[Rooms.PirateCove],tamX,tamY,1.5);
 
-        Rooms.cameraPositions[Rooms.DinningRoom].sprite.x =  
-            Rooms.cameraPositions[Rooms.DinningRoom].x + (tamX - Rooms.cameraPositions[Rooms.DinningRoom].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.DinningRoom].sprite.y =  
-            Rooms.cameraPositions[Rooms.DinningRoom].y + (tamY - Rooms.cameraPositions[Rooms.DinningRoom].sprite.height)/2;
-
-        /*Backstage*/
-        Rooms.cameraPositions[Rooms.Backstage].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.Backstage].sprite.x =  
-            Rooms.cameraPositions[Rooms.Backstage].x + (tamX - Rooms.cameraPositions[Rooms.Backstage].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.Backstage].sprite.y =  
-            Rooms.cameraPositions[Rooms.Backstage].y + (tamY - Rooms.cameraPositions[Rooms.Backstage].sprite.height)/2;
-
-        /*Restrooms*/
-        Rooms.cameraPositions[Rooms.Restrooms].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.Restrooms].sprite.x =  
-            Rooms.cameraPositions[Rooms.Restrooms].x + (tamX - Rooms.cameraPositions[Rooms.Restrooms].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.Restrooms].sprite.y =  
-            Rooms.cameraPositions[Rooms.Restrooms].y + (tamY - Rooms.cameraPositions[Rooms.Restrooms].sprite.height)/2;
-
-        /*Kitchen*/
-        Rooms.cameraPositions[Rooms.Kitchen].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.Kitchen].sprite.x =  
-            Rooms.cameraPositions[Rooms.Kitchen].x + (tamX - Rooms.cameraPositions[Rooms.Kitchen].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.Kitchen].sprite.y =  
-            Rooms.cameraPositions[Rooms.Kitchen].y + (tamY - Rooms.cameraPositions[Rooms.Kitchen].sprite.height)/2;
-
-        /*EastHall*/
-        Rooms.cameraPositions[Rooms.EastHall].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.EastHall].sprite.x =  
-            Rooms.cameraPositions[Rooms.EastHall].x + (tamX - Rooms.cameraPositions[Rooms.EastHall].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.EastHall].sprite.y =  
-            Rooms.cameraPositions[Rooms.EastHall].y + (tamY - Rooms.cameraPositions[Rooms.EastHall].sprite.height)/2;
-
-        /*SupplyCloset*/
-        Rooms.cameraPositions[Rooms.SupplyCloset].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.SupplyCloset].sprite.x =  
-            Rooms.cameraPositions[Rooms.SupplyCloset].x + (tamX - Rooms.cameraPositions[Rooms.SupplyCloset].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.SupplyCloset].sprite.y =  
-            Rooms.cameraPositions[Rooms.SupplyCloset].y + (tamY - Rooms.cameraPositions[Rooms.SupplyCloset].sprite.height)/2;
-
-        /*EHallCorner*/
-        Rooms.cameraPositions[Rooms.EHallCorner].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.EHallCorner].sprite.x =  
-            Rooms.cameraPositions[Rooms.EHallCorner].x + (tamX - Rooms.cameraPositions[Rooms.EHallCorner].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.EHallCorner].sprite.y =  
-            Rooms.cameraPositions[Rooms.EHallCorner].y + (tamY - Rooms.cameraPositions[Rooms.EHallCorner].sprite.height)/2;
-
-        /*WestHall*/
-        Rooms.cameraPositions[Rooms.WestHall].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.WestHall].sprite.x =  
-            Rooms.cameraPositions[Rooms.WestHall].x + (tamX - Rooms.cameraPositions[Rooms.WestHall].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.WestHall].sprite.y =  
-            Rooms.cameraPositions[Rooms.WestHall].y + (tamY - Rooms.cameraPositions[Rooms.WestHall].sprite.height)/2;
-
-        /*WHallCorner*/
-        Rooms.cameraPositions[Rooms.WHallCorner].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.WHallCorner].sprite.x =  
-            Rooms.cameraPositions[Rooms.WHallCorner].x + (tamX - Rooms.cameraPositions[Rooms.WHallCorner].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.WHallCorner].sprite.y =  
-            Rooms.cameraPositions[Rooms.WHallCorner].y + (tamY - Rooms.cameraPositions[Rooms.WHallCorner].sprite.height)/2;
-
-        /*PirateCove*/
-        Rooms.cameraPositions[Rooms.PirateCove].sprite.scale.setTo(1.5, 1.5);
-
-        Rooms.cameraPositions[Rooms.PirateCove].sprite.x =  
-            Rooms.cameraPositions[Rooms.PirateCove].x + (tamX - Rooms.cameraPositions[Rooms.PirateCove].sprite.width)/2;
-        Rooms.cameraPositions[Rooms.PirateCove].sprite.y =  
-            Rooms.cameraPositions[Rooms.PirateCove].y + (tamY - Rooms.cameraPositions[Rooms.PirateCove].sprite.height)/2;
     },
 
     update: function()
@@ -204,5 +90,28 @@ function actionOnClick(game, Rooms, n)
     game.camera.y = Rooms.cameraPositions[n].y;
     console.log ('hey');
 }
+
+
+function addButton(game, Rooms, n,posX,posY,tam)
+{
+   var buttom = game.add.button(0, 0, 'button', function (){actionOnClick(game, Rooms, n)}, this);
+    buttom.scale.setTo(tam,tam );
+    buttom.anchor.setTo(posX, posY);
+    buttom.fixedToCamera = true;
+
+    return buttom;
+
+}
+
+function addCamera(camera, tamX, tamY,tam)
+{
+    camera.sprite.scale.setTo(tam, tam);
+
+    camera.sprite.x =  camera.x + (tamX - camera.sprite.width)/2;
+        
+    camera.sprite.y =  camera.y + (tamY - camera.sprite.height)/2;
+    
+}
+
 
 module.exports = CameraScene;
