@@ -46,20 +46,9 @@ var CameraScene =
                 10: {sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: tamX * 10, y: tamY * 10},
             }
         }
-
-    //Buttons
-        this.cam1A = addButton(this.game,Rooms,Rooms.ShowStage, 0, 0, 0.05, 0.05);
-        this.cam1B = addButton(this.game,Rooms,Rooms.DinningRoom, -1, 0, 0.05, 0.05);
-        this.cam5 = addButton(this.game,Rooms,Rooms.Backstage, -2, 0, 0.05, 0.05);
-        this.cam7 = addButton(this.game,Rooms,Rooms.Restrooms, -3, 0, 0.05, 0.05);
-        this.cam6 = addButton(this.game,Rooms,Rooms.Kitchen, -4, 0, 0.05, 0.05);
-        this.cam4A = addButton(this.game,Rooms,Rooms.EastHall, -5, 0, 0.05, 0.05);
-        this.cam3 = addButton(this.game,Rooms,Rooms.SupplyCloset, -6, 0, 0.05, 0.05);
-        this.cam4B = addButton(this.game,Rooms,Rooms.EHallCorner, -7, 0, 0.05, 0.05);
-        this.cam2A = addButton(this.game,Rooms,Rooms.WestHall, -8, 0, 0.05, 0.05);
-        this.cam2B = addButton(this.game,Rooms,Rooms.WHallCorner, -9, 0, 0.05, 0.05);
-        this.cam1C = addButton(this.game,Rooms,Rooms.PirateCove, -10, 0, 0.05, 0.05);
-
+    //Draw edge
+    /*var map = this.game.add.image(0, 0, 'edge');
+    map.fixedToCamera = true;*/
 
     //Draw cameras
         addCamera( Rooms.cameraPositions[Rooms.ShowStage], tamX, tamY, 1.5);
@@ -74,6 +63,26 @@ var CameraScene =
         addCamera( Rooms.cameraPositions[Rooms.WHallCorner], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.PirateCove], tamX, tamY, 1.5);
 
+    //Draw map
+        var map = this.game.add.image(0, 0, 'camerasMap');
+        map.scale.setTo(2, 2);
+        map.anchor.set(-2, -1.94);
+        map.fixedToCamera = true;
+        
+
+    //Buttons
+        this.cam1A = addButton(this.game,Rooms,Rooms.ShowStage, 0, 0, /*0.05, 0.05*/);
+        this.cam1B = addButton(this.game,Rooms,Rooms.DinningRoom, -1, 0, /*0.05, 0.05*/);
+        this.cam5 = addButton(this.game,Rooms,Rooms.Backstage, -2, 0, /*0.05, 0.05*/);
+        this.cam7 = addButton(this.game,Rooms,Rooms.Restrooms, -3, 0, /*0.05, 0.05*/);
+        this.cam6 = addButton(this.game,Rooms,Rooms.Kitchen, -4, 0, /*0.05, 0.05*/);
+        this.cam4A = addButton(this.game,Rooms,Rooms.EastHall, -5, 0, /*0.05, 0.05*/);
+        this.cam3 = addButton(this.game,Rooms,Rooms.SupplyCloset, -6, 0, /*0.05, 0.05*/);
+        this.cam4B = addButton(this.game,Rooms,Rooms.EHallCorner, -7, 0, /*0.05, 0.05*/);
+        this.cam2A = addButton(this.game,Rooms,Rooms.WestHall, -8, 0, /*0.05, 0.05*/);
+        this.cam2B = addButton(this.game,Rooms,Rooms.WHallCorner, -9, 0, /*0.05, 0.05*/);
+        this.cam1C = addButton(this.game,Rooms,Rooms.PirateCove, -10, 0, /*0.05, 0.05*/);
+
     },
 
     update: function()
@@ -85,14 +94,13 @@ function actionOnClick(game, Rooms, n)
 {
     game.camera.x = Rooms.cameraPositions[n].x;
     game.camera.y = Rooms.cameraPositions[n].y;
-    console.log ('hey');
 }
 
 
-function addButton(game, Rooms, n, posX, posY, tamX, tamY)
+function addButton(game, Rooms, n, posX, posY/*, tamX, tamY*/)
 {
-    var buttom = game.add.button(0, 0, 'button', function (){actionOnClick(game, Rooms, n)}, this);
-    buttom.scale.setTo(tamX, tamY);
+    var buttom = game.add.button(0, 0, 'buttonCameras', function (){actionOnClick(game, Rooms, n)}, this, 1, 0, 1);
+    //buttom.scale.setTo(tamX, tamY);
     buttom.anchor.setTo(posX, posY);
     buttom.fixedToCamera = true;
 

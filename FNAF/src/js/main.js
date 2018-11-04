@@ -55,9 +55,10 @@ var PreloaderScene =
     //Screamers
 
     //Objects
-    this.game.load.image('button','./images/button.png');
-    this.game.load.image('buttonDoorLight', './images/items/buttonDoorLight.png');
+    this.game.load.spritesheet('buttonCameras','./images/items/buttonCameras.png', 33, 33, 2);
+    this.game.load.spritesheet('buttonDoorLight', './images/items/buttonDoorLight.png', 33, 33, 2);
     this.game.load.image('camerasMap', './images/items/camerasMap.png');
+    this.game.load.image('edge', './images/items/edge.png');
   },
 
   create: function () 
