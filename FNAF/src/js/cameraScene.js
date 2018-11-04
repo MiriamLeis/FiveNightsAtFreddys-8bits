@@ -14,7 +14,7 @@ var CameraScene =
         var tamX = this.game.world.width;
         var tamY = this.game.world.height;
 
-        this.game.world.resize(tamX * 10, tamY * 10);
+        this.game.world.resize(tamX * 11, tamY * 11);
 
     //Cameras
         var Rooms =
@@ -88,7 +88,7 @@ function actionOnClick(game, Rooms, n)
 {
     game.camera.x = Rooms.cameraPositions[n].x;
     game.camera.y = Rooms.cameraPositions[n].y;
-    console.log ('hey');
+
 }
 
 
