@@ -56,6 +56,8 @@ var PreloaderScene =
 
     //Objects
     this.game.load.image('button','./images/button.png');
+    this.game.load.image('buttonDoorLight', './images/items/buttonDoorLight.png');
+    this.game.load.image('camerasMap', './images/items/camerasMap.png');
   },
 
   create: function () 
