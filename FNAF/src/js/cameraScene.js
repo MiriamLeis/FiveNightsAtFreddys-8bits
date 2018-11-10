@@ -1,6 +1,10 @@
 'use strict'
 
-require('./interactions.js');
+require('./InsideMonitor.js');
+
+
+
+
 
 var CameraScene =
 {
@@ -71,17 +75,8 @@ var CameraScene =
         
 
     //Buttons
-        this.cam1A = addButton(this.game, Rooms, Rooms.ShowStage, 0, 0);
-        this.cam1B = addButton(this.game, Rooms, Rooms.DinningRoom, -1, 0, /*0.05, 0.05*/);
-        this.cam5 = addButton(this.game, Rooms, Rooms.Backstage, -2, 0, /*0.05, 0.05*/);
-        this.cam7 = addButton(this.game, Rooms, Rooms.Restrooms, -3, 0, /*0.05, 0.05*/);
-        this.cam6 = addButton(this.game, Rooms,  Rooms.Kitchen, -4, 0, /*0.05, 0.05*/);
-        this.cam4A = addButton(this.game, Rooms, Rooms.EastHall, -5, 0, /*0.05, 0.05*/);
-        this.cam3 = addButton(this.game, Rooms, Rooms.SupplyCloset, -6, 0, /*0.05, 0.05*/);
-        this.cam4B = addButton(this.game, Rooms, Rooms.EHallCorner, -7, 0, /*0.05, 0.05*/);
-        this.cam2A = addButton(this.game, Rooms, Rooms.WestHall, -8, 0, /*0.05, 0.05*/);
-        this.cam2B = addButton(this.game, Rooms, Rooms.WHallCorner, -9, 0, /*0.05, 0.05*/);
-        this.cam1C = addButton(this.game, Rooms, Rooms.PirateCove, -10, 0, /*0.05, 0.05*/);
+       
+        var monitor = new InsideMonitor(this.game, Rooms);
 
     },
 
@@ -90,27 +85,10 @@ var CameraScene =
     }
 };
 
-function actionOnClick(button, game, Rooms, n)
-{
-    game.camera.x = Rooms.cameraPositions[n].x;
-    game.camera.y = Rooms.cameraPositions[n].y;
-
-    if(button.frame == 0)
-        button.frame = 1;
-    else
-        button.frame = 0;
-}
 
 
-function addButton(game, Rooms, n, posX, posY/*, tamX, tamY*/)
-{
-    var button = game.add.button(0, 0, 'buttonCameras', function (){actionOnClick(this, game, Rooms, n)}, this);
-    //buttom.scale.setTo(tamX, tamY);
-    button.anchor.setTo(posX, posY);
-    button.fixedToCamera = true;
 
-    return button;
-}
+
 
 function addCamera(camera, tamX, tamY, tam)
 {
