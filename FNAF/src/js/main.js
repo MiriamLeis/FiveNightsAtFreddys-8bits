@@ -66,7 +66,7 @@ var PreloaderScene =
 
   create: function () 
   {
-    this.game.state.start('cameras');
+    this.game.state.start('office');
   }
 };
 

@@ -3,6 +3,7 @@
 var Interaction = require('./Interactions.js');
 
 var moveLeft;
+var moveRight;
 
 var OfficeScene =
 {
@@ -32,8 +33,12 @@ var OfficeScene =
         moveLeft.inputEnabled = true;
 
 
+        moveRight = this.game.add.sprite(530, 100, 'bonnie');
+        
+        moveRight.inputEnabled = true;
 
-
+        moveRight.fixedToCamera = true;
+        moveLeft.fixedToCamera = true;
 
 
         this.game.camera.x = 396;
@@ -48,7 +53,11 @@ var OfficeScene =
     {
         if (moveLeft.input.pointerOver())
         {
-            this.game.camera.x--;
+            this.game.camera.x =  this.game.camera.x - 5;
+        }
+        if (moveRight.input.pointerOver())
+        {
+            this.game.camera.x = this.game.camera.x + 5;
         }
     }
 }
