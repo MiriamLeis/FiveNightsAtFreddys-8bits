@@ -3,8 +3,6 @@
 require('./InsideMonitor.js');
 require('./Animatronics.js');
 
-var goToOffice;
-
 
 var CameraScene =
 {
@@ -51,23 +49,13 @@ var CameraScene =
             }
         }
     //Draw edge
-    /*var map = this.game.add.image(0, 0, 'edge');
-    map.fixedToCamera = true;*/
-
-    //Draw REC
-    var REC = this.game.add.image(43, 20, 'REC');
-    REC.scale.setTo(0.75, 0.75);
-    var RECPoint = this.game.add.sprite(10, 15, 'RECPoint');
-    RECPoint.animations.add('blink');
-    RECPoint.animations.play('blink', 1, true);
-    
-    REC.fixedToCamera = true;
-    RECPoint.fixedToCamera = true;
+    var map = this.game.add.image(0, 0, 'edge');
+    map.fixedToCamera = true;
 
     //Draw cameras
         addCamera( Rooms.cameraPositions[Rooms.ShowStage], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.DinningRoom], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.Backstage], tamX, tamY, 0.5);
+        addCamera( Rooms.cameraPositions[Rooms.Backstage], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.Restrooms], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.Kitchen], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.EastHall], tamX, tamY, 1.5);
@@ -77,6 +65,25 @@ var CameraScene =
         addCamera( Rooms.cameraPositions[Rooms.WHallCorner], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.PirateCove], tamX, tamY, 1.5);
 
+    //Static effect
+        var staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
+        staticEffect.alpha = 0.1;
+        staticEffect.animations.add('startEffect');
+        staticEffect.animations.play('startEffect', 10, true);
+
+        staticEffect.fixedToCamera = true;
+        
+    //Draw REC
+        var REC = this.game.add.image(43, 20, 'REC');
+        REC.scale.setTo(0.75, 0.75);
+
+        var RECPoint = this.game.add.sprite(10, 15, 'RECPoint');
+        RECPoint.animations.add('blink');
+        RECPoint.animations.play('blink', 1, true);
+        
+        REC.fixedToCamera = true;
+        RECPoint.fixedToCamera = true;
+
     //Draw map
         var map = this.game.add.image(0, 0, 'camerasMap');
         map.scale.setTo(2, 2);
@@ -84,25 +91,26 @@ var CameraScene =
         map.fixedToCamera = true;
         
 
-    //Buttons
+    //Map buttons
         var monitor = new InsideMonitor(this.game, Rooms);
 
-
-        goToOffice = this.game.add.sprite(600, 300, 'bonnie');
-        goToOffice.inputEnabled = true;
+    //Monitor button
+        var goToOffice = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() {changeScene(this.game)}, this, 1, 0);
+        goToOffice.scale.setTo(0.8, 1);
+        goToOffice.alpha = 0.4;
         goToOffice.fixedToCamera = true;
-
-
     },
 
     update: function()
     {
-        if (goToOffice.input.pointerOver())
-        {
-            this.game.state.start('office');
-        }
+
     }
 };
+
+function changeScene(game)
+{
+    game.state.start('office');
+}
 
 function addCamera(camera, tamX, tamY, tam)
 {

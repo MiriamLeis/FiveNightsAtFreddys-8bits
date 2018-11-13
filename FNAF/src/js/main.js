@@ -62,12 +62,16 @@ var PreloaderScene =
     this.game.load.image('edge', './images/items/edge.png');
     this.game.load.spritesheet('RECPoint', './images/items/RECPoint.png', 33, 33, 2);
     this.game.load.image('REC', './images/items/REC.png');
-    this.game.load.image('barra', './images/items/sideEdge.png');
+    this.game.load.image('sideEdge', './images/items/sideEdge.png');
+    this.game.load.spritesheet('buttonMonitor', './images/items/monitorButton.png', 396, 66, 2);
+
+    //Effects
+    this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
   },
 
   create: function () 
   {
-    this.game.state.start('office');
+    this.game.state.start('cameras');
   }
 };
 
