@@ -56,7 +56,7 @@ var PreloaderScene =
     //Screamers
 
     //Objects
-    this.game.load.spritesheet('buttonCameras','./images/items/buttonCameras.png', 33, 33, 2);
+    this.game.load.spritesheet('buttonsCameras', './images/items/buttonsCameras.png', 33, 33, 22);
     this.game.load.spritesheet('buttonDoorLight', './images/items/buttonDoorLight.png', 33, 33, 2);
     this.game.load.image('camerasMap', './images/items/camerasMap.png');
     this.game.load.image('edge', './images/items/edge.png');
@@ -66,7 +66,7 @@ var PreloaderScene =
 
   create: function () 
   {
-    this.game.state.start('office');
+    this.game.state.start('cameras');
   }
 };
 
