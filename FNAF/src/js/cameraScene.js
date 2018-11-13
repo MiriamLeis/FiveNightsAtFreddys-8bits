@@ -3,9 +3,6 @@
 require('./InsideMonitor.js');
 require('./Animatronics.js');
 
-
-
-
 var CameraScene =
 {
     preload: function()
@@ -93,11 +90,6 @@ var CameraScene =
     {
     }
 };
-
-
-
-
-
 
 function addCamera(camera, tamX, tamY, tam)
 {

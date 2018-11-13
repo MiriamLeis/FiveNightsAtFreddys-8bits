@@ -1,3 +1,5 @@
+'use strict';
+
 function InsideMonitor (game, Rooms)
 {
     this.cam1A = this.addButton(game, Rooms, Rooms.ShowStage, -19, -11.7, this);

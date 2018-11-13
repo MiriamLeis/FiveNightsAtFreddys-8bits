@@ -3,6 +3,7 @@
 var PlayScene = require('./play_scene.js');
 var MenuScene = require('./menuScene.js');
 var CameraScene = require('./cameraScene.js');
+var OfficeScene = require('./officeScene.js');
 
 
 var BootScene = 
@@ -65,7 +66,7 @@ var PreloaderScene =
 
   create: function () 
   {
-    this.game.state.start('cameras');
+    this.game.state.start('office');
   }
 };
 
@@ -79,6 +80,7 @@ window.onload = function ()
   game.state.add('play', PlayScene);
   game.state.add('menu', MenuScene);
   game.state.add('cameras', CameraScene);
+  game.state.add('office', OfficeScene);
 
 
   game.state.start('boot');
