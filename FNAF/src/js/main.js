@@ -59,6 +59,8 @@ var PreloaderScene =
     this.game.load.spritesheet('buttonDoorLight', './images/items/buttonDoorLight.png', 33, 33, 2);
     this.game.load.image('camerasMap', './images/items/camerasMap.png');
     this.game.load.image('edge', './images/items/edge.png');
+    this.game.load.spritesheet('RECPoint', './images/items/RECPoint.png', 33, 33, 2);
+    this.game.load.image('REC', './images/items/REC.png');
   },
 
   create: function () 

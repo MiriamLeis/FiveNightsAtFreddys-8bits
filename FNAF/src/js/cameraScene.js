@@ -1,7 +1,7 @@
 'use strict'
 
 require('./InsideMonitor.js');
-
+require('./Animatronics.js');
 
 
 
@@ -54,6 +54,16 @@ var CameraScene =
     /*var map = this.game.add.image(0, 0, 'edge');
     map.fixedToCamera = true;*/
 
+    //Draw REC
+    var REC = this.game.add.image(43, 20, 'REC');
+    REC.scale.setTo(0.75, 0.75);
+    var RECPoint = this.game.add.sprite(10, 15, 'RECPoint');
+    RECPoint.animations.add('blink');
+    RECPoint.animations.play('blink', 1, true);
+    
+    REC.fixedToCamera = true;
+    RECPoint.fixedToCamera = true;
+
     //Draw cameras
         addCamera( Rooms.cameraPositions[Rooms.ShowStage], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.DinningRoom], tamX, tamY, 1.5);
@@ -75,7 +85,6 @@ var CameraScene =
         
 
     //Buttons
-       
         var monitor = new InsideMonitor(this.game, Rooms);
 
     },
