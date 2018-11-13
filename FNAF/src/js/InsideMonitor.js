@@ -2,44 +2,43 @@
 
 function InsideMonitor (game, Rooms)
 {
-    this.cam1A = this.addButton(game, Rooms, Rooms.ShowStage, -19, -11.7, this);
-    this.cam1A.frame = 1;
-    this.cam1B = this.addButton(game, Rooms, Rooms.DinningRoom, -18.25, -13, this);
-    this.cam5 = this.addButton(game, Rooms, Rooms.Backstage, -16.4, -12.85, this);
-    this.cam7 = this.addButton(game, Rooms, Rooms.Restrooms, -22, -12.85, this);
-    this.cam6 = this.addButton(game, Rooms,  Rooms.Kitchen, -21.7, -15.15, this);
-    this.cam4A = this.addButton(game, Rooms, Rooms.EastHall, -20.65, -15.35, this);
-    this.cam1C = this.addButton(game, Rooms, Rooms.PirateCove, -17.4, -14, this);
-    this.cam4B = this.addButton(game, Rooms, Rooms.EHallCorner, -20.65, -16.2, this);
-    this.cam2A = this.addButton(game, Rooms, Rooms.WestHall, -18.2, -15.35, this);
-    this.cam2B = this.addButton(game, Rooms, Rooms.WHallCorner, -18.2, -16.2, this);
-    
-    this.cam3 = this.addButton(game, Rooms, Rooms.SupplyCloset, -16.8, -15.2, this);
-
-
+    this.cam1A = this.addButton(game, Rooms, Rooms.ShowStage, -19, -11.7, this, 0);
+    this.cam1A.frame = 11;
+    this.cam1B = this.addButton(game, Rooms, Rooms.DinningRoom, -18.25, -13, this, 1);
+    this.cam1C = this.addButton(game, Rooms, Rooms.PirateCove, -17.4, -14, this, 2);
+    this.cam2A = this.addButton(game, Rooms, Rooms.WestHall, -18.2, -15.35, this, 3);
+    this.cam2B = this.addButton(game, Rooms, Rooms.WHallCorner, -18.2, -16.2, this, 4);
+    this.cam3 = this.addButton(game, Rooms, Rooms.SupplyCloset, -16.8, -15.2, this, 5);
+    this.cam4A = this.addButton(game, Rooms, Rooms.EastHall, -20.65, -15.35, this, 6);
+    this.cam4B = this.addButton(game, Rooms, Rooms.EHallCorner, -20.65, -16.2, this, 7);
+    this.cam5 = this.addButton(game, Rooms, Rooms.Backstage, -16.4, -12.85, this, 8);
+    this.cam6 = this.addButton(game, Rooms,  Rooms.Kitchen, -21.7, -15.15, this, 9);
+    this.cam7 = this.addButton(game, Rooms, Rooms.Restrooms, -22, -12.85, this, 10);
 };
 
-InsideMonitor.prototype.changeActive = function(button,game, Rooms, n)
+InsideMonitor.prototype.changeActive = function(button,game, Rooms, n, numCam)
 {   
     game.camera.x = Rooms.cameraPositions[n].x;
     game.camera.y = Rooms.cameraPositions[n].y;
     this.cam1A.frame = 0;
-    this.cam1B.frame = 0;
-    this.cam5.frame = 0;
-    this.cam7.frame = 0;
-    this.cam6.frame = 0;
-    this.cam4A.frame = 0;
-    this.cam3.frame = 0;
-    this.cam4B.frame = 0;
-    this.cam2A.frame = 0;
-    this.cam2B.frame = 0;
-    this.cam1C.frame = 0;
-    button.frame = 1;
+    this.cam1B.frame = 1;
+    this.cam1C.frame = 2;
+    this.cam2A.frame = 3;
+    this.cam2B.frame = 4;
+    this.cam3.frame = 5;
+    this.cam4A.frame = 6;
+    this.cam4B.frame = 7;
+    this.cam5.frame = 8;
+    this.cam6.frame = 9;
+    this.cam7.frame = 10;
+
+    button.frame = numCam + 11;
 }
 
-InsideMonitor.prototype.addButton = function(game, Rooms, n, posX, posY, button)
+InsideMonitor.prototype.addButton = function(game, Rooms, n, posX, posY, button, numCam)
 {
-    var button = game.add.button(0, 0, 'buttonCameras', function (){this.changeActive(button, game, Rooms, n)}, this);
+    var button = game.add.button(0, 0, 'buttonsCameras', function (){this.changeActive(button, game, Rooms, n, numCam)}, this);
+    button.frame = numCam;
     
     button.anchor.setTo(posX, posY);
     button.fixedToCamera = true;
