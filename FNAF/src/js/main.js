@@ -62,6 +62,7 @@ var PreloaderScene =
     this.game.load.image('edge', './images/items/edge.png');
     this.game.load.spritesheet('RECPoint', './images/items/RECPoint.png', 33, 33, 2);
     this.game.load.image('REC', './images/items/REC.png');
+    this.game.load.image('barra', './images/items/sideEdge.png');
   },
 
   create: function () 

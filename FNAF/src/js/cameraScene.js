@@ -3,6 +3,9 @@
 require('./InsideMonitor.js');
 require('./Animatronics.js');
 
+var goToOffice;
+
+
 var CameraScene =
 {
     preload: function()
@@ -12,8 +15,8 @@ var CameraScene =
 
     create: function()
     {
-        var tamX = this.game.world.width;
-        var tamY = this.game.world.height;
+        var tamX = 792;
+        var tamY = 594;
 
         this.game.world.resize(tamX * 11, tamY * 11);
 
@@ -64,7 +67,7 @@ var CameraScene =
     //Draw cameras
         addCamera( Rooms.cameraPositions[Rooms.ShowStage], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.DinningRoom], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.Backstage], tamX, tamY, 1.5);
+        addCamera( Rooms.cameraPositions[Rooms.Backstage], tamX, tamY, 0.5);
         addCamera( Rooms.cameraPositions[Rooms.Restrooms], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.Kitchen], tamX, tamY, 1.5);
         addCamera( Rooms.cameraPositions[Rooms.EastHall], tamX, tamY, 1.5);
@@ -84,10 +87,20 @@ var CameraScene =
     //Buttons
         var monitor = new InsideMonitor(this.game, Rooms);
 
+
+        goToOffice = this.game.add.sprite(600, 300, 'bonnie');
+        goToOffice.inputEnabled = true;
+        goToOffice.fixedToCamera = true;
+
+
     },
 
     update: function()
     {
+        if (goToOffice.input.pointerOver())
+        {
+            this.game.state.start('office');
+        }
     }
 };
 
