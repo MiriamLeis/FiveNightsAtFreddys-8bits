@@ -8,7 +8,6 @@ var CameraScene =
 {
     preload: function()
     {
-
     },
 
     create: function()
@@ -16,7 +15,7 @@ var CameraScene =
         var tamX = 792;
         var tamY = 594;
 
-        this.game.world.resize(tamX * 11, tamY * 11);
+        this.game.world.resize(tamX * 11, tamY);
 
     //Cameras
         var Rooms =
@@ -36,16 +35,16 @@ var CameraScene =
             cameraPositions:
             {
                 0: {sprite: this.game.add.sprite(0, 0, 'showStage'), x: 0, y: 0},
-                1: {sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: tamX, y: tamY},
-                2: {sprite: this.game.add.sprite(0, 0, 'backstage'), x: tamX * 2, y: tamY * 2},
-                3: {sprite: this.game.add.sprite(0, 0, 'restrooms'), x: tamX * 3, y: tamY * 3},
-                4: {sprite: this.game.add.sprite(0, 0, ''), x: tamX * 4, y: tamY * 4},
-                5: {sprite: this.game.add.sprite(0, 0, 'eastHall'), x: tamX * 5, y: tamY * 5},
-                6: {sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: tamX * 6, y: tamY * 6},
-                7: {sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: tamX * 7, y: tamY * 7},
-                8: {sprite: this.game.add.sprite(0, 0, 'westHall'), x: tamX * 8, y: tamY * 8},
-                9: {sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: tamX * 9, y: tamY* 9},
-                10: {sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: tamX * 10, y: tamY * 10},
+                1: {sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: tamX, y: 0},
+                2: {sprite: this.game.add.sprite(0, 0, 'backstage'), x: tamX * 2, y: 0},
+                3: {sprite: this.game.add.sprite(0, 0, 'restrooms'), x: tamX * 3, y: 0},
+                4: {sprite: this.game.add.sprite(0, 0, ''), x: tamX * 4, y: 0},
+                5: {sprite: this.game.add.sprite(0, 0, 'eastHall'), x: tamX * 5, y: 0},
+                6: {sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: tamX * 6, y: 0},
+                7: {sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: tamX * 7, y: 0},
+                8: {sprite: this.game.add.sprite(0, 0, 'westHall'), x: tamX * 8, y: 0},
+                9: {sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: tamX * 9, y: 0},
+                10: {sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: tamX * 10, y: 0},
             }
         }
     //Draw edge

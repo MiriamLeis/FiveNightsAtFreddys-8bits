@@ -1,29 +1,58 @@
 'use strict';
 
-function Interact (button) 
+function Interact () 
 {
     this._active = false;
-    this._button = button;
 };
 
 Interact.prototype.getActive = function(){ return this._active; }
 Interact.prototype.changeActive = function(){ this._active = !this._active; }
-Interact.prototype.getButton = function(){ return this._button; }
-Interact.prototype.changeButtonFrame = function(n){ this._button.frame = n; }
 
-function DoorLight(button)
+function Door(game, posXButton, posYButton, posXDoor, posYDoor)
 {
-    Interact.apply(this,[button]);
+    Interact.apply(this);
+    
+    var doorOpen = game.add.sprite(posXDoor, posYDoor, 'doorOpen', 2);
+    var doorOpenAnim = doorOpen.animations.add('open');
+    
+    var doorClose = game.add.sprite(posXDoor, posYDoor, 'doorClose');
+    var doorCloseAnim = doorClose.animations.add('close');
+
+    var button = game.add.button(posXButton, posYButton, 'buttonDoor', function(){this.actionOnClick(button, doorOpenAnim, doorCloseAnim)}, this);
 };
 
-DoorLight.prototype = Object.create(Interact.prototype);
-DoorLight.prototype.constructor = DoorLight;
+Door.prototype = Object.create(Interact.prototype);
+Door.prototype.constructor = Door;
 
-function Monitor (button)
+Door.prototype.actionOnClick = function(button, doorAnimOp, doorAnimClos) 
 {
-    Interact.apply(this,[button]);
+    this.changeActive();
+    if (this._active)
+    {
+        button.frame = 1;
+        doorAnimOp.frame = 2;
+        doorAnimClos.play(10, true);
+        doorAnimClos.loop = false;
+    }
+    else
+    {
+        button.frame = 0;
+        doorAnimClos.frame = 0;
+        doorAnimOp.play(10, true);
+        doorAnimOp.loop = false;
+    }
+}
+
+function Light(game, posXButton, posYButton, posXLight, posYLight)
+{
+    Interact.apply(this);
+    this._button = game.add.button(posXButton, posYButton, 'buttonDoorLight', function(){actionOnClick(this)}, this);
 };
 
-Monitor.prototype = Object.create(Interact.prototype);
-Monitor.prototype.constructor = Monitor;
+Light.prototype = Object.create(Interact.prototype);
+Light.prototype.constructor = Light;
+Light.prototype.actionOnClick = function(button) 
+{
+    button.frame = 1;
+}
 

@@ -57,7 +57,10 @@ var PreloaderScene =
 
     //Objects
     this.game.load.spritesheet('buttonsCameras', './images/items/buttonsCameras.png', 33, 33, 22);
-    this.game.load.spritesheet('buttonDoorLight', './images/items/buttonDoorLight.png', 33, 33, 2);
+    this.game.load.spritesheet('buttonLight', './images/items/buttonLight.png', 66, 33, 2);
+    this.game.load.spritesheet('buttonDoor', './images/items/buttonDoor.png', 66, 33, 2);
+    this.game.load.spritesheet('doorClose', './images/items/doorClose.png', 264, 462, 3)
+    this.game.load.spritesheet('doorOpen', './images/items/doorOpen.png', 264, 462, 3)
     this.game.load.image('camerasMap', './images/items/camerasMap.png');
     this.game.load.image('edge', './images/items/edge.png');
     this.game.load.spritesheet('RECPoint', './images/items/RECPoint.png', 33, 33, 2);
@@ -71,7 +74,7 @@ var PreloaderScene =
 
   create: function () 
   {
-    this.game.state.start('cameras');
+    this.game.state.start('office');
   }
 };
 

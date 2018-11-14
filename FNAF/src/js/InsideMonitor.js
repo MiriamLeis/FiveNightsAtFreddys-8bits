@@ -16,7 +16,7 @@ function InsideMonitor (game, Rooms)
     this.cam7 = this.addButton(game, Rooms, Rooms.Restrooms, -21.8, -12.85, this, 10);
 };
 
-InsideMonitor.prototype.changeActive = function(button,game, Rooms, n, numCam)
+InsideMonitor.prototype.changeActive = function(button, game, Rooms, n, numCam)
 {   
     game.camera.x = Rooms.cameraPositions[n].x;
     game.camera.y = Rooms.cameraPositions[n].y;
@@ -44,13 +44,4 @@ InsideMonitor.prototype.addButton = function(game, Rooms, n, posX, posY, button,
     button.fixedToCamera = true;
 
     return button;
-}
-
-InsideMonitor.prototype.actionOnClick = function(button, game, Rooms, n)
-{
-   
-    game.camera.x = Rooms.cameraPositions[n].x;
-    game.camera.y = Rooms.cameraPositions[n].y;
-    this.changeActive(button);
-
 }
