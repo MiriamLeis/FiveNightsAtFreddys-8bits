@@ -21,11 +21,11 @@ var OfficeScene =
         var office = this.game.add.sprite(0, 0, 'office');
         this.game.camera.x = 396;
 
-        //Door button
+        //Door and light buttons
         var doorLeft = new Door(this.game, 281.25, 27, 180, 80);
         var doorRight = new Door(this.game, tamX + 225 * 2, 27, tamX + 180 * 2, 80);
-        /*this.lightRight = new DoorLight();
-        this.lightLeft = new DoorLight();*/
+        
+        var lightLeft = new Light(this.game, 100, 100, 0, 0);
 
         //Monitor button
         var goToCameras = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() {changeScene(this.game)}, this, 1, 0);

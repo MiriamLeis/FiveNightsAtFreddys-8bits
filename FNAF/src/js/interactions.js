@@ -46,13 +46,20 @@ Door.prototype.actionOnClick = function(button, doorAnimOp, doorAnimClos)
 function Light(game, posXButton, posYButton, posXLight, posYLight)
 {
     Interact.apply(this);
-    this._button = game.add.button(posXButton, posYButton, 'buttonDoorLight', function(){actionOnClick(this)}, this);
+    var button = game.add.button(posXButton, posYButton, 'buttonLight', function(){actionOnClick(button)}, this);
 };
 
 Light.prototype = Object.create(Interact.prototype);
 Light.prototype.constructor = Light;
 Light.prototype.actionOnClick = function(button) 
 {
-    button.frame = 1;
+    if(button._active)
+    {
+        button.frame = 1;
+    }
+    else
+    {
+        button.frame = 0;
+    }
 }
 
