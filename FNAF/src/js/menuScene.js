@@ -4,9 +4,7 @@ var Menu =
 {
     create: function()
     {
-        this._buttonNew = this.game.add.button(0, 0, 'bonnie', actionOnClick, this);
-        //this._buttonContinue = buttonC;
-        //this._buttonExit = buttonE;
+        var buttonStart = this.game.add.button(0, 0, 'buttonsCameras', function (){actionOnClick(this.game)}, this);
         
     }
     
@@ -14,18 +12,9 @@ var Menu =
 
 //LUCES Y PUERTAS
 
-function actionOnClick ()
+function actionOnClick (game)
 {
-    if(!this.activo)
-    {
-        this.activo = true
-        this._buttonNew.frame = 1;
-    }
-    else
-    {
-        this.activo = false
-        this._buttonNew.frame = 0;
-    }
+    game.state.start('office');
 }
 
 

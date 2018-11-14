@@ -43,23 +43,30 @@ Door.prototype.actionOnClick = function(button, doorAnimOp, doorAnimClos)
     }
 }
 
-function Light(game, posXButton, posYButton, posXLight, posYLight)
+function Light(game, posXButton, posYButton, posXLight, posYLight,sprite)
 {
     Interact.apply(this);
-    var button = game.add.button(posXButton, posYButton, 'buttonLight', function(){actionOnClick(button)}, this);
+
+    var light = game.add.sprite(posXLight, posYLight,sprite);
+    light.visible = false;
+
+    var button = game.add.button(posXButton, posYButton, 'buttonLight', function(){this.actionOnClick(button, light)}, this);
 };
 
 Light.prototype = Object.create(Interact.prototype);
 Light.prototype.constructor = Light;
-Light.prototype.actionOnClick = function(button) 
+Light.prototype.actionOnClick = function(button, light) 
 {
-    if(button._active)
+    this.changeActive();
+    if(this._active)
     {
         button.frame = 1;
+        light.visible = true;
     }
     else
     {
         button.frame = 0;
+        light.visible = false;
     }
 }
 

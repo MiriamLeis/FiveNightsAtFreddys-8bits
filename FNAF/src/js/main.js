@@ -67,6 +67,8 @@ var PreloaderScene =
     this.game.load.image('REC', './images/items/REC.png');
     this.game.load.image('sideEdge', './images/items/sideEdge.png');
     this.game.load.spritesheet('buttonMonitor', './images/items/monitorButton.png', 396, 66, 2);
+    this.game.load.image('leftLight', './images/items/LeftLight.png');
+    this.game.load.image('rightLight', './images/items/RightLight.png');
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
