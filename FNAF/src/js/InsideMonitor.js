@@ -14,11 +14,13 @@ function InsideMonitor (game, Rooms)
     this.cam5 = this.addButton(game, Rooms, Rooms.Backstage, -16.4, -13, this, 8);
     this.cam6 = this.addButton(game, Rooms,  Rooms.Kitchen, -21.2, -15.15, this, 9);
     this.cam7 = this.addButton(game, Rooms, Rooms.Restrooms, -21.8, -12.85, this, 10);
+
+    this.lastPos = Rooms.cameraPositions[Rooms.ShowStage].x;
 };
 
 InsideMonitor.prototype.changeActive = function(button, game, Rooms, n, numCam)
 {   
-    game.camera.x = Rooms.cameraPositions[n].x;
+    this.lastPos = game.camera.x = Rooms.cameraPositions[n].x;
     game.camera.y = Rooms.cameraPositions[n].y;
     this.cam1A.frame = 0;
     this.cam1B.frame = 1;
@@ -44,4 +46,65 @@ InsideMonitor.prototype.addButton = function(game, Rooms, n, posX, posY, button,
     button.fixedToCamera = true;
 
     return button;
+}
+
+InsideMonitor.prototype.notInput = function()
+{
+    this.cam1A.inputEnabled = false;
+    this.cam1B.inputEnabled = false;
+    this.cam1C.inputEnabled = false;
+    this.cam2A.inputEnabled = false;
+    this.cam2B.inputEnabled = false;
+    this.cam3.inputEnabled = false;
+    this.cam4A.inputEnabled = false;
+    this.cam4B.inputEnabled = false;
+    this.cam5.inputEnabled = false;
+    this.cam6.inputEnabled = false;
+    this.cam7.inputEnabled = false;
+
+    this.cam1A.alpha = 0;
+    this.cam1B.alpha = 0;
+    this.cam1C.alpha = 0;
+    this.cam2A.alpha = 0;
+    this.cam2B.alpha = 0;
+    this.cam3.alpha = 0;
+    this.cam4A.alpha = 0;
+    this.cam4B.alpha = 0;
+    this.cam5.alpha = 0;
+    this.cam6.alpha = 0;
+    this.cam7.alpha = 0;
+    
+
+}
+InsideMonitor.prototype.Input = function()
+{
+    this.cam1A.inputEnabled = true;
+    this.cam1B.inputEnabled = true;
+    this.cam1C.inputEnabled = true;
+    this.cam2A.inputEnabled = true;
+    this.cam2B.inputEnabled = true;
+    this.cam3.inputEnabled = true;
+    this.cam4A.inputEnabled = true;
+    this.cam4B.inputEnabled = true;
+    this.cam5.inputEnabled = true;
+    this.cam6.inputEnabled = true;
+    this.cam7.inputEnabled = true;
+
+    this.cam1A.alpha = 1;
+    this.cam1B.alpha = 1;
+    this.cam1C.alpha = 1;
+    this.cam2A.alpha = 1;
+    this.cam2B.alpha = 1;
+    this.cam3.alpha = 1;
+    this.cam4A.alpha = 1;
+    this.cam4B.alpha = 1;
+    this.cam5.alpha = 1;
+    this.cam6.alpha = 1;
+    this.cam7.alpha = 1;
+}
+
+
+InsideMonitor.prototype.LastPos = function()
+{
+    return this.lastPos;
 }
