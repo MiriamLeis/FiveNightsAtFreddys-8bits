@@ -32,7 +32,7 @@ var OfficeScene =
         yaCambiado = inOffice = true;
         var tamX = 792;
         var tamY = 594;
-
+        lastPos = 396;
         this.game.world.resize(tamX * 13, tamY);
         this.game.camera.x = 396;
 
@@ -145,10 +145,58 @@ var OfficeScene =
         moveRight.fixedToCamera = true;
         moveLeft.fixedToCamera = true;
 
-        changeView = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() {yaCambiado = true;inOffice = changeScene(this.game, inOffice,monitor.LastPos(), lastPos)}, this, 1, 0);
+        changeView = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() { changeScene(this.game,monitor.LastPos(), lastPos)}, this, 1, 0);
         changeView.scale.setTo(0.8, 1);
         changeView.alpha = 0.4;
         changeView.fixedToCamera = true;
+
+        mapEdge.alpha = 0;
+        staticEffect.alpha = 0;
+        REC.alpha = 0;
+        RECPoint.alpha = 0;
+        map.alpha = 0;
+        monitor.notInput();
+        
+        moveRight.inputEnabled = true;
+        moveLeft.inputEnabled = true;
+
+
+        function changeScene (game,point, point2)
+        {
+            if(inOffice)
+            {
+                game.camera.x = point;
+
+                mapEdge.alpha = 1;
+                staticEffect.alpha = 0.1;
+                REC.alpha = 1;
+                RECPoint.alpha = 1;
+                map.alpha = 1;
+                monitor.Input();
+                
+                moveRight.inputEnabled = false;
+                moveLeft.inputEnabled = false;
+
+                inOffice = false;
+            }
+            else
+            {
+                game.camera.x = point2;
+
+                mapEdge.alpha = 0;
+                staticEffect.alpha = 0;
+                REC.alpha = 0;
+                RECPoint.alpha = 0;
+                map.alpha = 0;
+                monitor.notInput();
+                
+                moveRight.inputEnabled = true;
+                moveLeft.inputEnabled = true;
+
+                inOffice = true;
+
+            }
+        }
 
 
     },
@@ -161,51 +209,11 @@ var OfficeScene =
         else if (moveRight.input.pointerOver() && this.game.camera.x <785)
             lastPos = this.game.camera.x = this.game.camera.x + 10;
 
-        if(inOffice && yaCambiado)
-        {
-            mapEdge.alpha = 0;
-            staticEffect.alpha = 0;
-            REC.alpha = 0;
-            RECPoint.alpha = 0;
-            map.alpha = 0;
-            monitor.notInput();
-            
-            moveRight.inputEnabled = true;
-            moveLeft.inputEnabled = true;
-
-            yaCambiado = false;
-        }
-        else if(!inOffice && yaCambiado)
-        {
-            mapEdge.alpha = 1;
-            staticEffect.alpha = 0.1;
-            REC.alpha = 1;
-            RECPoint.alpha = 1;
-            map.alpha = 1;
-            monitor.Input();
-            
-            moveRight.inputEnabled = false;
-            moveLeft.inputEnabled = false;
-
-            yaCambiado = false;
-        }
     }
     
 }
 
-function changeScene (game, inOffice, point, point2)
-{
-    if(inOffice)
-    {
-        game.camera.x = point;
-        return !inOffice;
-    }
-    else
-    {
-        game.camera.x = point2;
-        return !inOffice;
-    }
-}
+
 
 
 
