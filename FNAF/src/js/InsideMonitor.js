@@ -2,26 +2,26 @@
 
 function InsideMonitor (game, Rooms)
 {
-    this.cam1A = this.addButton(game, Rooms, Rooms.ShowStage, -19.2, -11.7, this, 0);
+    this.cam1A = this.addButton(game, Rooms.cameraPositions.ShowStage, -19.2, -11.7, this, 0);
+    this.cam1B = this.addButton(game, Rooms.cameraPositions.DinningRoom, -18.2, -12.7, this, 1);
+    this.cam1C = this.addButton(game, Rooms.cameraPositions.PirateCove, -17.2, -14, this, 2);
+    this.cam2A = this.addButton(game, Rooms.cameraPositions.WestHall, -18.4, -15.2, this, 3);
+    this.cam2B = this.addButton(game, Rooms.cameraPositions.WHallCorner, -17.68, -16.2, this, 4);
+    this.cam3 = this.addButton(game, Rooms.cameraPositions.SupplyCloset, -17, -15, this, 5);
+    this.cam4A = this.addButton(game, Rooms.cameraPositions.EastHall, -20, -15.2, this, 6);
+    this.cam4B = this.addButton(game, Rooms.cameraPositions.EHallCorner, -20.72, -16.2, this, 7);
+    this.cam5 = this.addButton(game, Rooms.cameraPositions.Backstage, -16.4, -13, this, 8);
+    this.cam6 = this.addButton(game, Rooms.cameraPositions.Kitchen, -21.2, -15.15, this, 9);
+    this.cam7 = this.addButton(game, Rooms.cameraPositions.Restrooms, -21.8, -12.85, this, 10);
+    
     this.cam1A.frame = 11;
-    this.cam1B = this.addButton(game, Rooms, Rooms.DinningRoom, -18.2, -12.7, this, 1);
-    this.cam1C = this.addButton(game, Rooms, Rooms.PirateCove, -17.2, -14, this, 2);
-    this.cam2A = this.addButton(game, Rooms, Rooms.WestHall, -18.4, -15.2, this, 3);
-    this.cam2B = this.addButton(game, Rooms, Rooms.WHallCorner, -17.68, -16.2, this, 4);
-    this.cam3 = this.addButton(game, Rooms, Rooms.SupplyCloset, -17, -15, this, 5);
-    this.cam4A = this.addButton(game, Rooms, Rooms.EastHall, -20, -15.2, this, 6);
-    this.cam4B = this.addButton(game, Rooms, Rooms.EHallCorner, -20.72, -16.2, this, 7);
-    this.cam5 = this.addButton(game, Rooms, Rooms.Backstage, -16.4, -13, this, 8);
-    this.cam6 = this.addButton(game, Rooms,  Rooms.Kitchen, -21.2, -15.15, this, 9);
-    this.cam7 = this.addButton(game, Rooms, Rooms.Restrooms, -21.8, -12.85, this, 10);
-
-    this.lastPos = Rooms.cameraPositions[Rooms.ShowStage].x;
+    this.lastPos = Rooms.cameraPositions.ShowStage.x;
 };
 
-InsideMonitor.prototype.changeActive = function(button, game, Rooms, n, numCam)
+InsideMonitor.prototype.changeActive = function(button, game, roomCam, numCam)
 {   
-    this.lastPos = game.camera.x = Rooms.cameraPositions[n].x;
-    game.camera.y = Rooms.cameraPositions[n].y;
+    this.lastPos = game.camera.x = roomCam.x;
+    game.camera.y = roomCam.y;
     this.cam1A.frame = 0;
     this.cam1B.frame = 1;
     this.cam1C.frame = 2;
@@ -37,9 +37,9 @@ InsideMonitor.prototype.changeActive = function(button, game, Rooms, n, numCam)
     button.frame = numCam + 11;
 }
 
-InsideMonitor.prototype.addButton = function(game, Rooms, n, posX, posY, button, numCam)
+InsideMonitor.prototype.addButton = function(game, roomCam, posX, posY, button, numCam)
 {
-    var button = game.add.button(0, 0, 'buttonsCameras', function (){this.changeActive(button, game, Rooms, n, numCam)}, this);
+    var button = game.add.button(0, 0, 'buttonsCameras', function (){this.changeActive(button, game, roomCam, numCam)}, this);
     button.frame = numCam;
     
     button.anchor.setTo(posX, posY);

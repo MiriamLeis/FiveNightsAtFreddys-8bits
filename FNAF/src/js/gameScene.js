@@ -4,221 +4,230 @@ require('./Interactions.js');
 require('./InsideMonitor.js');
 require('./Animatronics.js');
 
-var moveLeft;
-var moveRight;
-var inOffice;
-var lastPos;
-
-
-var mapEdge;
-var staticEffect;
-var REC;
-var RECPoint;
-var map;
-var monitor;
-var changeView;
 
 var GameScene =
 {
-    preload: function ()
+    preload: function () 
     {
 
     },
-    
+
     create: function () 
     {
-        inOffice = true;
         var tamX = 792;
         var tamY = 594;
-        lastPos = 396;
         this.game.world.resize(tamX * 13, tamY);
         this.game.camera.x = 396;
 
+        this.inOffice = true;
+        this.lastPosOffice = 396;
 
-//=============================================================================================================================
-//Variables que se cambian cuando vas a office: mapEdge, staticEffect, REC, RECPoint, map
-
-//Variables que se cambian cuando vas a cameras: moveLeft, moveRight
-//=====================================================CAMERAS========================================================================
+        this.moveLeft;
+        this.moveRight;
 
 
-    //Cameras
+        this.mapEdge;
+        this.staticEffect;
+        this.REC;
+        this.RECPoint;
+        this.map;
+        this.monitor;
+        this.changeView;
+
+
+        //=============================================================================================================================
+        //Variables que se cambian cuando vas a office: mapEdge, staticEffect, REC, RECPoint, map
+
+        //Variables que se cambian cuando vas a cameras: moveLeft, moveRight
+        //=====================================================CAMERAS========================================================================
+
+
+
+
+        var ShowStage = 'ShowStage';
+        var DinningRoom = 'DinningRoom';
+        var Backstage = 'Backstage'; 
+        var Restrooms = 'Restrooms'; 
+        var Kitchen = 'Kitchen'; 
+        var EastHall = 'East Hall';
+        var SupplyCloset = 'SupplyCloset';
+        var EHallCorner = 'E.Hall';
+        var WestHall = 'WestHall';
+        var WHallCorner = 'W.Hall';
+        var PirateCove = 'PirateCove';
+
+
+        //Cameras
         var Rooms =
         {
-            ShowStage: 0,
-            DinningRoom: 1,
-            Backstage: 2,
-            Restrooms: 3,
-            Kitchen: 4,
-            EastHall: 5,
-            SupplyCloset: 6,
-            EHallCorner: 7,
-            WestHall: 8,
-            WHallCorner: 9,
-            PirateCove: 10,
+            // obj.todasLasClaves() = ['Show...'']
+            // objecto[clave[i]].
 
             cameraPositions:
             {
-                0: {name: 'Show Stage', sprite: this.game.add.sprite(0, 0, 'showStage'), x: tamX*2, y: 0},
-                1: {name: 'Dinning Room', sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: tamX *3, y: 0},
-                2: {name: 'Backstage', sprite: this.game.add.sprite(0, 0, 'backstage'), x: tamX * 4, y: 0},
-                3: {name: 'Restrooms', sprite: this.game.add.sprite(0, 0, 'restrooms'), x: tamX * 5, y: 0},
-                4: {name: 'Kitchen', sprite: this.game.add.sprite(0, 0, ''), x: tamX * 6, y: 0},
-                5: {name: 'East Hall', sprite: this.game.add.sprite(0, 0, 'eastHall'), x: tamX * 7, y: 0},
-                6: {name: 'Supply Closet', sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: tamX * 8, y: 0},
-                7: {name: 'E. Hall Corner', sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: tamX * 9, y: 0},
-                8: {name: 'West Hall', sprite: this.game.add.sprite(0, 0, 'westHall'), x: tamX * 10, y: 0},
-                9: {name: 'W. Hall Corner', sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: tamX * 11, y: 0},
-                10: {name: 'Pirate Cove', sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: tamX * 12, y: 0},
+                ShowStage: {sprite: this.game.add.sprite(0, 0, 'showStage'), x: tamX * 2, y: 0 },
+                DinningRoom: {sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: tamX * 3, y: 0 },
+                Backstage: {sprite: this.game.add.sprite(0, 0, 'backstage'), x: tamX * 4, y: 0 },
+                Restrooms: {sprite: this.game.add.sprite(0, 0, 'restrooms'), x: tamX * 5, y: 0 },
+                Kitchen: { sprite: this.game.add.sprite(0, 0, ''), x: tamX * 6, y: 0 },
+                EastHall: {sprite: this.game.add.sprite(0, 0, 'eastHall'), x: tamX * 7, y: 0 },
+                SupplyCloset: {sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: tamX * 8, y: 0 },
+                EHallCorner: {sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: tamX * 9, y: 0 },
+                WestHall: {sprite: this.game.add.sprite(0, 0, 'westHall'), x: tamX * 10, y: 0 },
+                WHallCorner: {sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: tamX * 11, y: 0 },
+                PirateCove: {sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: tamX * 12, y: 0 },
             }
         }
-        
-    //Draw edge
-        mapEdge = this.game.add.image(0, 0, 'edge');
-        mapEdge.fixedToCamera = true;
 
-    //Draw cameras
-        addCamera( Rooms.cameraPositions[Rooms.ShowStage], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.DinningRoom], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.Backstage], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.Restrooms], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.Kitchen], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.EastHall], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.SupplyCloset], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.EHallCorner], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.WestHall], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.WHallCorner], tamX, tamY, 1.5);
-        addCamera( Rooms.cameraPositions[Rooms.PirateCove], tamX, tamY, 1.5);
-
-    //Static effect
-        staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
-        staticEffect.alpha = 0.1;
-        staticEffect.animations.add('startEffect');
-        staticEffect.animations.play('startEffect', 10, true);
-
-        staticEffect.fixedToCamera = true;
-        
-    //Draw REC
-        REC = this.game.add.image(45, 20, 'REC');
-        REC.scale.setTo(0.75, 0.75);
-
-        RECPoint = this.game.add.sprite(12, 15, 'RECPoint');
-        RECPoint.animations.add('blink');
-        RECPoint.animations.play('blink', 1, true);
-        
-        REC.fixedToCamera = true;
-        RECPoint.fixedToCamera = true;
-
-    //Draw map
-        map = this.game.add.image(0, 0, 'camerasMap');
-        map.scale.setTo(2, 2);
-        map.anchor.set(-2, -1.94);
-        map.fixedToCamera = true;
         
 
-    //Map buttons
-        monitor = new InsideMonitor(this.game, Rooms);
+        //Draw edge
+        this.mapEdge = this.game.add.image(0, 0, 'edge');
+        this.mapEdge.fixedToCamera = true;
+
+        //Draw cameras
+        addCamera(Rooms.cameraPositions.ShowStage, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.DinningRoom, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.Backstage, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.Restrooms, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.Kitchen, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.EastHall, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.SupplyCloset, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.EHallCorner, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.WestHall, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.WHallCorner, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.PirateCove, tamX, tamY, 1.5);
+
+        //Static effect
+        this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
+        this.staticEffect.alpha = 0.1;
+        this.staticEffect.animations.add('startEffect');
+        this.staticEffect.animations.play('startEffect', 10, true);
+
+        this.staticEffect.fixedToCamera = true;
+
+        //Draw REC
+        this.REC = this.game.add.image(45, 20, 'REC');
+        this.REC.scale.setTo(0.75, 0.75);
+
+        this.RECPoint = this.game.add.sprite(12, 15, 'RECPoint');
+        this.RECPoint.animations.add('blink');
+        this.RECPoint.animations.play('blink', 1, true);
+
+        this.REC.fixedToCamera = true;
+        this.RECPoint.fixedToCamera = true;
+
+        //Draw map
+        this.map = this.game.add.image(0, 0, 'camerasMap');
+        this.map.scale.setTo(2, 2);
+        this.map.anchor.set(-2, -1.94);
+        this.map.fixedToCamera = true;
+
+
+        //Map buttons
+        this.monitor = new InsideMonitor(this.game, Rooms);
 
 
 
-//=====================================================OFFICE========================================================================
+        //=====================================================OFFICE========================================================================
 
 
         var office = this.game.add.sprite(0, 0, 'office');
 
         //Door and light buttons
         var lightLeft = new Light(this.game, 56, 60, 34, 94, 'leftLight');
-        var lightRight = new Light(this.game, 68.5*4 + tamX + tamX/2, 61.5, 92 + tamX + tamX/3, 94, 'rightLight');
+        var lightRight = new Light(this.game, 68.5 * 4 + tamX + tamX / 2, 61.5, 92 + tamX + tamX / 3, 94, 'rightLight');
 
         var doorLeft = new Door(this.game, 281.25, 27, 180, 78);
         var doorRight = new Door(this.game, tamX + 225 * 2, 27, tamX + 173 * 2, 78);
-        
+
         //Side edges
-        moveLeft = this.game.add.sprite(0, 0, 'sideEdge');
-        moveLeft.inputEnabled = true;
-        moveRight = this.game.add.sprite(792 - 45 , 0, 'sideEdge');
-        moveRight.inputEnabled = true;
+        this.moveLeft = this.game.add.sprite(0, 0, 'sideEdge');
+        this.moveLeft.inputEnabled = true;
+        this.moveRight = this.game.add.sprite(792 - 45, 0, 'sideEdge');
+        this.moveRight.inputEnabled = true;
 
-        moveRight.fixedToCamera = true;
-        moveLeft.fixedToCamera = true;
+        this.moveRight.fixedToCamera = true;
+        this.moveLeft.fixedToCamera = true;
 
-        //Change to Monitor
-        changeView = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() {changeScene(this.game, monitor.LastPos(), lastPos)}, this, 1, 0);
-        changeView.scale.setTo(0.8, 1);
-        changeView.alpha = 0.4;
-        changeView.fixedToCamera = true;
+        //Change Monitor/Office
 
-        mapEdge.alpha = 0;
-        staticEffect.alpha = 0;
-        REC.alpha = 0;
-        RECPoint.alpha = 0;
-        map.alpha = 0;
-        monitor.notInput();
-        
-        moveRight.inputEnabled = true;
-        moveLeft.inputEnabled = true;
+        this.changeView = this.game.add.button(800 / 2 - 316.8 / 2, 600 - 66 - 10, 'buttonMonitor', function () 
+        { 
+
+            if (this.inOffice) {
+                this.game.camera.x = this.monitor.LastPos();
+
+                this.mapEdge.alpha = 1;
+                this.staticEffect.alpha = 0.1;
+                this.REC.alpha = 1;
+                this.RECPoint.alpha = 1;
+                this.map.alpha = 1;
+                this.monitor.Input();
 
 
-        function changeScene (game, point, point2)
-        {
-            if(inOffice)
-            {
-                game.camera.x = point;
-
-                mapEdge.alpha = 1;
-                staticEffect.alpha = 0.1;
-                REC.alpha = 1;
-                RECPoint.alpha = 1;
-                map.alpha = 1;
-                monitor.Input();
-                
-            
-                moveRight.inputEnabled = false;
-                moveLeft.inputEnabled = false;
+                this.moveRight.inputEnabled = false;
+                this.moveLeft.inputEnabled = false;
             }
-            else
-            {
-                game.camera.x = point2;
+            else {
+                this.game.camera.x = this.lastPosOffice;
 
-                mapEdge.alpha = 0;
-                staticEffect.alpha = 0;
-                REC.alpha = 0;
-                RECPoint.alpha = 0;
-                map.alpha = 0;
-                monitor.notInput();
-                
-                moveRight.inputEnabled = true;
-                moveLeft.inputEnabled = true;
+                this.mapEdge.alpha = 0;
+                this.staticEffect.alpha = 0;
+                this.REC.alpha = 0;
+                this.RECPoint.alpha = 0;
+                this.map.alpha = 0;
+                this.monitor.notInput();
+
+                this.moveRight.inputEnabled = true;
+                this.moveLeft.inputEnabled = true;
             }
 
-            inOffice = !inOffice;
-        }
+            this.inOffice = !this.inOffice;
+
+         }, this, 1, 0);
+
+
+        this.changeView.scale.setTo(0.8, 1);
+        this.changeView.alpha = 0.4;
+        this.changeView.fixedToCamera = true;
+         
+        this.mapEdge.alpha = 0;
+        this.staticEffect.alpha = 0;
+        this.REC.alpha = 0;
+        this.RECPoint.alpha = 0;
+        this.map.alpha = 0;
+        this.monitor.notInput();
+
+        this.moveRight.inputEnabled = true;
+        this.moveLeft.inputEnabled = true;
+
+        //==========================================================BATTERY========================================================================
+
+
 
 
     },
 
-    update: function()
-    {
-        if(inOffice)
-        {
-            if (moveLeft.input.pointerOver())
-                lastPos = this.game.camera.x =  this.game.camera.x - 10;
-            else if (moveRight.input.pointerOver() && this.game.camera.x <785)
-                lastPos = this.game.camera.x = this.game.camera.x + 10;
+    update: function () {
+        if (this.inOffice) {
+            if (this.moveLeft.input.pointerOver())
+                this.lastPosOffice = this.game.camera.x = this.game.camera.x - 10;
+            else if (this.moveRight.input.pointerOver() && this.game.camera.x < 785)
+                this.lastPosOffice = this.game.camera.x = this.game.camera.x + 10;
         }
     }
-    
+
 }
 
 
 
 
 
-function addCamera(camera, tamX, tamY, tam)
-{
+function addCamera(camera, tamX, tamY, tam) {
     camera.sprite.scale.setTo(tam, tam);
-    camera.sprite.x =  camera.x + (tamX - camera.sprite.width)/2;
-    camera.sprite.y =  camera.y + (tamY - camera.sprite.height)/2; 
+    camera.sprite.x = camera.x + (tamX - camera.sprite.width) / 2;
+    camera.sprite.y = camera.y + (tamY - camera.sprite.height) / 2;
 }
 
 

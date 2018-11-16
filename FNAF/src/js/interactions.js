@@ -5,7 +5,7 @@ function Interact ()
     this._active = false;
 };
 
-Interact.prototype.getActive = function(){ return this._active; }
+// Interact.prototype.getActive = function(){ return this._active; }
 Interact.prototype.changeActive = function(){ this._active = !this._active; }
 
 function Door(game, posXButton, posYButton, posXDoor, posYDoor)
