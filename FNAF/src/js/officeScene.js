@@ -7,7 +7,6 @@ require('./Animatronics.js');
 var moveLeft;
 var moveRight;
 var inOffice;
-var alreadyChange;
 var lastPos;
 
 
@@ -144,7 +143,7 @@ var OfficeScene =
         moveLeft.fixedToCamera = true;
 
         //Change to Monitor
-        changeView = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() { changeScene(this.game, monitor.LastPos(), lastPos)}, this, 1, 0);
+        changeView = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() {changeScene(this.game, monitor.LastPos(), lastPos)}, this, 1, 0);
         changeView.scale.setTo(0.8, 1);
         changeView.alpha = 0.4;
         changeView.fixedToCamera = true;
@@ -199,11 +198,14 @@ var OfficeScene =
 
     update: function()
     {
-        
-        if (moveLeft.input.pointerOver())
-            lastPos = this.game.camera.x =  this.game.camera.x - 10;
-        else if (moveRight.input.pointerOver() && this.game.camera.x <785)
-            lastPos = this.game.camera.x = this.game.camera.x + 10;
+     
+        if(inOffice)
+        {
+            if (moveLeft.input.pointerOver())
+                lastPos = this.game.camera.x =  this.game.camera.x - 10;
+            else if (moveRight.input.pointerOver() && this.game.camera.x <785)
+                lastPos = this.game.camera.x = this.game.camera.x + 10;
+        }
 
     }
     
