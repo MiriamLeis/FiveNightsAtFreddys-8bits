@@ -7,7 +7,7 @@ require('./Animatronics.js');
 var moveLeft;
 var moveRight;
 var inOffice;
-var yaCambiado;
+var alreadyChange;
 var lastPos;
 
 
@@ -28,18 +28,19 @@ var OfficeScene =
     
     create: function () 
     {
-
-        yaCambiado = inOffice = true;
+        alreadyChange = inOffice = true;
         var tamX = 792;
         var tamY = 594;
         lastPos = 396;
         this.game.world.resize(tamX * 13, tamY);
         this.game.camera.x = 396;
 
-        //========================================================================================
+
+//=============================================================================================================================
 //Variables que se cambian cuando vas a office: mapEdge, staticEffect, REC, RECPoint, map
 
 //Variables que se cambian cuando vas a cameras: moveLeft, moveRight
+//=============================================================================================================================
 
 
     //Cameras
@@ -59,17 +60,17 @@ var OfficeScene =
 
             cameraPositions:
             {
-                0: {sprite: this.game.add.sprite(0, 0, 'showStage'), x: tamX*2, y: 0},
-                1: {sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: tamX *3, y: 0},
-                2: {sprite: this.game.add.sprite(0, 0, 'backstage'), x: tamX * 4, y: 0},
-                3: {sprite: this.game.add.sprite(0, 0, 'restrooms'), x: tamX * 5, y: 0},
-                4: {sprite: this.game.add.sprite(0, 0, ''), x: tamX * 6, y: 0},
-                5: {sprite: this.game.add.sprite(0, 0, 'eastHall'), x: tamX * 7, y: 0},
-                6: {sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: tamX * 8, y: 0},
-                7: {sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: tamX * 9, y: 0},
-                8: {sprite: this.game.add.sprite(0, 0, 'westHall'), x: tamX * 10, y: 0},
-                9: {sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: tamX * 11, y: 0},
-                10: {sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: tamX * 12, y: 0},
+                0: {name: 'Show Stage', sprite: this.game.add.sprite(0, 0, 'showStage'), x: tamX*2, y: 0},
+                1: {name: 'Dinning Room', sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: tamX *3, y: 0},
+                2: {name: 'Backstage', sprite: this.game.add.sprite(0, 0, 'backstage'), x: tamX * 4, y: 0},
+                3: {name: 'Restrooms', sprite: this.game.add.sprite(0, 0, 'restrooms'), x: tamX * 5, y: 0},
+                4: {name: 'Kitchen', sprite: this.game.add.sprite(0, 0, ''), x: tamX * 6, y: 0},
+                5: {name: 'East Hall', sprite: this.game.add.sprite(0, 0, 'eastHall'), x: tamX * 7, y: 0},
+                6: {name: 'Supply Closet', sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: tamX * 8, y: 0},
+                7: {name: 'E. Hall Corner', sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: tamX * 9, y: 0},
+                8: {name: 'West Hall', sprite: this.game.add.sprite(0, 0, 'westHall'), x: tamX * 10, y: 0},
+                9: {name: 'W. Hall Corner', sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: tamX * 11, y: 0},
+                10: {name: 'Pirate Cove', sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: tamX * 12, y: 0},
             }
         }
         
@@ -128,14 +129,11 @@ var OfficeScene =
 
         //Door and light buttons
         var lightLeft = new Light(this.game, 56, 60, 34, 94, 'leftLight');
-        var lightRight = new Light(this.game, 68.5*4 + tamX+ tamX/2, 61.5, 92 +tamX + tamX/3, 94, 'rightLight');
+        var lightRight = new Light(this.game, 68.5*4 + tamX + tamX/2, 61.5, 92 + tamX + tamX/3, 94, 'rightLight');
 
         var doorLeft = new Door(this.game, 281.25, 27, 180, 77.25);
         var doorRight = new Door(this.game, tamX + 225 * 2, 27, tamX + 173 * 2, 77.25);
         
-        
-
-
         //Side edges
         moveLeft = this.game.add.sprite(0, 0, 'sideEdge');
         moveLeft.inputEnabled = true;
@@ -145,7 +143,8 @@ var OfficeScene =
         moveRight.fixedToCamera = true;
         moveLeft.fixedToCamera = true;
 
-        changeView = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() { changeScene(this.game,monitor.LastPos(), lastPos)}, this, 1, 0);
+        //Change to Monitor
+        changeView = this.game.add.button(800/2 - 316.8/2, 600 - 66 - 10, 'buttonMonitor', function() { changeScene(this.game, monitor.LastPos(), lastPos)}, this, 1, 0);
         changeView.scale.setTo(0.8, 1);
         changeView.alpha = 0.4;
         changeView.fixedToCamera = true;
@@ -161,7 +160,7 @@ var OfficeScene =
         moveLeft.inputEnabled = true;
 
 
-        function changeScene (game,point, point2)
+        function changeScene (game, point, point2)
         {
             if(inOffice)
             {
@@ -176,8 +175,6 @@ var OfficeScene =
                 
                 moveRight.inputEnabled = false;
                 moveLeft.inputEnabled = false;
-
-                inOffice = false;
             }
             else
             {
@@ -192,10 +189,9 @@ var OfficeScene =
                 
                 moveRight.inputEnabled = true;
                 moveLeft.inputEnabled = true;
-
-                inOffice = true;
-
             }
+
+            inOffice = !inOffice;
         }
 
 

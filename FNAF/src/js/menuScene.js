@@ -6,17 +6,12 @@ var Menu =
     {
         var buttonStart = this.game.add.button(0, 0, 'buttonsCameras', function (){actionOnClick(this.game)}, this);
         
+        function actionOnClick (game)
+        {
+            game.state.start('game');
+        }
     }
     
 };
-
-//LUCES Y PUERTAS
-
-function actionOnClick (game)
-{
-    game.state.start('office');
-}
-
-
 
 module.exports = Menu;
