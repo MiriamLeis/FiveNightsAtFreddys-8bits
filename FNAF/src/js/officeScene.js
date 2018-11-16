@@ -27,7 +27,7 @@ var OfficeScene =
     
     create: function () 
     {
-        alreadyChange = inOffice = true;
+        inOffice = true;
         var tamX = 792;
         var tamY = 594;
         lastPos = 396;
