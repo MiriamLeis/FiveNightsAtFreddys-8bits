@@ -18,7 +18,7 @@ var map;
 var monitor;
 var changeView;
 
-var OfficeScene =
+var GameScene =
 {
     preload: function ()
     {
@@ -39,7 +39,7 @@ var OfficeScene =
 //Variables que se cambian cuando vas a office: mapEdge, staticEffect, REC, RECPoint, map
 
 //Variables que se cambian cuando vas a cameras: moveLeft, moveRight
-//=============================================================================================================================
+//=====================================================CAMERAS========================================================================
 
 
     //Cameras
@@ -99,10 +99,10 @@ var OfficeScene =
         staticEffect.fixedToCamera = true;
         
     //Draw REC
-        REC = this.game.add.image(43, 20, 'REC');
+        REC = this.game.add.image(45, 20, 'REC');
         REC.scale.setTo(0.75, 0.75);
 
-        RECPoint = this.game.add.sprite(10, 15, 'RECPoint');
+        RECPoint = this.game.add.sprite(12, 15, 'RECPoint');
         RECPoint.animations.add('blink');
         RECPoint.animations.play('blink', 1, true);
         
@@ -121,7 +121,7 @@ var OfficeScene =
 
 
 
-//=============================================================================================================================
+//=====================================================OFFICE========================================================================
 
 
         var office = this.game.add.sprite(0, 0, 'office');
@@ -130,8 +130,8 @@ var OfficeScene =
         var lightLeft = new Light(this.game, 56, 60, 34, 94, 'leftLight');
         var lightRight = new Light(this.game, 68.5*4 + tamX + tamX/2, 61.5, 92 + tamX + tamX/3, 94, 'rightLight');
 
-        var doorLeft = new Door(this.game, 281.25, 27, 180, 77.25);
-        var doorRight = new Door(this.game, tamX + 225 * 2, 27, tamX + 173 * 2, 77.25);
+        var doorLeft = new Door(this.game, 281.25, 27, 180, 78);
+        var doorRight = new Door(this.game, tamX + 225 * 2, 27, tamX + 173 * 2, 78);
         
         //Side edges
         moveLeft = this.game.add.sprite(0, 0, 'sideEdge');
@@ -172,6 +172,7 @@ var OfficeScene =
                 map.alpha = 1;
                 monitor.Input();
                 
+            
                 moveRight.inputEnabled = false;
                 moveLeft.inputEnabled = false;
             }
@@ -198,7 +199,6 @@ var OfficeScene =
 
     update: function()
     {
-     
         if(inOffice)
         {
             if (moveLeft.input.pointerOver())
@@ -206,7 +206,6 @@ var OfficeScene =
             else if (moveRight.input.pointerOver() && this.game.camera.x <785)
                 lastPos = this.game.camera.x = this.game.camera.x + 10;
         }
-
     }
     
 }
@@ -223,4 +222,4 @@ function addCamera(camera, tamX, tamY, tam)
 }
 
 
-module.exports = OfficeScene;
+module.exports = GameScene;
