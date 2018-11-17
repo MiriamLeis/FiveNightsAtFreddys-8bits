@@ -36,6 +36,8 @@ var PreloaderScene =
     this.game.load.image('supplyCloset', './images/rooms/SupplyCloset.png');
     this.game.load.image('wHallCorner','./images/rooms/W.Hall Corner.png');
     this.game.load.image('westHall', './images/rooms/West Hall.png');
+    this.game.load.image('westHall', './images/rooms/West Hall.png');
+    this.game.load.image('kitchen', './images/rooms/kitchenText.png');
     this.game.load.image('eHallCorner','./images/rooms/E.Hall Corner.png');
     this.game.load.image('eastHall','./images/rooms/East Hall.png');
     this.game.load.image('restrooms','./images/rooms/Restrooms.png');
@@ -68,9 +70,14 @@ var PreloaderScene =
     this.game.load.spritesheet('buttonMonitor', './images/items/monitorButton.png', 396, 66, 2);
     this.game.load.image('leftLight', './images/items/LeftLight.png');
     this.game.load.image('rightLight', './images/items/RightLight.png');
+    this.game.load.spritesheet('battey', './images/items/battery.png', 143, 66, 4);
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
+
+    //Text
+    this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 330, 66, 10);
+    this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 231, 66, 4);
   },
 
   create: function () 

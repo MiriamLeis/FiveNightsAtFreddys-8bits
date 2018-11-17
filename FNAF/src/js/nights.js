@@ -9,7 +9,6 @@ function Night(phoneGuy)
     //Freddy
     var pathFreddy = [];
     pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
-
     pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
     pathFreddy.push(new Room ('diningRoom', pathFreddy[2], null, null));
     pathFreddy.push(new Room ('restroom', pathFreddy[3], null, null));

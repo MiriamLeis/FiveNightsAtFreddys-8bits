@@ -3,6 +3,7 @@
 require('./Interactions.js');
 require('./InsideMonitor.js');
 require('./Animatronics.js');
+require('./Battery.js');
 
 
 var GameScene =
@@ -33,6 +34,13 @@ var GameScene =
         this.map;
         this.monitor;
         this.changeView;
+
+        this.doorRCount = false;
+        this.doorLCount = false;
+        this.lightRCount = false;
+        this.lightLCount = false;
+
+
 
 
         //=============================================================================================================================
@@ -69,7 +77,7 @@ var GameScene =
                 DinningRoom: {sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: tamX * 3, y: 0 },
                 Backstage: {sprite: this.game.add.sprite(0, 0, 'backstage'), x: tamX * 4, y: 0 },
                 Restrooms: {sprite: this.game.add.sprite(0, 0, 'restrooms'), x: tamX * 5, y: 0 },
-                Kitchen: { sprite: this.game.add.sprite(0, 0, ''), x: tamX * 6, y: 0 },
+                Kitchen: { sprite: this.game.add.sprite(0, 0, 'kitchen'), x: tamX * 6, y: 0 },
                 EastHall: {sprite: this.game.add.sprite(0, 0, 'eastHall'), x: tamX * 7, y: 0 },
                 SupplyCloset: {sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: tamX * 8, y: 0 },
                 EHallCorner: {sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: tamX * 9, y: 0 },
@@ -90,7 +98,7 @@ var GameScene =
         addCamera(Rooms.cameraPositions.DinningRoom, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.Backstage, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.Restrooms, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.Kitchen, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.Kitchen, tamX, tamY - 100, 0.75);
         addCamera(Rooms.cameraPositions.EastHall, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.SupplyCloset, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.EHallCorner, tamX, tamY, 1.5);
@@ -127,7 +135,7 @@ var GameScene =
         //Map buttons
         this.monitor = new InsideMonitor(this.game, Rooms);
 
-
+        this.battery = new Battery();
 
         //=====================================================OFFICE========================================================================
 
@@ -135,11 +143,11 @@ var GameScene =
         var office = this.game.add.sprite(0, 0, 'office');
 
         //Door and light buttons
-        var lightLeft = new Light(this.game, 56, 60, 34, 94, 'leftLight');
-        var lightRight = new Light(this.game, 68.5 * 4 + tamX + tamX / 2, 61.5, 92 + tamX + tamX / 3, 94, 'rightLight');
+        this.lightLeft = new Light(this.game, 56, 60, 34, 94, 'leftLight');
+        this.lightRight = new Light(this.game, 68.5 * 4 + tamX + tamX / 2, 61.5, 92 + tamX + tamX / 3, 94, 'rightLight');
 
-        var doorLeft = new Door(this.game, 281.25, 27, 180, 78);
-        var doorRight = new Door(this.game, tamX + 225 * 2, 27, tamX + 173 * 2, 78);
+        this.doorLeft = new Door(this.game, 281.25, 27, 180, 78);
+        this.doorRight = new Door(this.game, tamX + 225 * 2, 27, tamX + 173 * 2, 78);
 
         //Side edges
         this.moveLeft = this.game.add.sprite(0, 0, 'sideEdge');
@@ -168,6 +176,8 @@ var GameScene =
 
                 this.moveRight.inputEnabled = false;
                 this.moveLeft.inputEnabled = false;
+
+                this.battery.increaseBatteryUsage();
             }
             else {
                 this.game.camera.x = this.lastPosOffice;
@@ -181,6 +191,8 @@ var GameScene =
 
                 this.moveRight.inputEnabled = true;
                 this.moveLeft.inputEnabled = true;
+
+                this.battery.decreaseBatteryUsage();
             }
 
             this.inOffice = !this.inOffice;
@@ -209,13 +221,79 @@ var GameScene =
 
     },
 
-    update: function () {
-        if (this.inOffice) {
+    update: function () 
+    {
+        if (this.inOffice) 
+        {
             if (this.moveLeft.input.pointerOver())
-                this.lastPosOffice = this.game.camera.x = this.game.camera.x - 10;
-            else if (this.moveRight.input.pointerOver() && this.game.camera.x < 785)
-                this.lastPosOffice = this.game.camera.x = this.game.camera.x + 10;
+                this.lastPosOffice = this.game.camera.x = this.game.camera.x - 13;
+            else if (this.moveRight.input.pointerOver() && this.game.camera.x < 781)
+                this.lastPosOffice = this.game.camera.x = this.game.camera.x + 13;
         }
+
+        //Puerta derecha
+        if(this.doorRight.getActive() && !this.doorRCount)
+        {
+            this.battery.increaseBatteryUsage();
+            this.doorRCount = !this.doorRCount;
+        }
+        else if (!this.doorRight.getActive() && this.doorRCount)
+        {
+            this.battery.decreaseBatteryUsage();
+            this.doorRCount = !this.doorRCount;
+        }
+
+         //Puerta izquierda
+        if(this.doorLeft.getActive() && !this.doorLCount)
+        {
+            this.battery.increaseBatteryUsage();
+            this.doorLCount = !this.doorLCount;
+        }
+        else if (!this.doorLeft.getActive() && this.doorLCount)
+        {
+            this.battery.decreaseBatteryUsage();
+            this.doorLCount = !this.doorLCount;
+        }
+
+        //Luz derecha
+        if(this.lightRight.getActive() && !this.lightRCount)
+        {
+            this.battery.increaseBatteryUsage();
+            this.lightRCount = !this.lightRCount;
+        }
+        else if (!this.lightRight.getActive() && this.lightRCount)
+        {
+            this.battery.decreaseBatteryUsage();
+            this.lightRCount = !this.lightRCount;
+        }
+
+         //Luz izquierda
+        if(this.lightLeft.getActive() && !this.lightLCount)
+        {
+            this.battery.increaseBatteryUsage();
+            this.lightLCount = !this.lightLCount;
+        }
+        else if (!this.lightLeft.getActive() && this.lightLCount)
+        {
+            this.battery.decreaseBatteryUsage();
+            this.lightLCount = !this.lightLCount;
+        }
+
+        //Disminuye la bateria
+        if (this.game.time.now > this.battery.tellBatteryTime())
+        {
+            this.battery.decreaseBattery();
+            this.battery.changeBetteryTime();
+        }
+    
+
+
+
+
+
+
+        console.log(this.battery.tellBattery())
+
     }
 
 }
