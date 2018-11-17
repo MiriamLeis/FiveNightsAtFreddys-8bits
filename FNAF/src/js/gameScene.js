@@ -135,7 +135,7 @@ var GameScene =
         //Map buttons
         this.monitor = new InsideMonitor(this.game, Rooms);
 
-        this.battery = new Battery();
+
 
         //=====================================================OFFICE========================================================================
 
@@ -216,9 +216,10 @@ var GameScene =
 
         //==========================================================BATTERY========================================================================
 
-
-
-
+        this.battery = new Battery(this.game.add.sprite(115, 520, 'battery'));
+        this.usageText = this.game.add.sprite(20, 520, 'manyTexts')
+        this.usageText.fixedToCamera = true;
+        this.usageText.scale.setTo(0.75, 0.75);
     },
 
     update: function () 

@@ -70,14 +70,14 @@ var PreloaderScene =
     this.game.load.spritesheet('buttonMonitor', './images/items/monitorButton.png', 396, 66, 2);
     this.game.load.image('leftLight', './images/items/LeftLight.png');
     this.game.load.image('rightLight', './images/items/RightLight.png');
-    this.game.load.spritesheet('battey', './images/items/battery.png', 143, 66, 4);
+    this.game.load.spritesheet('battery', './images/items/battery.png', 143, 66, 4);
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
 
     //Text
     this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 330, 66, 10);
-    this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 231, 66, 4);
+    this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 230, 66, 4);
   },
 
   create: function () 

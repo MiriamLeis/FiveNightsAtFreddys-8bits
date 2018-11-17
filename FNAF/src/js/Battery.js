@@ -3,6 +3,7 @@
 function Battery(sprite)
 {
     this.sprite = sprite;
+    this.sprite.fixedToCamera = true;
 
     this.restBattery = 100;
     this.batteryUssage = 1;
@@ -32,11 +33,10 @@ Battery.prototype.tellBatteryTime = function()
     return this.timeToChange;
 }
 
-Battery.prototype.changeBetteryTime = function(time) 
+Battery.prototype.changeBetteryTime = function() 
 {
-    this.timeToChange = this.timeToChange +time;
+    this.timeToChange = this.timeToChange +this.times[this.batteryUssage - 1];
 }
-
 
 
 Battery.prototype.increaseBatteryUsage = function() 
@@ -46,11 +46,10 @@ Battery.prototype.increaseBatteryUsage = function()
         this.batteryUssage++;
         this.timeToChange = this.timeToChange - this.times[this.batteryUssage - 1];
 
-        if(this.timeToChange > this.times[this.batteryUssage - 1])
-            this.timeToChange = this.times[this.batteryUssage - 1];
-
         this.sprite.frame = this.batteryUssage -1;
     }
+    else 
+        this.batteryUssage++;
 }
 
 Battery.prototype.decreaseBatteryUsage = function() 
@@ -58,7 +57,7 @@ Battery.prototype.decreaseBatteryUsage = function()
     if(this.batteryUssage > 1)
     {
         this.batteryUssage--;
-        this.timeToChange = this.times[this.batteryUssage - 1] - this.times[this.batteryUssage];
+        this.timeToChange = this.timeToChange+ this.times[this.batteryUssage - 1];
 
         this.sprite.frame = this.batteryUssage - 1;
     }
