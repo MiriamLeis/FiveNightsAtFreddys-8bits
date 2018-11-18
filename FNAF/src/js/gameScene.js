@@ -304,8 +304,6 @@ var GameScene =
             this.battery.decreaseBattery();
         }
 
-        console.log(this.battery.tellBattery())
-
     }
 
 }
