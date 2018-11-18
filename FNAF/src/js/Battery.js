@@ -1,11 +1,26 @@
 'use strict';
 
-function Battery(sprite)
+function Battery(spriteBar, spriteCent, spriteDec, spriteU)
 {
-    this.sprite = sprite;
-    this.sprite.scale.setTo(0.70, 0.60);
-    this.sprite.fixedToCamera = true;
+    //Sprite de las barritas
+    this.spriteBar = spriteBar;
+    this.spriteBar.scale.setTo(0.70, 0.60);
+    this.spriteBar.fixedToCamera = true;
 
+    //Sprite de los porcentajes
+    this.spriteCent = spriteCent;
+    this.spriteCent.scale.setTo(0.6, 0.6);
+    this.spriteCent.fixedToCamera = true;
+
+    this.spriteDec = spriteDec;
+    this.spriteDec.scale.setTo(0.6, 0.6);
+    this.spriteDec.fixedToCamera = true;
+
+    this.spriteU = spriteU;
+    this.spriteU.scale.setTo(0.6, 0.6);
+    this.spriteU.fixedToCamera = true;
+
+    //Cosillas para el control del tiempo
     this.restBattery = 100;
     this.batteryUssage = 1;
     this.timeToChange = 10000;
@@ -46,7 +61,7 @@ Battery.prototype.increaseBatteryUsage = function(time)
         if(this.realTimeToChange > this.times[this.batteryUssage - 1])
             this.timeToChange = this.timeToChange - this.realTimeToChange + this.times[this.batteryUssage - 1];
 
-        this.sprite.frame = this.batteryUssage -1;
+        this.spriteBar.frame = this.batteryUssage -1;
     }
     else 
         this.batteryUssage++;
@@ -62,7 +77,7 @@ Battery.prototype.decreaseBatteryUsage = function(time)
 
         this.timeToChange = this.timeToChange - this.realTimeToChange + this.times[this.batteryUssage - 1] - ( this.times[this.batteryUssage] - this.realTimeToChange);
 
-        this.sprite.frame = this.batteryUssage - 1;
+        this.spriteBar.frame = this.batteryUssage - 1;
     }
 }
 
@@ -72,6 +87,6 @@ Battery.prototype.decreaseBattery = function()
     if(this.restBattery > 0)
     {
         this.restBattery--;
-        this.timeToChange = this.timeToChange +this.times[this.batteryUssage - 1];
+        this.timeToChange = this.timeToChange + this.times[this.batteryUssage - 1];
     }
 }

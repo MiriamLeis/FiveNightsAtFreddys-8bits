@@ -218,10 +218,24 @@ var GameScene =
 
         //==========================================================BATTERY========================================================================
 
-        this.battery = new Battery(this.game.add.sprite(120, 521, 'battery'));
-        this.usageText = this.game.add.sprite(20, 520, 'manyTexts')
+        //Porcentaje
+        this.powerLeftText = this.game.add.sprite(20, 490, 'manyTexts', 1)
+        this.powerLeftText.scale.setTo(0.6, 0.6);
+        this.percentageText = this.game.add.sprite(this.powerLeftText.width + 79, 490, 'manyTexts', 2);
+        this.percentageText.scale.setTo(0.6, 0.6);
+
+        this.powerLeftText.fixedToCamera = true;
+        this.percentageText.fixedToCamera = true;
+
+        //Barritas
+        this.battery = new Battery(this.game.add.sprite(100, 525, 'battery'),
+                                    this.game.add.sprite(this.powerLeftText.width + 10, 490, 'numbers'),
+                                    this.game.add.sprite(this.powerLeftText.width + 33, 490, 'numbers'),
+                                    this.game.add.sprite(this.powerLeftText.width + 56, 490, 'numbers'));
+        this.usageText = this.game.add.sprite(20, 530, 'manyTexts')
+        this.usageText.scale.setTo(0.6, 0.6);
+
         this.usageText.fixedToCamera = true;
-        this.usageText.scale.setTo(0.75, 0.75);
     },
 
     update: function () 
