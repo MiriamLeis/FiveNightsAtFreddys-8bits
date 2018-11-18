@@ -3,6 +3,7 @@
 function Battery(sprite)
 {
     this.sprite = sprite;
+    this.sprite.scale.setTo(0.70, 0.60);
     this.sprite.fixedToCamera = true;
 
     this.restBattery = 100;

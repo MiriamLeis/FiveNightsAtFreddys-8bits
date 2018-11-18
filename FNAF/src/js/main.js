@@ -65,7 +65,6 @@ var PreloaderScene =
     this.game.load.image('camerasMap', './images/items/camerasMap.png');
     this.game.load.image('edge', './images/items/edge.png');
     this.game.load.spritesheet('RECPoint', './images/items/RECPoint.png', 33, 33, 2);
-    this.game.load.image('REC', './images/items/REC.png');
     this.game.load.image('sideEdge', './images/items/sideEdge.png');
     this.game.load.spritesheet('buttonMonitor', './images/items/monitorButton.png', 396, 66, 2);
     this.game.load.image('leftLight', './images/items/LeftLight.png');
@@ -76,8 +75,11 @@ var PreloaderScene =
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
 
     //Text
-    this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 364, 66, 10);
+    
+    this.game.load.image('REC', './images/texts/REC.png');
+    this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 364, 66, 11);
     this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 264, 66, 4);
+    this.game.load.spritesheet('numbers', './images/texts/numbers.png', 33, 66, 10);
   },
 
   create: function () 

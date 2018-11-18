@@ -1,27 +1,28 @@
 'use strict';
 
-function InsideMonitor (game, Rooms)
+function InsideMonitor (game, Rooms, camerasTexts)
 {
-    this.cam1A = this.addButton(game, Rooms.cameraPositions.ShowStage, -19.2, -11.7, this, 0);
-    this.cam1B = this.addButton(game, Rooms.cameraPositions.DinningRoom, -18.2, -12.7, this, 1);
-    this.cam1C = this.addButton(game, Rooms.cameraPositions.PirateCove, -17.2, -14, this, 2);
-    this.cam2A = this.addButton(game, Rooms.cameraPositions.WestHall, -18.4, -15.2, this, 3);
-    this.cam2B = this.addButton(game, Rooms.cameraPositions.WHallCorner, -17.68, -16.2, this, 4);
-    this.cam3 = this.addButton(game, Rooms.cameraPositions.SupplyCloset, -17, -15, this, 5);
-    this.cam4A = this.addButton(game, Rooms.cameraPositions.EastHall, -20, -15.2, this, 6);
-    this.cam4B = this.addButton(game, Rooms.cameraPositions.EHallCorner, -20.72, -16.2, this, 7);
-    this.cam5 = this.addButton(game, Rooms.cameraPositions.Backstage, -16.4, -13, this, 8);
-    this.cam6 = this.addButton(game, Rooms.cameraPositions.Kitchen, -21.2, -15.15, this, 9);
-    this.cam7 = this.addButton(game, Rooms.cameraPositions.Restrooms, -21.8, -12.85, this, 10);
+    this.cam1A = this.addButton(game, camerasTexts, Rooms.cameraPositions.ShowStage, -19.2, -11.7, this, 0);
+    this.cam1B = this.addButton(game, camerasTexts, Rooms.cameraPositions.DinningRoom, -18.2, -12.7, this, 1);
+    this.cam1C = this.addButton(game, camerasTexts, Rooms.cameraPositions.PirateCove, -17.2, -14, this, 2);
+    this.cam2A = this.addButton(game, camerasTexts, Rooms.cameraPositions.WestHall, -18.4, -15.2, this, 3);
+    this.cam2B = this.addButton(game, camerasTexts, Rooms.cameraPositions.WHallCorner, -17.68, -16.2, this, 4);
+    this.cam3 = this.addButton(game, camerasTexts, Rooms.cameraPositions.SupplyCloset, -17, -15, this, 5);
+    this.cam4A = this.addButton(game, camerasTexts, Rooms.cameraPositions.EastHall, -20, -15.2, this, 6);
+    this.cam4B = this.addButton(game, camerasTexts, Rooms.cameraPositions.EHallCorner, -20.72, -16.2, this, 7);
+    this.cam5 = this.addButton(game, camerasTexts, Rooms.cameraPositions.Backstage, -16.4, -13, this, 8);
+    this.cam6 = this.addButton(game, camerasTexts, Rooms.cameraPositions.Kitchen, -21.2, -15.15, this, 9);
+    this.cam7 = this.addButton(game, camerasTexts, Rooms.cameraPositions.Restrooms, -21.8, -12.85, this, 10);
     
     this.cam1A.frame = 11;
     this.lastPos = Rooms.cameraPositions.ShowStage.x;
 };
 
-InsideMonitor.prototype.changeActive = function(button, game, roomCam, numCam)
+InsideMonitor.prototype.changeActive = function(button, game, roomName, roomCam, numCam)
 {   
     this.lastPos = game.camera.x = roomCam.x;
     game.camera.y = roomCam.y;
+
     this.cam1A.frame = 0;
     this.cam1B.frame = 1;
     this.cam1C.frame = 2;
@@ -35,11 +36,12 @@ InsideMonitor.prototype.changeActive = function(button, game, roomCam, numCam)
     this.cam7.frame = 10;
 
     button.frame = numCam + 11;
+    roomName.frame = roomCam.nameFrame;
 }
 
-InsideMonitor.prototype.addButton = function(game, roomCam, posX, posY, button, numCam)
+InsideMonitor.prototype.addButton = function(game, roomName, roomCam, posX, posY, button, numCam)
 {
-    var button = game.add.button(0, 0, 'buttonsCameras', function (){this.changeActive(button, game, roomCam, numCam)}, this);
+    var button = game.add.button(0, 0, 'buttonsCameras', function (){this.changeActive(button, game, roomName, roomCam, numCam)}, this);
     button.frame = numCam;
     
     button.anchor.setTo(posX, posY);
