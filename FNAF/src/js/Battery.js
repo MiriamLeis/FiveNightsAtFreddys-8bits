@@ -27,11 +27,12 @@ function Battery(spriteBar, spriteCent, spriteDec, spriteU)
     this.realTimeToChange = 0;
 
     this.times = [];
-
     this.times.push(10000);
     this.times.push(5000);
     this.times.push(3000);
     this.times.push(2000);
+
+    this.spriteCent.frame = 1;
 }
 
 
@@ -52,12 +53,10 @@ Battery.prototype.tellBatteryTime = function()
 
 Battery.prototype.increaseBatteryUsage = function(time) 
 {
-
     this.batteryUssage++;
 
-    if(this.batteryUssage -1 < 4)
+    if(this.batteryUssage <= 4)
     {
-
         this.realTimeToChange = this.timeToChange - time;
 
         if(this.realTimeToChange > this.times[this.batteryUssage - 1])
@@ -70,7 +69,6 @@ Battery.prototype.increaseBatteryUsage = function(time)
 
 Battery.prototype.decreaseBatteryUsage = function(time) 
 {
-
     this.batteryUssage--;
 
     if(this.batteryUssage >= 1 && this.batteryUssage < 4)
@@ -95,9 +93,16 @@ Battery.prototype.decreaseBattery = function()
     if(this.restBattery > 0)
     {
         this.restBattery--;
+
+        this.spriteCent.frame = 0
+        this.spriteDec.frame = Math.trunc(this.restBattery/10);
+        this.spriteU.frame = this.restBattery%10;
+
         if(this.batteryUssage <= 4)
             this.timeToChange = this.timeToChange + this.times[this.batteryUssage - 1];
         else
             this.timeToChange = this.timeToChange + this.times[3];
     }
+    else if (this.restBattery == 0)
+        this.spriteU.frame = 0;
 }
