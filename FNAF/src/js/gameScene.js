@@ -177,7 +177,7 @@ var GameScene =
                 this.moveRight.inputEnabled = false;
                 this.moveLeft.inputEnabled = false;
 
-                this.battery.increaseBatteryUsage();
+                this.battery.increaseBatteryUsage(this.game.time.now);
             }
             else {
                 this.game.camera.x = this.lastPosOffice;
@@ -192,7 +192,7 @@ var GameScene =
                 this.moveRight.inputEnabled = true;
                 this.moveLeft.inputEnabled = true;
 
-                this.battery.decreaseBatteryUsage();
+                this.battery.decreaseBatteryUsage(this.game.time.now);
             }
 
             this.inOffice = !this.inOffice;
@@ -235,48 +235,48 @@ var GameScene =
         //Puerta derecha
         if(this.doorRight.getActive() && !this.doorRCount)
         {
-            this.battery.increaseBatteryUsage();
+            this.battery.increaseBatteryUsage(this.game.time.now);
             this.doorRCount = !this.doorRCount;
         }
         else if (!this.doorRight.getActive() && this.doorRCount)
         {
-            this.battery.decreaseBatteryUsage();
+            this.battery.decreaseBatteryUsage(this.game.time.now);
             this.doorRCount = !this.doorRCount;
         }
 
          //Puerta izquierda
         if(this.doorLeft.getActive() && !this.doorLCount)
         {
-            this.battery.increaseBatteryUsage();
+            this.battery.increaseBatteryUsage(this.game.time.now);
             this.doorLCount = !this.doorLCount;
         }
         else if (!this.doorLeft.getActive() && this.doorLCount)
         {
-            this.battery.decreaseBatteryUsage();
+            this.battery.decreaseBatteryUsage(this.game.time.now);
             this.doorLCount = !this.doorLCount;
         }
 
         //Luz derecha
         if(this.lightRight.getActive() && !this.lightRCount)
         {
-            this.battery.increaseBatteryUsage();
+            this.battery.increaseBatteryUsage(this.game.time.now);
             this.lightRCount = !this.lightRCount;
         }
         else if (!this.lightRight.getActive() && this.lightRCount)
         {
-            this.battery.decreaseBatteryUsage();
+            this.battery.decreaseBatteryUsage(this.game.time.now);
             this.lightRCount = !this.lightRCount;
         }
 
          //Luz izquierda
         if(this.lightLeft.getActive() && !this.lightLCount)
         {
-            this.battery.increaseBatteryUsage();
+            this.battery.increaseBatteryUsage(this.game.time.now);
             this.lightLCount = !this.lightLCount;
         }
         else if (!this.lightLeft.getActive() && this.lightLCount)
         {
-            this.battery.decreaseBatteryUsage();
+            this.battery.decreaseBatteryUsage(this.game.time.now);
             this.lightLCount = !this.lightLCount;
         }
 
@@ -284,7 +284,6 @@ var GameScene =
         if (this.game.time.now > this.battery.tellBatteryTime())
         {
             this.battery.decreaseBattery();
-            this.battery.changeBetteryTime();
         }
     
 

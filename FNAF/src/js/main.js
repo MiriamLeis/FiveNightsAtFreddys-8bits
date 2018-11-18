@@ -76,8 +76,8 @@ var PreloaderScene =
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
 
     //Text
-    this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 330, 66, 10);
-    this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 230, 66, 4);
+    this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 364, 66, 10);
+    this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 264, 66, 4);
   },
 
   create: function () 
