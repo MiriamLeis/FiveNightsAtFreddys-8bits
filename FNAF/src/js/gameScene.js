@@ -140,11 +140,11 @@ var GameScene =
         var office = this.game.add.sprite(0, 0, 'office');
 
         //Door and light buttons
-        this.lightLeft = new Light(this.game, 56, 60, 34, 94, 'leftLight');
-        this.lightRight = new Light(this.game, 68.5 * 4 + tamX + tamX / 2, 61.5, 92 + tamX + tamX / 3, 94, 'rightLight');
+        this.lightLeft = new Light(this.game, 157, 274, 34, 94, 'leftLight');
+        this.lightRight = new Light(this.game, 51.5 * 4 + tamX + tamX / 2, 274, 92 + tamX + tamX / 3, 94, 'rightLight');
 
-        this.doorLeft = new Door(this.game, 281.25, 27, 180, 78);
-        this.doorRight = new Door(this.game, tamX + 225 * 2, 27, tamX + 173 * 2, 78);
+        this.doorLeft = new Door(this.game, 157, 220, 185, 78);
+        this.doorRight = new Door(this.game, tamX + 301 * 2, 220, tamX + 173 * 2, 78);
 
         //Side edges
         this.moveLeft = this.game.add.sprite(0, 0, 'sideEdge');

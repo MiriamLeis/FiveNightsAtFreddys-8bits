@@ -58,8 +58,8 @@ var PreloaderScene =
 
     //Objects
     this.game.load.spritesheet('buttonsCameras', './images/items/buttonsCameras.png', 33, 33, 22);
-    this.game.load.spritesheet('buttonLight', './images/items/buttonLight.png', 66, 33, 2);
-    this.game.load.spritesheet('buttonDoor', './images/items/buttonDoor.png', 66, 33, 2);
+    this.game.load.spritesheet('buttonLight', './images/items/buttonLight.png', 33, 66, 2);
+    this.game.load.spritesheet('buttonDoor', './images/items/buttonDoor.png', 33, 66, 2);
     this.game.load.spritesheet('doorClose', './images/items/doorClose.png', 264, 462, 3)
     this.game.load.spritesheet('doorOpen', './images/items/doorOpen.png', 264, 462, 3)
     this.game.load.image('camerasMap', './images/items/camerasMap.png');
