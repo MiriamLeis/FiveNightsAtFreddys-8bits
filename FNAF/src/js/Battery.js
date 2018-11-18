@@ -22,8 +22,9 @@ function Battery(spriteBar, spriteCent, spriteDec, spriteU)
 
     //Cosillas para el control del tiempo
     this.restBattery = 100;
-    this.batteryUssage = 1;
-    this.timeToChange = 10000;
+    this.batteryUssage = 1; //De primeras
+    this.timeToChange = 10000; //De primeras
+    this.realTimeToChange = 0;
 
     this.times = [];
 
@@ -48,7 +49,6 @@ Battery.prototype.tellBatteryTime = function()
 {
     return this.timeToChange;
 }
-
 
 Battery.prototype.increaseBatteryUsage = function(time) 
 {

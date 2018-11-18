@@ -248,6 +248,8 @@ var GameScene =
                 this.lastPosOffice = this.game.camera.x = this.game.camera.x + 13;
         }
 
+        //---------------------------------------------------------------------------
+        
         //Puerta derecha
         if(this.doorRight.getActive() && !this.doorRCount)
         {
