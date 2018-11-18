@@ -52,9 +52,11 @@ Battery.prototype.tellBatteryTime = function()
 
 Battery.prototype.increaseBatteryUsage = function(time) 
 {
-    if(this.batteryUssage < 4)
+
+    this.batteryUssage++;
+
+    if(this.batteryUssage -1 < 4)
     {
-        this.batteryUssage++;
 
         this.realTimeToChange = this.timeToChange - time;
 
@@ -63,31 +65,27 @@ Battery.prototype.increaseBatteryUsage = function(time)
 
         this.spriteBar.frame = this.batteryUssage -1;
     }
-    else 
-        this.batteryUssage++;
+        
 }
 
 Battery.prototype.decreaseBatteryUsage = function(time) 
 {
-    if(this.batteryUssage > 1)
+
+    this.batteryUssage--;
+
+    if(this.batteryUssage >= 1 && this.batteryUssage < 4)
     {
-        this.batteryUssage--;
+        this.realTimeToChange = this.timeToChange - time;
 
-        if(this.batteryUssage <= 4)
-        {
-            this.realTimeToChange = this.timeToChange - time;
+        this.timeToChange = this.timeToChange - this.realTimeToChange + this.times[this.batteryUssage - 1] - ( this.times[this.batteryUssage] - this.realTimeToChange);
 
-            this.timeToChange = this.timeToChange - this.realTimeToChange + this.times[this.batteryUssage - 1] - ( this.times[this.batteryUssage] - this.realTimeToChange);
+        this.spriteBar.frame = this.batteryUssage - 1;
+    }
+    else 
+    {
+        this.realTimeToChange = this.timeToChange - time;
 
-            this.spriteBar.frame = this.batteryUssage - 1;
-        }
-        else
-        {
-            this.realTimeToChange = this.timeToChange - time;
-
-            this.timeToChange = this.timeToChange - this.realTimeToChange +  this.times[3] - (this.times[3] - this.realTimeToChange);
-        }
-        
+        this.timeToChange = this.timeToChange - this.realTimeToChange +  this.times[3] - (this.times[3] - this.realTimeToChange);
     }
 }
 
