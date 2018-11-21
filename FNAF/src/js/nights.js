@@ -1,12 +1,30 @@
 'use strict';
 
-Animatronics = require('./animatronics.js');
-
-function Night(phoneGuy)
+//meter phoneGuy
+function Night(numSprite, )
 {
     this._night = night;
-    this._phoneGuy = phoneGuy; //Array audios. Implementar cuando sepamos como funcionan los audios
-    //Freddy
+    this._hour;
+}
+Night.prototype.changeNight = function()
+{
+    this._night++;
+   /* this._Freddy.changeInfo(night);
+    this._Foxy.changeInfo(night);
+    this._Chica.changeInfo(night);
+    this._Bonnie.changeInfo(night);*/
+}
+Night.prototype.startNight = function()
+{
+    //Los animatronicos se "activan"
+}
+//Se veran si se añaden mas
+
+
+
+
+
+    /*//Freddy
     var pathFreddy = [];
     pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
     pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
@@ -14,7 +32,7 @@ function Night(phoneGuy)
     pathFreddy.push(new Room ('restroom', pathFreddy[3], null, null));
     pathFreddy.push(new Room ('kitchen', pathFreddy[4], null, null));
     pathFreddy.push(new Room ('eastHall', pathFreddy[5], null, null));
-    pathFreddy.push(new Room ('eHallCorner', null, null, null, /*Freddy.attack()*/));
+    pathFreddy.push(new Room ('eHallCorner', null, null, null, Freddy.attack()));
 
     this._Freddy = new Freddy('freddy', '', '', pathFreddy, 0, [[null, null], [null, null], [3, 4], [2, 3], [0, 1], [0, 0]], [[null, null], [null, null], [,], [,], [,], [,]]);
 
@@ -34,7 +52,7 @@ function Night(phoneGuy)
     pathChica.push (new Room ('restroom', pathChica[1], null, null));
     pathChica.push (new Room ('kitchen', pathChica[1], null, null));
     pathChica.push (new Room ('eastHall', pathChica[1], pathChica[5], null));
-    pathChica.push (new Room ('eHallCorner', pathChica[4], null, null, /*Chica.attack()*/));
+    pathChica.push (new Room ('eHallCorner', pathChica[4], null, null, Chica.attack()));
 
     this._Chica = new BonnieChica('chica', '', '', pathChica, 0, [[2, 3], [0, 3], [0, 1], [0, 2], [0, 1], [0, 0]], [[,], [,], [,], [,], [,], [,]]);
 
@@ -45,20 +63,6 @@ function Night(phoneGuy)
     pathBonnie.push(new Room ('backStage', pathBonnie[1], null, null));
     pathBonnie.push(new Room ('westHall', pathBonnie[1], pathBonnie[4], pathBonnie[5]));
     pathBonnie.push(new Room ('supplyCloset', pathBonnie[3], pathBonnie[5], null));
-    pathBonnie.push(new Room ('wHallCorner', pathBonnie[3], pathBonnie[4], null, /*Bonnie.attack()*/));
+    pathBonnie.push(new Room ('wHallCorner', pathBonnie[3], pathBonnie[4], null, Bonnie.attack());
 
-    this._Bonnie = new BonnieChica('bonnie', '', '', pathBonnie, 0, [[2, 2], [0, 1], [1, 2], [0, 1], [0, 1], [0, 0]], [[,], [,], [,], [,], [,], [,]]);
-}
-Night.prototype.changeNight = function(night)
-{
-    this._night = night;
-    this._Freddy.changeInfo(night);
-    this._Foxy.changeInfo(night);
-    this._Chica.changeInfo(night);
-    this._Bonnie.changeInfo(night);
-}
-Night.prototype.startNight = function()
-{
-    //Los animatronicos se "activan"
-}
-//Se veran si se añaden mas
+    this._Bonnie = new BonnieChica('bonnie', '', '', pathBonnie, 0, [[2, 2], [0, 1], [1, 2], [0, 1], [0, 1], [0, 0]], [[,], [,], [,], [,], [,], [,]]);*/

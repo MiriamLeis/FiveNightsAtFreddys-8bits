@@ -236,6 +236,12 @@ var GameScene =
         this.usageText.scale.setTo(0.6, 0.6);
 
         this.usageText.fixedToCamera = true;
+
+        //==========================================================NIGHTS========================================================================
+        //Noches
+        this.nigthsText = this.game.add.sprite(tamX - 70, 0, 'manyTexts', 3);
+        this.nigthsText.fixedToCamera = true;
+        //Horas
     },
 
     update: function () 
@@ -248,7 +254,7 @@ var GameScene =
                 this.lastPosOffice = this.game.camera.x = this.game.camera.x + 13;
         }
 
-        //---------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------
         
         //Puerta derecha
         if(this.doorRight.getActive() && !this.doorRCount)
