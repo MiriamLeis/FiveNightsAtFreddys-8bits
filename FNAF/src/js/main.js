@@ -78,7 +78,7 @@ var PreloaderScene =
     
     this.game.load.image('REC', './images/texts/REC.png');
     this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 364, 66, 11);
-    this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 264, 66, 4);
+    this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 264, 66, 5);
     this.game.load.spritesheet('numbers', './images/texts/numbers.png', 33, 66, 10);
   },
 

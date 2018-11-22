@@ -15,10 +15,13 @@ var GameScene =
 
     create: function () 
     {
+        
         var tamX = 792;
         var tamY = 594;
         this.game.world.resize(tamX * 13, tamY);
         this.game.camera.x = 396;
+        this.timeForHour = 90000;
+        this.realTimeToChange = this.timeForHour;
 
         this.inOffice = true;
         this.lastPosOffice = 396;
@@ -246,9 +249,14 @@ var GameScene =
 
         //==========================================================NIGHTS========================================================================
         //Noches
-        this.nigthsText = this.game.add.sprite(tamX - 70, 0, 'manyTexts', 3);
+        this.nigthsText = this.game.add.sprite(tamX - 140, 60, 'manyTexts', 4);
+        this.nigthsText.scale.setTo(0.7,0.7)
         this.nigthsText.fixedToCamera = true;
         //Horas
+        this.hourText = this.game.add.sprite(tamX - 80, 10, 'manyTexts', 3);
+        this.hourText.fixedToCamera = true;
+
+        this.night = new Night(this.game.add.sprite(tamX -145, 17, 'numbers'),this.game.add.sprite(tamX - 115, 17, 'numbers'),this.game.add.sprite(tamX - 50, 64, 'numbers') );
     },
 
     update: function () 
@@ -323,6 +331,13 @@ var GameScene =
             this.battery.decreaseBattery();
         }
 
+        console.log( this.timeForHour);
+        //Horas de la noche
+        if(this.game.time.now >this.realTimeToChange)
+        {
+            this.night.changeHour();
+            this.realTimeToChange = this.timeForHour + this.game.time.now;
+        }
     }
 
 }

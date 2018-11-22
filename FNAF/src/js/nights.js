@@ -1,14 +1,35 @@
 'use strict';
 
 //meter phoneGuy
-function Night(numSprite, )
+function Night(spriteDec,spriteU, numberNight)
 {
-    this._night = night;
-    this._hour;
+    this._night = 1;
+    this._hour = 0;
+    this._hourArr = [12,1,2,3,4,5,6];
+
+    this.spriteU = spriteU;
+    this.spriteDec = spriteDec;
+    this.spriteNight = numberNight;
+
+    this.spriteU.fixedToCamera = true;
+    this.spriteDec.fixedToCamera = true;
+    this.spriteNight.fixedToCamera = true;
+    
+    this.spriteU.frame = 2;
+    this.spriteDec.frame = 1;
+    this.spriteNight.frame = 1;
+
+    this.spriteU.scale.setTo(0.8, 0.8);
+    this.spriteDec.scale.setTo(0.8, 0.8);
+    this.spriteNight.scale.setTo(0.55,0.55);
+
+
+
 }
 Night.prototype.changeNight = function()
 {
     this._night++;
+    this.spriteNight.frame++;
    /* this._Freddy.changeInfo(night);
     this._Foxy.changeInfo(night);
     this._Chica.changeInfo(night);
@@ -17,6 +38,25 @@ Night.prototype.changeNight = function()
 Night.prototype.startNight = function()
 {
     //Los animatronicos se "activan"
+}
+
+Night.prototype.finishNight = function()
+{
+    this._night++;
+    this.spriteNight.frame = this._night;
+
+    this.spriteDec.alpha = 1;
+    this._hour = 0;
+    this.spriteU.frame = this._hourArr[2];
+}
+Night.prototype.changeHour = function()
+{
+    this.spriteDec.alpha = 0;
+    this._hour++;
+    this.spriteU.frame = this._hourArr[this._hour];
+
+    if(this._hour == 6)
+        this.finishNight();
 }
 //Se veran si se añaden mas
 
