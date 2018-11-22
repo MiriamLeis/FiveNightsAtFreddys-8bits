@@ -27,18 +27,18 @@ Animatronics.prototype.changeInfo = function(night)
 };
 
 //FreddyFoxy
-function FreddyFoxy(sprite,screamer,animation,path,posIni,hourIni,actTime)
+function FreddyFoxy(sprite, screamer, animation, posIni, hourIni, actTime)
 {
-    Animatronics.apply(this,[sprite,screamer,animation,path,posIni,hourIni,actTime]);
+    Animatronics.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
 };
 FreddyFoxy.prototype = Object.create(Animatronics.prototype);
 FreddyFoxy.prototype.constructor = FreddyFoxy;
 
 
 //BonnieChica
-function BonnieChica(sprite,screamer,animation,path,posIni,hourIni,actTime)
+function BonnieChica(sprite, screamer, animation, posIni, hourIni, actTime)
 {
-    Animatronics.apply(this,[sprite,screamer,animation,path,posIni,hourIni,actTime]);
+    Animatronics.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
@@ -47,9 +47,9 @@ BonnieChica.prototype.move = function(){};
 BonnieChica.prototype.attack = function(){};
 
 //Foxy
-function Foxy(sprite,screamer,animation,path,posIni,hourIni,actTime)
+function Foxy(sprite, screamer, animation, posIni, hourIni, actTime)
 {
-    FreddyFoxy.apply(this,[sprite,screamer,animation,path,posIni,hourIni,actTime]);
+    FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
 };
 Foxy.prototype = Object.create(FreddyFoxy.prototype);
 Foxy.prototype.constructor = Foxy;
@@ -58,9 +58,9 @@ Foxy.prototype.move = function(){};
 Foxy.prototype.attack = function(){};
 
 //Freddy
-function Freddy(sprite,screamer,animation,path,posIni,hourIni,actTime)
+function Freddy(sprite, screamer, animation, posIni, hourIni, actTime)
 {
-    FreddyFoxy.apply(this,[sprite,screamer,animation,path,posIni,hourIni,actTime]);
+    FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
 };
 Freddy.prototype = Object.create(FreddyFoxy.prototype);
 Freddy.prototype.constructor = Freddy;
