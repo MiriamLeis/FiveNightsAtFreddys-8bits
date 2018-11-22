@@ -47,26 +47,26 @@ function Light(game, posXButton, posYButton, posXLight, posYLight,sprite)
 {
     Interact.apply(this);
 
-    var light = game.add.sprite(posXLight, posYLight,sprite);
-    light.visible = false;
+    this.light = game.add.sprite(posXLight, posYLight,sprite);
+    this.light.visible = false;
 
-    var button = game.add.button(posXButton, posYButton, 'buttonLight', function(){this.actionOnClick(button, light)}, this);
+    this.button = game.add.button(posXButton, posYButton, 'buttonLight', function(){this.turnOff()}, this);
 };
 
 Light.prototype = Object.create(Interact.prototype);
 Light.prototype.constructor = Light;
-Light.prototype.actionOnClick = function(button, light) 
+Light.prototype.turnOff = function() 
 {
     this.changeActive();
     if(this._active)
     {
-        button.frame = 1;
-        light.visible = true;
+        this.button.frame = 1;
+        this.light.visible = true;
     }
     else
     {
-        button.frame = 0;
-        light.visible = false;
+        this.button.frame = 0;
+        this.light.visible = false;
     }
 }
 
