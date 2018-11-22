@@ -49,14 +49,17 @@ Night.prototype.finishNight = function()
     this._hour = 0;
     this.spriteU.frame = this._hourArr[2];
 }
-Night.prototype.changeHour = function()
+Night.prototype.changeHour = function(battery)
 {
     this.spriteDec.alpha = 0;
     this._hour++;
     this.spriteU.frame = this._hourArr[this._hour];
 
     if(this._hour == 6)
+    {
         this.finishNight();
+        battery.reset();
+    }
 }
 //Se veran si se añaden mas
 

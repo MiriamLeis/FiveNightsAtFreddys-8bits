@@ -103,6 +103,14 @@ var GameScene =
         addCamera(Rooms.cameraPositions.WHallCorner, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.PirateCove, tamX, tamY, 1.5);
 
+        //Draw animatronics
+        this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
+        this.freddy.scale.setTo(1.5, 1.5);
+        this.bonnie = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 300, 240, 'bonnie');
+        this.bonnie.scale.setTo(1.5, 1.5);
+        this.chica = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 450, 240, 'chica');
+        this.chica.scale.setTo(1.5, 1.5);
+
         //Texto de las camaras
         this.camerasTexts = this.game.add.sprite(tamX - 190, tamY - 250, 'camerasTexts');
         this.camerasTexts.scale.setTo(0.5, 0.5);
@@ -252,6 +260,7 @@ var GameScene =
         this.nigthsText = this.game.add.sprite(tamX - 140, 60, 'manyTexts', 4);
         this.nigthsText.scale.setTo(0.7,0.7)
         this.nigthsText.fixedToCamera = true;
+
         //Horas
         this.hourText = this.game.add.sprite(tamX - 80, 10, 'manyTexts', 3);
         this.hourText.fixedToCamera = true;
@@ -331,11 +340,12 @@ var GameScene =
             this.battery.decreaseBattery();
         }
 
-        console.log( this.timeForHour);
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        
         //Horas de la noche
         if(this.game.time.now >this.realTimeToChange)
         {
-            this.night.changeHour();
+            this.night.changeHour(this.battery); //cuando hagamos la escena de win de la noche posiblemente lo quitemos
             this.realTimeToChange = this.timeForHour + this.game.time.now;
         }
     }

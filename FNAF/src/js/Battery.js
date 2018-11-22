@@ -106,3 +106,12 @@ Battery.prototype.decreaseBattery = function()
     else if (this.restBattery == 0)
         this.spriteU.frame = 0;
 }
+
+Battery.prototype.reset = function()
+{
+    this.restBattery = 100;
+    //his.batteryUssage = 1;
+    this.spriteCent.frame = 1;
+    this.spriteDec.frame = 0;
+    this.spriteU.frame = 0;
+}
