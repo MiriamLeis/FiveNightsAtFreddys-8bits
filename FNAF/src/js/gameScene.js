@@ -170,6 +170,13 @@ var GameScene =
                 this.RECPoint.alpha = 1;
                 this.map.alpha = 1;
                 this.camerasTexts.alpha = 1;
+                
+                if(this.lightRight.getActive())
+                    this.lightRight.turnOff();
+
+                if(this.lightLeft.getActive())
+                    this.lightLeft.turnOff();   
+                    
                 this.monitor.Input();
 
 
@@ -246,12 +253,18 @@ var GameScene =
 
     update: function () 
     {
-        if (this.inOffice) 
+        if (this.moveLeft.input.pointerOver())
         {
-            if (this.moveLeft.input.pointerOver())
-                this.lastPosOffice = this.game.camera.x = this.game.camera.x - 13;
-            else if (this.moveRight.input.pointerOver() && this.game.camera.x < 781)
-                this.lastPosOffice = this.game.camera.x = this.game.camera.x + 13;
+            this.lastPosOffice = this.game.camera.x = this.game.camera.x - 13;
+            if(this.game.camera.x < 1 && this.lightRight.getActive())
+                this.lightRight.turnOff();
+
+        }
+        else if (this.moveRight.input.pointerOver() && this.game.camera.x < 781)
+        {
+            this.lastPosOffice = this.game.camera.x = this.game.camera.x + 13;
+            if(this.game.camera.x > 780 && this.lightLeft.getActive())
+                this.lightLeft.turnOff();
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------
