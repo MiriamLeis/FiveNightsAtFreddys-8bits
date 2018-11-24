@@ -1,52 +1,75 @@
 //Clase Animatronicos
-function Animatronics(game,sprite,screamer,animation,path,posIni,hourIni,actTime)//Añadir Game?
+function Animatronics(sprite, screamer, path, hours, actTime)
 {
-    Phaser.Sprite.apply(this,game,sprite)
+    //Phaser.Sprite.apply(this,game,sprite)
     //this.add.child(....) // buscarlo que no es así (puede que no queráis eso)
+
+    this._sprite = sprite;
+    this._sprite.scale.setTo(1.5, 1.5);
+
     this._screamer = screamer;
-    this._animation = animation;
+    this._screamer.scale.setTo(2.5, 2.5);
+    this._screamer.alpha = 0;
+    this._screamer.fixedToCamera = true;
+
     this._path = path; //Array de functions
-    this._pos = posIni;
-    this._hourIni = hourIni;//Array de noches con las horas de inicio
-    this._punHourIni = null;//Puntero a la hora en actTime
+    this._pos = this._path[0];
+    this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
+
+    this._hours = hours;
+    this._hoursIni = this._hours[0];//Array de noches con las horas de inicio
+
     this._actTime = actTime; //Array de noches con los parametros de actIni y actFin
-    this._punActTime = null;//Puntero a la noche en actTime
+    this._actualActTime = actTime[0];
 };
 
 Animatronics.prototype = Object.create(Phaser.Sprite.prototype);
 Animatronics.prototype.constructor = Animatronics;
 
+Animatronics.prototype.activateAnim = function()
+{//MIRAR
+    this._sprite.animations.add('animation');
+    this._sprite.animations.play('animation', 10, true);
+};
 Animatronics.prototype.showScreamer = function()
 {
-    
+    this._screamer.alpha = 1;
 };
 Animatronics.prototype.changeInfo = function(night)
 {
-    this._punActTime = this._actTime[night];
-    this._punHourIni = this._hourIni[night];
+    this._pos = this._path[0];
+    this._hoursIni = this._hours[night];
+    this._actualActTime = this._actTime[night];
 };
 
 //FreddyFoxy
-function FreddyFoxy(sprite, screamer, animation, posIni, hourIni, actTime)
+function FreddyFoxy(sprite, screamer, posIni, hour, actTime)
 {
-    Animatronics.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
+    Animatronics.apply(this,[sprite, screamer, path, hourIni, actTime]);
 };
 FreddyFoxy.prototype = Object.create(Animatronics.prototype);
 FreddyFoxy.prototype.constructor = FreddyFoxy;
 
 
 //BonnieChica
-function BonnieChica(sprite, screamer, animation, posIni, hourIni, actTime)
+function BonnieChica(sprite, screamer, path, hour, actTime)
 {
-    Animatronics.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
+    Animatronics.apply(this,[sprite, screamer, path, hour, actTime]);
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
 
-BonnieChica.prototype.move = function(){};
+BonnieChica.prototype.move = function()
+{
+    
+};
 BonnieChica.prototype.attack = function(){};
 
-//Foxy
+
+
+
+
+//---------------------Foxy-------------------------//
 function Foxy(sprite, screamer, animation, posIni, hourIni, actTime)
 {
     FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
@@ -57,7 +80,9 @@ Foxy.prototype.constructor = Foxy;
 Foxy.prototype.move = function(){};
 Foxy.prototype.attack = function(){};
 
-//Freddy
+
+
+//---------------------Freddy-------------------------//
 function Freddy(sprite, screamer, animation, posIni, hourIni, actTime)
 {
     FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
@@ -69,13 +94,76 @@ Freddy.prototype.move = function(){};
 Freddy.prototype.attack = function(){};
 
 
-function Room(name,room1,room2,room3, attack = null)
+
+//---------------------Bonnie-------------------------//
+function Bonnie(sprite, screamer)
 {
+    /*var path = [];
+    path.push(new Room ('showStage', 1, null, null));
+    path.push(new Room ('diningRoom', 2, path[3], null));
+    path.push(new Room ('backStage', path[1], null, null));
+    path.push(new Room ('westHall', path[1], path[4], path[5]));
+    path.push(new Room ('supplyCloset', path[3], path[5], null));
+    path.push(new Room ('wHallCorner', path[3], path[4], null, this.attack()));*/
+
+    /*this.hour =  [];
+    this.hour.push({min: 2, max: 2});
+    this.hour.push({min: 0, max: 1});
+    this.hour.push({min: 1, max: 2});
+    this.hour.push({min: 0, max: 1});
+    this.hour.push({min: 0, max: 1});
+    this.hour.push({min: 0, max: 0});
+
+    this.actTime = [];
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});*/
+    var tamX = 792;
+    var tamY = 594;
+    BonnieChica.apply(this,[sprite, screamer,
+                        //ruta
+                        [new Room ((792 * 2) + 300, 240, 'showStage', 1, null, null), new Room ((792 * 3), 0, 'diningRoom', 2, 3, null), 
+                        new Room ((792 * 4), 0, 'backStage', 1, null, null), new Room ((792 * 10), 0, 'westHall', 1, 4, 5),
+                        new Room ((792 * 8), 0, 'supplyCloset', 3, 5, null), new Room ((792 * 11), 0, 'wHallCorner', 3, 4, null, this.attack())],
+                        //rango de horas de activacion
+                        [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1, max: 2}, {min: 0, max: 1}, {min: 0, max: 1}, {min: 0, max: 0}],
+                        //rango de segundos de movimiento
+                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}]]);
+}
+Bonnie.prototype = Object.create(BonnieChica.prototype);
+Bonnie.prototype.constructor = Bonnie;
+
+
+
+//---------------------Chica-------------------------//
+function Chica(sprite, screamer, animation, posIni, hourIni, actTime)
+{
+    BonnieChica.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
+}
+Chica.prototype = Object.create(BonnieChica.prototype);
+Chica.prototype.constructor = Chica;
+
+
+
+
+
+
+
+
+//CREACION RUTAS
+function Room(x, y, name, room1, room2, room3, attack = null)
+{
+    this._x = x;
+    this._y = y;
     this._name = name;
+
     if (room1 != null)
     {
         this._room1 = room1;
-        this._number =1;
+        this._number = 1;
 
         if(room2 != null)
         {
@@ -91,8 +179,8 @@ function Room(name,room1,room2,room3, attack = null)
     }
 
     if (attack != null)
-        {
-            this._number++;
-            this._attack = attack;
-        }
+    {
+        this._number++;
+        this._attack = attack;
+    }
 }

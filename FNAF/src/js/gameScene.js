@@ -103,14 +103,6 @@ var GameScene =
         addCamera(Rooms.cameraPositions.WHallCorner, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.PirateCove, tamX, tamY, 1.5);
 
-        //Draw animatronics
-        this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
-        this.freddy.scale.setTo(1.5, 1.5);
-        this.bonnie = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 300, 240, 'bonnie');
-        this.bonnie.scale.setTo(1.5, 1.5);
-        this.chica = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 450, 240, 'chica');
-        this.chica.scale.setTo(1.5, 1.5);
-
         //Texto de las camaras
         this.camerasTexts = this.game.add.sprite(tamX - 190, tamY - 250, 'camerasTexts');
         this.camerasTexts.scale.setTo(0.5, 0.5);
@@ -136,14 +128,6 @@ var GameScene =
         //Draw map buttons
         this.monitor = new InsideMonitor(this.game, Rooms, this.camerasTexts);
 
-        //Static effect
-        this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
-        this.staticEffect.alpha = 0.2;
-        this.staticEffect.animations.add('startEffect');
-        this.staticEffect.animations.play('startEffect', 10, true);
-
-        this.staticEffect.fixedToCamera = true;
-
 
         //=====================================================OFFICE========================================================================
 
@@ -166,7 +150,28 @@ var GameScene =
         this.moveRight.fixedToCamera = true;
         this.moveLeft.fixedToCamera = true;
 
-        //Change Monitor/Office
+
+        //===================================================ANIMATRONICS=================================================================
+
+        //Bonnie
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerBonnie'));
+
+        //Draw animatronics
+        this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
+        this.freddy.scale.setTo(1.5, 1.5);
+        this.chica = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 450, 240, 'chica');
+        this.chica.scale.setTo(1.5, 1.5);
+
+        //===============================================STATIC EFFECT MONITOR=============================================================
+
+        this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
+        this.staticEffect.alpha = 0.2;
+        this.staticEffect.animations.add('startEffect');
+        this.staticEffect.animations.play('startEffect', 10, true);
+
+        this.staticEffect.fixedToCamera = true;
+
+        //=================================================CHANGE MONITOR/CAMERA=============================================================
 
         this.changeView = this.game.add.button(800 / 2 - 316.8 / 2, 600 - 66 - 10, 'buttonMonitor', function () 
         { 

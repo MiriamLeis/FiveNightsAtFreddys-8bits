@@ -1,8 +1,9 @@
 'use strict';
 
 //meter phoneGuy
-function Night(spriteDec,spriteU, numberNight)
+function Night(spriteDec, spriteU, numberNight)
 {
+    //Control del paso de hora y noches
     this._night = 1;
     this._hour = 0;
     this._hourArr = [12,1,2,3,4,5,6];
@@ -22,22 +23,19 @@ function Night(spriteDec,spriteU, numberNight)
     this.spriteU.scale.setTo(0.8, 0.8);
     this.spriteDec.scale.setTo(0.8, 0.8);
     this.spriteNight.scale.setTo(0.55,0.55);
-
-
-
 }
-Night.prototype.changeNight = function()
+Night.prototype.changeNight = function(freddy, chica, bonnie, /*foxy*/)
 {
     this._night++;
     this.spriteNight.frame++;
-   /* this._Freddy.changeInfo(night);
-    this._Foxy.changeInfo(night);
-    this._Chica.changeInfo(night);
-    this._Bonnie.changeInfo(night);*/
+    freddy.changeInfo(night);
+    chica.changeInfo(night);
+    bonnie.changeInfo(night);
+    //foxy.changeInfo(night);
 }
 Night.prototype.startNight = function()
 {
-    //Los animatronicos se "activan"
+    //animacion hora al terminar
 }
 
 Night.prototype.finishNight = function()
