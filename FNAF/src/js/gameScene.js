@@ -115,17 +115,13 @@ var GameScene =
 
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerBonnie'));
-        this.bonnie.move(this.game);
 
         //Chica
-        /*this.chica = new Bonnie(this.game.add.sprite(0, 0, 'chica'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerChica'));
-        this.chica.move(this.game);*/
+        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerChica'));
 
         //Draw animatronics
         this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
         this.freddy.scale.setTo(1.5, 1.5);
-        this.chica = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 450, 240, 'chica');
-        this.chica.scale.setTo(1.5, 1.5);
 
         //===============================================STATIC EFFECT MONITOR=============================================================
 
@@ -135,7 +131,13 @@ var GameScene =
 
         this.staticEffect.fixedToCamera = true;
 
-        //=====================================================MONITOR========================================================================
+        //===================================================ANIMATRONICS MOVE===========================================================
+
+        this.bonnie.move(this.game/*, this.staticEffect*/);
+
+        //this.chica.move(this.game);
+
+        //=====================================================MONITOR=====================================================================
 
         //Draw edge
         this.mapEdge = this.game.add.image(0, 0, 'edge');

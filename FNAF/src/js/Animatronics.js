@@ -1,4 +1,4 @@
-//Clase Animatronicos
+//--------------------Clase Animatronicos
 function Animatronics(sprite, screamer, path, hours, actTime)
 {
     //Phaser.Sprite.apply(this,game,sprite)
@@ -42,8 +42,13 @@ Animatronics.prototype.changeInfo = function(night)
     this._hoursIni = this._hours[night];
     this._actualActTime = this._actTime[night];
 };
+Animatronics.prototype.moveEffect = function(game, staticEffect)
+{  
+    staticEffect.alpha = 1;
+    game.time.events.add(3000, function(){staticEffect.alpha = 0.1}, this)
+};
 
-//FreddyFoxy
+//-----------------FreddyFoxy
 function FreddyFoxy(sprite, screamer, posIni, hour, actTime)
 {
     Animatronics.apply(this,[sprite, screamer, path, hourIni, actTime]);
@@ -52,7 +57,7 @@ FreddyFoxy.prototype = Object.create(Animatronics.prototype);
 FreddyFoxy.prototype.constructor = FreddyFoxy;
 
 
-//BonnieChica
+//----------------BonnieChica
 function BonnieChica(sprite, screamer, path, hour, actTime)
 {
     Animatronics.apply(this,[sprite, screamer, path, hour, actTime]);
@@ -60,7 +65,7 @@ function BonnieChica(sprite, screamer, path, hour, actTime)
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
 
-BonnieChica.prototype.move = function(game)
+BonnieChica.prototype.move = function(game/*, staticEffect*/)
 {
     //Tiempo para moverse
     var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);
@@ -69,7 +74,9 @@ BonnieChica.prototype.move = function(game)
     //Cambiar el pos del animatronico
     game.time.events.add(timeToMove, function()
     {
+        //this.moveEffect(game, staticEffect);
         this._sprite.frame = 0;
+
         if (this._pos._number == 2)
         {
             var percentage = Math.floor(Math.random() * (101 - 0));
@@ -94,7 +101,6 @@ BonnieChica.prototype.move = function(game)
             this._pos = this._path[this._pos._room1];
 
         this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
-
         this.move(game);
     }, this);
 };
@@ -133,29 +139,6 @@ Freddy.prototype.attack = function(){};
 //---------------------Bonnie-------------------------//
 function Bonnie(sprite, screamer)
 {
-    /*var path = [];
-    path.push(new Room ('showStage', 1, null, null));
-    path.push(new Room ('diningRoom', 2, path[3], null));
-    path.push(new Room ('backStage', 1, null, null));
-    path.push(new Room ('westHall', 1, 4, path[5]));
-    path.push(new Room ('supplyCloset', path[3], path[5], null));
-    path.push(new Room ('wHallCorner', path[3], path[4], null, this.attack()));*/
-
-    /*this.hour =  [];
-    this.hour.push({min: 2, max: 2});
-    this.hour.push({min: 0, max: 1});
-    this.hour.push({min: 1, max: 2});
-    this.hour.push({min: 0, max: 1});
-    this.hour.push({min: 0, max: 1});
-    this.hour.push({min: 0, max: 0});
-
-    this.actTime = [];
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});*/
     BonnieChica.apply(this,[sprite, screamer,
                         //ruta
                         [new Room ((792 * 2) + 300, 240, 'showStage', 1, null, null), 
@@ -177,11 +160,21 @@ Bonnie.prototype.constructor = Bonnie;
 //---------------------Chica-------------------------//
 function Chica(sprite, screamer, animation, posIni, hourIni, actTime)
 {
-    BonnieChica.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
+    BonnieChica.apply(this,[sprite, screamer,
+                        //ruta
+                        [new Room ((792 * 2) + 450, 240, 'showStage', 1, null, null), 
+                        new Room ((792 * 3) + 375, 340, 'diningRoom', 2, 3, 4), 
+                        new Room ((792 * 5) + 400, 200, 'restroom', 1, null, null), 
+                        new Room ((792 * 6) + 375, 594 + 66, 'kitchen', 1, null, null),
+                        new Room ((792 * 7) + 365, 280, 'eastHall', 1, 5, null), 
+                        new Room ((792 * 9) + 350, 300, 'eHallCorner', 4, null, null, this.attack())],
+                        //rango de horas de activacion
+                        [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
+                        //rango de segundos de movimiento
+                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}]]);
 }
 Chica.prototype = Object.create(BonnieChica.prototype);
 Chica.prototype.constructor = Chica;
-
 
 
 
