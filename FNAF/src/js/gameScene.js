@@ -115,6 +115,11 @@ var GameScene =
 
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerBonnie'));
+        this.bonnie.move(this.game);
+
+        //Chica
+        /*this.chica = new Bonnie(this.game.add.sprite(0, 0, 'chica'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerChica'));
+        this.chica.move(this.game);*/
 
         //Draw animatronics
         this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
@@ -261,8 +266,6 @@ var GameScene =
         this.hourText.fixedToCamera = true;
 
         this.night = new Night(this.game.add.sprite(tamX -145, 17, 'numbers'),this.game.add.sprite(tamX - 115, 17, 'numbers'),this.game.add.sprite(tamX - 50, 64, 'numbers') );
-    
-        //this.bonnie.move(this.game);
     },
 
     update: function () 

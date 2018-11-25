@@ -6,6 +6,7 @@ function Animatronics(sprite, screamer, path, hours, actTime)
 
     this._sprite = sprite;
     this._sprite.scale.setTo(1.5, 1.5);
+    this._sprite.frame = 2;
 
     this._screamer = screamer;
     this._screamer.scale.setTo(2.5, 2.5);
@@ -68,6 +69,7 @@ BonnieChica.prototype.move = function(game)
     //Cambiar el pos del animatronico
     game.time.events.add(timeToMove, function()
     {
+        this._sprite.frame = 0;
         if (this._pos._number == 2)
         {
             var percentage = Math.floor(Math.random() * (101 - 0));
