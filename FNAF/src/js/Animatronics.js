@@ -59,9 +59,42 @@ function BonnieChica(sprite, screamer, path, hour, actTime)
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
 
-BonnieChica.prototype.move = function()
+BonnieChica.prototype.move = function(game)
 {
-    
+    //Tiempo para moverse
+    var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);
+    console.log(timeToMove);
+
+    //Cambiar el pos del animatronico
+    game.time.events.add(timeToMove, function()
+    {
+        if (this._pos._number == 2)
+        {
+            var percentage = Math.floor(Math.random() * (101 - 0));
+
+            if (percentage > 40)
+                this._pos = this._path[this._pos._room2];
+            else
+                this._pos = this._path[this._pos._room1];
+        }
+        else if (this._pos._number == 3)
+        {
+            var percentage = Math.floor(Math.random() * (101 - 0));
+
+            if (percentage > 50)
+                this._pos = this._path[this._pos._room3];
+            else if (percentage > 25)
+                this._pos = this._path[this._pos._room2];
+            else
+                this._pos = this._path[this._pos._room1];
+        }
+        else
+            this._pos = this._path[this._pos._room1];
+
+        this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
+
+        this.move(game);
+    }, this);
 };
 BonnieChica.prototype.attack = function(){};
 
@@ -101,8 +134,8 @@ function Bonnie(sprite, screamer)
     /*var path = [];
     path.push(new Room ('showStage', 1, null, null));
     path.push(new Room ('diningRoom', 2, path[3], null));
-    path.push(new Room ('backStage', path[1], null, null));
-    path.push(new Room ('westHall', path[1], path[4], path[5]));
+    path.push(new Room ('backStage', 1, null, null));
+    path.push(new Room ('westHall', 1, 4, path[5]));
     path.push(new Room ('supplyCloset', path[3], path[5], null));
     path.push(new Room ('wHallCorner', path[3], path[4], null, this.attack()));*/
 
@@ -121,13 +154,14 @@ function Bonnie(sprite, screamer)
     this.actTime.push({min: 5, max: 10});
     this.actTime.push({min: 5, max: 10});
     this.actTime.push({min: 5, max: 10});*/
-    var tamX = 792;
-    var tamY = 594;
     BonnieChica.apply(this,[sprite, screamer,
                         //ruta
-                        [new Room ((792 * 2) + 300, 240, 'showStage', 1, null, null), new Room ((792 * 3), 0, 'diningRoom', 2, 3, null), 
-                        new Room ((792 * 4), 0, 'backStage', 1, null, null), new Room ((792 * 10), 0, 'westHall', 1, 4, 5),
-                        new Room ((792 * 8), 0, 'supplyCloset', 3, 5, null), new Room ((792 * 11), 0, 'wHallCorner', 3, 4, null, this.attack())],
+                        [new Room ((792 * 2) + 300, 240, 'showStage', 1, null, null), 
+                        new Room ((792 * 3) + 375, 340, 'diningRoom', 2, 3, null), 
+                        new Room ((792 * 4) + 450, 310, 'backStage', 1, null, null), 
+                        new Room ((792 * 10) + 375, 330, 'westHall', 1, 4, 5),
+                        new Room ((792 * 8) + 365, 280, 'supplyCloset', 3, 5, null), 
+                        new Room ((792 * 11) + 375, 280, 'wHallCorner', 3, 4, null, this.attack())],
                         //rango de horas de activacion
                         [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1, max: 2}, {min: 0, max: 1}, {min: 0, max: 1}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
@@ -167,7 +201,7 @@ function Room(x, y, name, room1, room2, room3, attack = null)
 
         if(room2 != null)
         {
-            this.room2 = room2;
+            this._room2 = room2;
             this._number++;
             
             if (room3 != null)

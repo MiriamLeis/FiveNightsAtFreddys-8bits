@@ -44,16 +44,28 @@ var GameScene =
         this.lightLCount = false;
 
 
+        //=====================================================OFFICE========================================================================
 
 
-        //=============================================================================================================================
-        //Variables que se cambian cuando vas a office: mapEdge, staticEffect, REC, RECPoint, map
+        var office = this.game.add.sprite(0, 0, 'office');
 
-        //Variables que se cambian cuando vas a cameras: moveLeft, moveRight
+        //Door and light buttons
+        this.lightLeft = new Light(this.game, 157, 274, 34, 94, 'leftLight');
+        this.lightRight = new Light(this.game, 51.5 * 4 + tamX + tamX / 2, 274, 92 + tamX + tamX / 3, 94, 'rightLight');
+
+        this.doorLeft = new Door(this.game, 157, 220, 185, 78);
+        this.doorRight = new Door(this.game, tamX + 301 * 2, 220, tamX + 173 * 2, 78);
+
+        //Side edges
+        this.moveLeft = this.game.add.sprite(0, 0, 'sideEdge');
+        this.moveLeft.inputEnabled = true;
+        this.moveRight = this.game.add.sprite(792 - 45, 0, 'sideEdge');
+        this.moveRight.inputEnabled = true;
+
+        this.moveRight.fixedToCamera = true;
+        this.moveLeft.fixedToCamera = true;
+
         //=====================================================CAMERAS========================================================================
-
-
-
 
         var ShowStage = 'ShowStage';
         var DinningRoom = 'DinningRoom';
@@ -86,10 +98,6 @@ var GameScene =
             }
         }
 
-        //Draw edge
-        this.mapEdge = this.game.add.image(0, 0, 'edge');
-        this.mapEdge.fixedToCamera = true;
-
         //Draw cameras
         addCamera(Rooms.cameraPositions.ShowStage, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.DinningRoom, tamX, tamY, 1.5);
@@ -102,6 +110,31 @@ var GameScene =
         addCamera(Rooms.cameraPositions.WestHall, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.WHallCorner, tamX, tamY, 1.5);
         addCamera(Rooms.cameraPositions.PirateCove, tamX, tamY, 1.5);
+
+        //===================================================ANIMATRONICS=================================================================
+
+        //Bonnie
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerBonnie'));
+
+        //Draw animatronics
+        this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
+        this.freddy.scale.setTo(1.5, 1.5);
+        this.chica = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 450, 240, 'chica');
+        this.chica.scale.setTo(1.5, 1.5);
+
+        //===============================================STATIC EFFECT MONITOR=============================================================
+
+        this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
+        this.staticEffect.animations.add('startEffect');
+        this.staticEffect.animations.play('startEffect', 10, true);
+
+        this.staticEffect.fixedToCamera = true;
+
+        //=====================================================MONITOR========================================================================
+
+        //Draw edge
+        this.mapEdge = this.game.add.image(0, 0, 'edge');
+        this.mapEdge.fixedToCamera = true;
 
         //Texto de las camaras
         this.camerasTexts = this.game.add.sprite(tamX - 190, tamY - 250, 'camerasTexts');
@@ -128,48 +161,26 @@ var GameScene =
         //Draw map buttons
         this.monitor = new InsideMonitor(this.game, Rooms, this.camerasTexts);
 
+        //==========================================================BATTERY========================================================================
 
-        //=====================================================OFFICE========================================================================
+        //Porcentaje
+        this.powerLeftText = this.game.add.sprite(20, 490, 'manyTexts', 1)
+        this.powerLeftText.scale.setTo(0.6, 0.6);
+        this.percentageText = this.game.add.sprite(this.powerLeftText.width + 79, 490, 'manyTexts', 2);
+        this.percentageText.scale.setTo(0.6, 0.6);
 
+        this.powerLeftText.fixedToCamera = true;
+        this.percentageText.fixedToCamera = true;
 
-        var office = this.game.add.sprite(0, 0, 'office');
+        //Barritas
+        this.battery = new Battery(this.game.add.sprite(100, 525, 'battery'),
+                                    this.game.add.sprite(this.powerLeftText.width + 10, 490, 'numbers'),
+                                    this.game.add.sprite(this.powerLeftText.width + 33, 490, 'numbers'),
+                                    this.game.add.sprite(this.powerLeftText.width + 56, 490, 'numbers'));
+        this.usageText = this.game.add.sprite(20, 530, 'manyTexts')
+        this.usageText.scale.setTo(0.6, 0.6);
 
-        //Door and light buttons
-        this.lightLeft = new Light(this.game, 157, 274, 34, 94, 'leftLight');
-        this.lightRight = new Light(this.game, 51.5 * 4 + tamX + tamX / 2, 274, 92 + tamX + tamX / 3, 94, 'rightLight');
-
-        this.doorLeft = new Door(this.game, 157, 220, 185, 78);
-        this.doorRight = new Door(this.game, tamX + 301 * 2, 220, tamX + 173 * 2, 78);
-
-        //Side edges
-        this.moveLeft = this.game.add.sprite(0, 0, 'sideEdge');
-        this.moveLeft.inputEnabled = true;
-        this.moveRight = this.game.add.sprite(792 - 45, 0, 'sideEdge');
-        this.moveRight.inputEnabled = true;
-
-        this.moveRight.fixedToCamera = true;
-        this.moveLeft.fixedToCamera = true;
-
-
-        //===================================================ANIMATRONICS=================================================================
-
-        //Bonnie
-        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerBonnie'));
-
-        //Draw animatronics
-        this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
-        this.freddy.scale.setTo(1.5, 1.5);
-        this.chica = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 450, 240, 'chica');
-        this.chica.scale.setTo(1.5, 1.5);
-
-        //===============================================STATIC EFFECT MONITOR=============================================================
-
-        this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
-        this.staticEffect.alpha = 0.2;
-        this.staticEffect.animations.add('startEffect');
-        this.staticEffect.animations.play('startEffect', 10, true);
-
-        this.staticEffect.fixedToCamera = true;
+        this.usageText.fixedToCamera = true;
 
         //=================================================CHANGE MONITOR/CAMERA=============================================================
 
@@ -239,27 +250,6 @@ var GameScene =
         this.moveRight.inputEnabled = true;
         this.moveLeft.inputEnabled = true;
 
-        //==========================================================BATTERY========================================================================
-
-        //Porcentaje
-        this.powerLeftText = this.game.add.sprite(20, 490, 'manyTexts', 1)
-        this.powerLeftText.scale.setTo(0.6, 0.6);
-        this.percentageText = this.game.add.sprite(this.powerLeftText.width + 79, 490, 'manyTexts', 2);
-        this.percentageText.scale.setTo(0.6, 0.6);
-
-        this.powerLeftText.fixedToCamera = true;
-        this.percentageText.fixedToCamera = true;
-
-        //Barritas
-        this.battery = new Battery(this.game.add.sprite(100, 525, 'battery'),
-                                    this.game.add.sprite(this.powerLeftText.width + 10, 490, 'numbers'),
-                                    this.game.add.sprite(this.powerLeftText.width + 33, 490, 'numbers'),
-                                    this.game.add.sprite(this.powerLeftText.width + 56, 490, 'numbers'));
-        this.usageText = this.game.add.sprite(20, 530, 'manyTexts')
-        this.usageText.scale.setTo(0.6, 0.6);
-
-        this.usageText.fixedToCamera = true;
-
         //==========================================================NIGHTS========================================================================
         //Noches
         this.nigthsText = this.game.add.sprite(tamX - 140, 60, 'manyTexts', 4);
@@ -271,6 +261,8 @@ var GameScene =
         this.hourText.fixedToCamera = true;
 
         this.night = new Night(this.game.add.sprite(tamX -145, 17, 'numbers'),this.game.add.sprite(tamX - 115, 17, 'numbers'),this.game.add.sprite(tamX - 50, 64, 'numbers') );
+    
+        //this.bonnie.move(this.game);
     },
 
     update: function () 
