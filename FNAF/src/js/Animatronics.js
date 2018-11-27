@@ -62,9 +62,19 @@ FreddyFoxy.prototype.constructor = FreddyFoxy;
 function BonnieChica(sprite, screamer, path, hour, actTime)
 {
     Animatronics.apply(this,[sprite, screamer, path, hour, actTime]);
+    this.dinningRoom = false;
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
+
+BonnieChica.prototype.dinningRoomTrue = function()
+{
+    this.dinningRoom = true;
+}
+BonnieChica.prototype.dinningRoomFalse = function()
+{
+    this.dinningRoom = false;
+}
 
 BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
 {
@@ -82,26 +92,88 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
         {
             var percentage = Math.floor(Math.random() * (101 - 0));
 
-            if (percentage > 40 && otherAnimatronic.getPos() != this._path[this._pos._room2])
-                this._pos = this._path[this._pos._room2];
-            else if (otherAnimatronic.getPos() != this._path[this._pos._room1])
+            if (percentage > 40)
+            {
+                if(this._path[this._pos._room2]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomTrue()
+                }
+                else if (this._path[this._pos._room2]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomFalse()
+                }
+            }
+            
+            else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
                 this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+            }
         }
         else if (this._pos._number == 3)
         {
             var percentage = Math.floor(Math.random() * (101 - 0));
 
-            if (percentage > 50 && otherAnimatronic.getPos() != this._path[this._pos._room3])
-                this._pos = this._path[this._pos._room3];
-            else if (percentage > 25 && otherAnimatronic.getPos() != this._path[this._pos._room2])
-                this._pos = this._path[this._pos._room2];
-            else if (otherAnimatronic.getPos() != this._path[this._pos._room1])
+            if (percentage > 50)
+            {
+
+                if(this._path[this._pos._room3]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room3];
+                    this.dinningRoomTrue()
+                }
+                else if (this._path[this._pos._room3]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room3];
+                    this.dinningRoomFalse()
+                }
+            }
+            else if (percentage > 25)
+            {
+                if(this._path[this._pos._room2]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomTrue()
+                }
+                else if (this._path[this._pos._room2]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomFalse()
+                }
+            }
+            else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
                 this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+            }
         }
         else
-            if (otherAnimatronic.getPos() != this._path[this._pos._room1])
+        {
+            if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
                 this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+            }
 
+        }
+        console.log(this._pos._name)
         this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
         this.move(game, otherAnimatronic);
     }, this);
