@@ -27,6 +27,7 @@ function Animatronics(sprite, screamer, path, hours, actTime)
 Animatronics.prototype = Object.create(Phaser.Sprite.prototype);
 Animatronics.prototype.constructor = Animatronics;
 
+Animatronics.prototype.getPos = function() {return this._pos;};
 Animatronics.prototype.activateAnim = function()
 {//MIRAR
     this._sprite.animations.add('animation');
@@ -65,7 +66,7 @@ function BonnieChica(sprite, screamer, path, hour, actTime)
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
 
-BonnieChica.prototype.move = function(game/*, staticEffect*/)
+BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
 {
     //Tiempo para moverse
     var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);
@@ -81,27 +82,28 @@ BonnieChica.prototype.move = function(game/*, staticEffect*/)
         {
             var percentage = Math.floor(Math.random() * (101 - 0));
 
-            if (percentage > 40)
+            if (percentage > 40 && otherAnimatronic.getPos() != this._path[this._pos._room2])
                 this._pos = this._path[this._pos._room2];
-            else
+            else if (otherAnimatronic.getPos() != this._path[this._pos._room1])
                 this._pos = this._path[this._pos._room1];
         }
         else if (this._pos._number == 3)
         {
             var percentage = Math.floor(Math.random() * (101 - 0));
 
-            if (percentage > 50)
+            if (percentage > 50 && otherAnimatronic.getPos() != this._path[this._pos._room3])
                 this._pos = this._path[this._pos._room3];
-            else if (percentage > 25)
+            else if (percentage > 25 && otherAnimatronic.getPos() != this._path[this._pos._room2])
                 this._pos = this._path[this._pos._room2];
-            else
+            else if (otherAnimatronic.getPos() != this._path[this._pos._room1])
                 this._pos = this._path[this._pos._room1];
         }
         else
-            this._pos = this._path[this._pos._room1];
+            if (otherAnimatronic.getPos() != this._path[this._pos._room1])
+                this._pos = this._path[this._pos._room1];
 
         this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
-        this.move(game);
+        this.move(game, otherAnimatronic);
     }, this);
 };
 BonnieChica.prototype.attack = function(){};

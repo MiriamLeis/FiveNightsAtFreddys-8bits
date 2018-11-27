@@ -133,9 +133,9 @@ var GameScene =
 
         //===================================================ANIMATRONICS MOVE===========================================================
 
-        this.bonnie.move(this.game/*, this.staticEffect*/);
+        this.bonnie.move(this.game, this.chica/*, this.staticEffect*/);
 
-        //this.chica.move(this.game);
+        this.chica.move(this.game, this.bonnie);
 
         //=====================================================MONITOR=====================================================================
 
