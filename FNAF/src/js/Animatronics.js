@@ -63,6 +63,7 @@ function BonnieChica(sprite, screamer, path, hour, actTime)
 {
     Animatronics.apply(this,[sprite, screamer, path, hour, actTime]);
     this.dinningRoom = false;
+    this.isMoving = false;
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
@@ -98,11 +99,15 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
                 {
                     this._pos = this._path[this._pos._room2];
                     this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
                 }
                 else if (this._path[this._pos._room2]._name != "diningRoom")
                 {
                     this._pos = this._path[this._pos._room2];
                     this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
                 }
             }
             
@@ -110,11 +115,15 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
             {
                 this._pos = this._path[this._pos._room1];
                 this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
             }
             else if (this._path[this._pos._room1]._name != "diningRoom")
             {
                 this._pos = this._path[this._pos._room1];
                 this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
             }
         }
         else if (this._pos._number == 3)
@@ -128,11 +137,15 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
                 {
                     this._pos = this._path[this._pos._room3];
                     this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
                 }
                 else if (this._path[this._pos._room3]._name != "diningRoom")
                 {
                     this._pos = this._path[this._pos._room3];
                     this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
                 }
             }
             else if (percentage > 25)
@@ -141,22 +154,30 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
                 {
                     this._pos = this._path[this._pos._room2];
                     this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
                 }
                 else if (this._path[this._pos._room2]._name != "diningRoom")
                 {
                     this._pos = this._path[this._pos._room2];
                     this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
                 }
             }
             else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
             {
                 this._pos = this._path[this._pos._room1];
                 this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
             }
             else if (this._path[this._pos._room1]._name != "diningRoom")
             {
                 this._pos = this._path[this._pos._room1];
                 this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
             }
         }
         else
@@ -165,11 +186,15 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
             {
                 this._pos = this._path[this._pos._room1];
                 this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
             }
             else if (this._path[this._pos._room1]._name != "diningRoom")
             {
                 this._pos = this._path[this._pos._room1];
                 this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
             }
 
         }
@@ -179,7 +204,14 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
     }, this);
 };
 BonnieChica.prototype.attack = function(){};
-
+BonnieChica.prototype.noLongerMoving = function(game)
+{
+    game.time.events.add(1000, function(){ this.isMoving = false},this);
+};
+BonnieChica.prototype.returnIsMoving = function()
+{
+    return this.isMoving;
+};
 
 
 
