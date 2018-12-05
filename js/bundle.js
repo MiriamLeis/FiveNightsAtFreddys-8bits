@@ -320,8 +320,9 @@ function Room(x, y, name, room1, room2, room3, attack = null)
         this._attack = attack;
     }
 }
+
+module.exports = Animatronics;
 },{}],2:[function(require,module,exports){
-'use strict';
 
 function Battery(spriteBar, spriteCent, spriteDec, spriteU)
 {
@@ -438,8 +439,51 @@ Battery.prototype.reset = function()
     this.spriteDec.frame = 0;
     this.spriteU.frame = 0;
 }
+
+
+module.exports = Battery;
 },{}],3:[function(require,module,exports){
-'use strict';
+
+
+var Interact = require('./Interact.js');
+
+function Door(game, posXButton, posYButton, posXDoor, posYDoor)
+{
+    Interact.apply(this);
+    
+    var doorOpen = game.add.sprite(posXDoor, posYDoor, 'doorOpen', 2);
+    var doorOpenAnim = doorOpen.animations.add('open');
+    
+    var doorClose = game.add.sprite(posXDoor, posYDoor, 'doorClose');
+    var doorCloseAnim = doorClose.animations.add('close');
+
+    var button = game.add.button(posXButton, posYButton, 'buttonDoor', function(){this.actionOnClick(button, doorOpenAnim, doorCloseAnim)}, this);
+};
+
+Door.prototype = Object.create(Interact.prototype);
+Door.prototype.constructor = Door;
+
+Door.prototype.actionOnClick = function(button, doorAnimOp, doorAnimClos) 
+{
+    this.changeActive();
+    if (this._active)
+    {
+        button.frame = 1;
+        doorAnimOp.frame = 2;
+        doorAnimClos.play(10, true);
+        doorAnimClos.loop = false;
+    }
+    else
+    {
+        button.frame = 0;
+        doorAnimClos.frame = 0;
+        doorAnimOp.play(10, true);
+        doorAnimOp.loop = false;
+    }
+}
+module.exports = Door;
+},{"./Interact.js":5}],4:[function(require,module,exports){
+
 
 function InsideMonitor (game, Rooms, camerasTexts)
 {
@@ -551,8 +595,9 @@ InsideMonitor.prototype.LastPos = function()
 {
     return this.lastPos;
 }
-},{}],4:[function(require,module,exports){
-'use strict';
+
+module.exports = InsideMonitor;
+},{}],5:[function(require,module,exports){
 
 function Interact () 
 {
@@ -597,6 +642,11 @@ Door.prototype.actionOnClick = function(button, doorAnimOp, doorAnimClos)
     }
 }
 
+module.exports = Interact;
+},{}],6:[function(require,module,exports){
+
+var Interact = require('./Interact.js');
+
 function Light(game, posXButton, posYButton, posXLight, posYLight,sprite)
 {
     Interact.apply(this);
@@ -606,6 +656,7 @@ function Light(game, posXButton, posYButton, posXLight, posYLight,sprite)
 
     this.button = game.add.button(posXButton, posYButton, 'buttonLight', function(){this.turnOff()}, this);
 };
+
 
 Light.prototype = Object.create(Interact.prototype);
 Light.prototype.constructor = Light;
@@ -623,15 +674,460 @@ Light.prototype.turnOff = function()
         this.light.visible = false;
     }
 }
+module.exports = Light;
+},{"./Interact.js":5}],7:[function(require,module,exports){
+
+var Animatronics = require('./Animatronics.js');
 
 
-},{}],5:[function(require,module,exports){
+
+//----------------BonnieChica
+function BonnieChica(sprite, screamer, path, hour, actTime)
+{
+    Animatronics.apply(this,[sprite, screamer, path, hour, actTime]);
+    this.dinningRoom = false;
+    this.isMoving = false;
+};
+BonnieChica.prototype = Object.create(Animatronics.prototype);
+BonnieChica.prototype.constructor = BonnieChica;
+
+BonnieChica.prototype.dinningRoomTrue = function()
+{
+    this.dinningRoom = true;
+}
+BonnieChica.prototype.dinningRoomFalse = function()
+{
+    this.dinningRoom = false;
+}
+
+BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
+{
+    //Tiempo para moverse
+    var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);
+    console.log(timeToMove);
+
+    //Cambiar el pos del animatronico
+    game.time.events.add(timeToMove, function()
+    {
+        //this.moveEffect(game, staticEffect);
+        this._sprite.frame = 0;
+
+        if (this._pos._number == 2)
+        {
+            var percentage = Math.floor(Math.random() * (101 - 0));
+
+            if (percentage > 40)
+            {
+                if(this._path[this._pos._room2]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+                else if (this._path[this._pos._room2]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+            }
+            
+            else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+        }
+        else if (this._pos._number == 3)
+        {
+            var percentage = Math.floor(Math.random() * (101 - 0));
+
+            if (percentage > 50)
+            {
+
+                if(this._path[this._pos._room3]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room3];
+                    this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+                else if (this._path[this._pos._room3]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room3];
+                    this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+            }
+            else if (percentage > 25)
+            {
+                if(this._path[this._pos._room2]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+                else if (this._path[this._pos._room2]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+            }
+            else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+        }
+        else
+        {
+            if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+
+        }
+        console.log(this._pos._name)
+        this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
+        this.move(game, otherAnimatronic);
+    }, this);
+};
+BonnieChica.prototype.attack = function(){};
+BonnieChica.prototype.noLongerMoving = function(game)
+{
+    game.time.events.add(1000, function(){ this.isMoving = false},this);
+};
+BonnieChica.prototype.returnIsMoving = function()
+{
+    return this.isMoving;
+};
+
+
+
+
+//---------------------Bonnie-------------------------//
+function Bonnie(sprite, screamer)
+{
+    BonnieChica.apply(this,[sprite, screamer,
+                        //ruta
+                        [new Room ((792 * 2) + 300, 240, 'showStage', 1, null, null), 
+                        new Room ((792 * 3) + 375, 340, 'diningRoom', 2, 3, null), 
+                        new Room ((792 * 4) + 450, 310, 'backStage', 1, null, null), 
+                        new Room ((792 * 10) + 375, 330, 'westHall', 1, 4, 5),
+                        new Room ((792 * 8) + 365, 280, 'supplyCloset', 3, 5, null), 
+                        new Room ((792 * 11) + 375, 280, 'wHallCorner', 3, 4, null, this.attack())],
+                        //rango de horas de activacion
+                        [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1, max: 2}, {min: 0, max: 1}, {min: 0, max: 1}, {min: 0, max: 0}],
+                        //rango de segundos de movimiento
+                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}]]);
+}
+Bonnie.prototype = Object.create(BonnieChica.prototype);
+Bonnie.prototype.constructor = Bonnie;
+
+
+
+
+
+
+//CREACION RUTAS
+function Room(x, y, name, room1, room2, room3, attack = null)
+{
+    this._x = x;
+    this._y = y;
+    this._name = name;
+
+    if (room1 != null)
+    {
+        this._room1 = room1;
+        this._number = 1;
+
+        if(room2 != null)
+        {
+            this._room2 = room2;
+            this._number++;
+            
+            if (room3 != null)
+            {
+                this._room3 = room3
+                this._number++;
+            }
+        }
+    }
+
+    if (attack != null)
+    {
+        this._number++;
+        this._attack = attack;
+    }
+}
+
+module.exports = Bonnie;
+},{"./Animatronics.js":1}],8:[function(require,module,exports){
+
+var Animatronics = require('./Animatronics.js');
+
+//----------------BonnieChica
+function BonnieChica(sprite, screamer, path, hour, actTime)
+{
+    Animatronics.apply(this,[sprite, screamer, path, hour, actTime]);
+    this.dinningRoom = false;
+    this.isMoving = false;
+};
+BonnieChica.prototype = Object.create(Animatronics.prototype);
+BonnieChica.prototype.constructor = BonnieChica;
+
+BonnieChica.prototype.dinningRoomTrue = function()
+{
+    this.dinningRoom = true;
+}
+BonnieChica.prototype.dinningRoomFalse = function()
+{
+    this.dinningRoom = false;
+}
+
+BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
+{
+    //Tiempo para moverse
+    var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);
+    console.log(timeToMove);
+
+    //Cambiar el pos del animatronico
+    game.time.events.add(timeToMove, function()
+    {
+        //this.moveEffect(game, staticEffect);
+        this._sprite.frame = 0;
+
+        if (this._pos._number == 2)
+        {
+            var percentage = Math.floor(Math.random() * (101 - 0));
+
+            if (percentage > 40)
+            {
+                if(this._path[this._pos._room2]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+                else if (this._path[this._pos._room2]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+            }
+            
+            else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+        }
+        else if (this._pos._number == 3)
+        {
+            var percentage = Math.floor(Math.random() * (101 - 0));
+
+            if (percentage > 50)
+            {
+
+                if(this._path[this._pos._room3]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room3];
+                    this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+                else if (this._path[this._pos._room3]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room3];
+                    this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+            }
+            else if (percentage > 25)
+            {
+                if(this._path[this._pos._room2]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomTrue()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+                else if (this._path[this._pos._room2]._name != "diningRoom")
+                {
+                    this._pos = this._path[this._pos._room2];
+                    this.dinningRoomFalse()
+                    this.isMoving = true;
+                    this.noLongerMoving(game);
+                }
+            }
+            else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+        }
+        else
+        {
+            if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomTrue()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+            else if (this._path[this._pos._room1]._name != "diningRoom")
+            {
+                this._pos = this._path[this._pos._room1];
+                this.dinningRoomFalse()
+                this.isMoving = true;
+                    this.noLongerMoving(game);
+            }
+
+        }
+        console.log(this._pos._name)
+        this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
+        this.move(game, otherAnimatronic);
+    }, this);
+};
+BonnieChica.prototype.attack = function(){};
+BonnieChica.prototype.noLongerMoving = function(game)
+{
+    game.time.events.add(1000, function(){ this.isMoving = false},this);
+};
+BonnieChica.prototype.returnIsMoving = function()
+{
+    return this.isMoving;
+};
+
+
+
+
+//---------------------Chica-------------------------//
+function Chica(sprite, screamer, animation, posIni, hourIni, actTime)
+{
+    BonnieChica.apply(this,[sprite, screamer,
+                        //ruta
+                        [new Room ((792 * 2) + 450, 240, 'showStage', 1, null, null), 
+                        new Room ((792 * 3) + 375, 340, 'diningRoom', 2, 3, 4), 
+                        new Room ((792 * 5) + 400, 200, 'restroom', 1, null, null), 
+                        new Room ((792 * 6) + 375, 594 + 66, 'kitchen', 1, null, null),
+                        new Room ((792 * 7) + 365, 280, 'eastHall', 1, 5, null), 
+                        new Room ((792 * 9) + 350, 300, 'eHallCorner', 4, null, null, this.attack())],
+                        //rango de horas de activacion
+                        [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
+                        //rango de segundos de movimiento
+                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}]]);
+}
+Chica.prototype = Object.create(BonnieChica.prototype);
+Chica.prototype.constructor = Chica;
+
+
+
+
+
+
+
+//CREACION RUTAS
+function Room(x, y, name, room1, room2, room3, attack = null)
+{
+    this._x = x;
+    this._y = y;
+    this._name = name;
+
+    if (room1 != null)
+    {
+        this._room1 = room1;
+        this._number = 1;
+
+        if(room2 != null)
+        {
+            this._room2 = room2;
+            this._number++;
+            
+            if (room3 != null)
+            {
+                this._room3 = room3
+                this._number++;
+            }
+        }
+    }
+
+    if (attack != null)
+    {
+        this._number++;
+        this._attack = attack;
+    }
+}
+
+module.exports = Chica;
+},{"./Animatronics.js":1}],9:[function(require,module,exports){
 'use strict';
 
-require('./Interactions.js');
-require('./InsideMonitor.js');
-require('./Animatronics.js');
-require('./Battery.js');
+var Interact = require('./Interact.js');
+var Light = require('./Light.js');
+var Door = require('./Door.js');
+var Animatronics = require('./Animatronics.js');
+var Bonnie = require('./bonnie.js');
+var Chica = require('./chica.js');
+var InsideMonitor = require('./InsideMonitor.js');
+var Battery = require('./Battery.js');
+var Night = require('./nights.js');
 
 
 var GameScene =
@@ -1005,12 +1501,13 @@ function addCamera(camera, camTamX, camTamY, camTam)
 
 
 module.exports = GameScene;
-},{"./Animatronics.js":1,"./Battery.js":2,"./InsideMonitor.js":3,"./Interactions.js":4}],6:[function(require,module,exports){
+},{"./Animatronics.js":1,"./Battery.js":2,"./Door.js":3,"./InsideMonitor.js":4,"./Interact.js":5,"./Light.js":6,"./bonnie.js":7,"./chica.js":8,"./nights.js":12}],10:[function(require,module,exports){
 'use strict';
 
 var PlayScene = require('./play_scene.js');
 var MenuScene = require('./menuScene.js');
 var GameScene = require('./gameScene.js');
+
 
 
 var BootScene = 
@@ -1141,7 +1638,7 @@ function Main()
 
   */
 }
-},{"./gameScene.js":5,"./menuScene.js":7,"./play_scene.js":8}],7:[function(require,module,exports){
+},{"./gameScene.js":9,"./menuScene.js":11,"./play_scene.js":13}],11:[function(require,module,exports){
 'use strict';
 
 var Menu =
@@ -1159,7 +1656,121 @@ var Menu =
 };
 
 module.exports = Menu;
-},{}],8:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
+
+
+//meter phoneGuy
+function Night(spriteDec, spriteU, numberNight)
+{
+    //Control del paso de hora y noches
+    this._night = 1;
+    this._hour = 0;
+    this._hourArr = [12,1,2,3,4,5,6];
+
+    this.spriteU = spriteU;
+    this.spriteDec = spriteDec;
+    this.spriteNight = numberNight;
+
+    this.spriteU.fixedToCamera = true;
+    this.spriteDec.fixedToCamera = true;
+    this.spriteNight.fixedToCamera = true;
+    
+    this.spriteU.frame = 2;
+    this.spriteDec.frame = 1;
+    this.spriteNight.frame = 1;
+
+    this.spriteU.scale.setTo(0.8, 0.8);
+    this.spriteDec.scale.setTo(0.8, 0.8);
+    this.spriteNight.scale.setTo(0.55,0.55);
+}
+Night.prototype.changeNight = function(freddy, chica, bonnie, /*foxy*/)
+{
+    this._night++;
+    this.spriteNight.frame++;
+    freddy.changeInfo(night);
+    chica.changeInfo(night);
+    bonnie.changeInfo(night);
+    //foxy.changeInfo(night);
+}
+Night.prototype.startNight = function()
+{
+    //animacion hora al terminar
+}
+
+Night.prototype.finishNight = function()
+{
+    this._night++;
+    this.spriteNight.frame = this._night;
+
+    this.spriteDec.alpha = 1;
+    this._hour = 0;
+    this.spriteU.frame = this._hourArr[2];
+}
+Night.prototype.changeHour = function(battery)
+{
+    this.spriteDec.alpha = 0;
+    this._hour++;
+    this.spriteU.frame = this._hourArr[this._hour];
+
+    if(this._hour == 6)
+    {
+        this.finishNight();
+        battery.reset();
+    }
+}
+module.exports = Night;
+//Se veran si se añaden mas
+
+
+
+
+
+    /*//Freddy
+    var pathFreddy = [];
+    pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
+    pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
+    pathFreddy.push(new Room ('diningRoom', pathFreddy[2], null, null));
+    pathFreddy.push(new Room ('restroom', pathFreddy[3], null, null));
+    pathFreddy.push(new Room ('kitchen', pathFreddy[4], null, null));
+    pathFreddy.push(new Room ('eastHall', pathFreddy[5], null, null));
+    pathFreddy.push(new Room ('eHallCorner', null, null, null, Freddy.attack()));
+
+    this._Freddy = new Freddy('freddy', '', '', pathFreddy, 0, [[null, null], [null, null], [3, 4], [2, 3], [0, 1], [0, 0]], [[null, null], [null, null], [,], [,], [,], [,]]);
+
+    //Foxy
+    var pathFoxy = []; //Mirar mejor
+    pathFoxy.push('hide');
+    pathFoxy.push('half-hide');
+    pathFoxy.push('spotted');
+    pathFoxy.push('running');
+
+    this._Foxy = new Foxy('foxy', '', 'foxyRun', pathFoxy, 0, [[null, null], [null, null], [3, 4], [2, 3], [0, 1], [0, 0]], [[, ], [, ], [,], [,], [,], [,]]);*/
+
+    //Bonnie
+    /*var path = [];
+    path.push(new Room ('showStage', 1, null, null));
+    path.push(new Room ('diningRoom', 2, path[3], null));
+    path.push(new Room ('backStage', 1, null, null));
+    path.push(new Room ('westHall', 1, 4, path[5]));
+    path.push(new Room ('supplyCloset', path[3], path[5], null));
+    path.push(new Room ('wHallCorner', path[3], path[4], null, this.attack()));*/
+
+    /*this.hour =  [];
+    this.hour.push({min: 2, max: 2});
+    this.hour.push({min: 0, max: 1});
+    this.hour.push({min: 1, max: 2});
+    this.hour.push({min: 0, max: 1});
+    this.hour.push({min: 0, max: 1});
+    this.hour.push({min: 0, max: 0});
+
+    this.actTime = [];
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});
+    this.actTime.push({min: 5, max: 10});*/
+},{}],13:[function(require,module,exports){
 'use strict';
 
 var PlayScene = 
@@ -1189,4 +1800,4 @@ function actionOnClick()
 
   module.exports = PlayScene;
 
-},{}]},{},[6]);
+},{}]},{},[10]);
