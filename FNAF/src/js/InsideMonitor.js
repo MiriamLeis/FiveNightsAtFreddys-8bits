@@ -110,3 +110,5 @@ InsideMonitor.prototype.LastPos = function()
 {
     return this.lastPos;
 }
+
+module.exports = InsideMonitor;

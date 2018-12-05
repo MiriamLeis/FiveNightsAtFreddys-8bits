@@ -1,10 +1,16 @@
 'use strict';
 
-require('./Interactions.js');
-require('./InsideMonitor.js');
-require('./Animatronics.js');
-require('./Battery.js');
+var Interact = require('./Interactions.js');
+var Door = require('./door.js');
+var Light = require('./light.js');
 
+var Animatronics = require('./Animatronics.js');
+var Bonnie = require('./bonnie.js');
+var Chica = require('./chica.js');
+
+var Battery = require('./Battery.js');
+var Night = require('./nights.js');
+var InsideMonitor = require('./InsideMonitor.js');
 
 var GameScene =
 {

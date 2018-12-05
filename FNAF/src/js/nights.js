@@ -59,6 +59,8 @@ Night.prototype.changeHour = function(battery)
         battery.reset();
     }
 }
+
+module.exports = Night;
 //Se veran si se añaden mas
 
 

@@ -115,3 +115,5 @@ Battery.prototype.reset = function()
     this.spriteDec.frame = 0;
     this.spriteU.frame = 0;
 }
+
+module.exports = Battery;
