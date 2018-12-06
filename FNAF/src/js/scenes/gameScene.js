@@ -118,12 +118,12 @@ var GameScene =
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'),
                                 this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'),
-                                this.game.add.sprite(this.var_spriteBonnieAttackPosX, this.var_spriteBonnieAttackPosY, 'bonnieAttack'));
+                                this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'));
          
         //Chica
         this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'),
                                 this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'),
-                                this.game.add.sprite(this.var_spriteChicaAttackPosX, this.var_spriteChicaAttackPosY, 'chicaAttack'));
+                                this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'));
 
         //Draw animatronics
         this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');

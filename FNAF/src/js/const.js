@@ -219,8 +219,8 @@ function Const()
     this._bonnieRoom6Y = 280;
 
     //Attack
-    this._spriteBonnieAttackPosX = 0;
-    this._spriteBonnieAttackPosY = 0;
+    this._spriteBonnieAttackPosX = 34;
+    this._spriteBonnieAttackPosY = 132;
 
     //======================================================CHICA=============================================
 
@@ -243,8 +243,8 @@ function Const()
     this._chicaRoom6Y = 300;
 
     //Attack
-    this._spriteChicaAttackPosX = 0;
-    this._spriteChicaAttackPosY = 0;
+    this._spriteChicaAttackPosX = this._tamX * 2 - 144;
+    this._spriteChicaAttackPosY = 176;
 
 };
 
