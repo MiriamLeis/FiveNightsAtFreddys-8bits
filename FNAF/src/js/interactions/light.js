@@ -3,7 +3,7 @@
 var Interact = require('./Interactions.js');
 
 
-function Light(game, posXButton, posYButton, posXLight, posYLight,sprite)
+function Light(game, posXButton, posYButton, posXLight, posYLight, sprite)
 {
     Interact.apply(this);
 

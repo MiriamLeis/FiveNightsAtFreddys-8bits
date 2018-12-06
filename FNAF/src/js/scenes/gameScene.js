@@ -1,30 +1,27 @@
 'use strict';
 
-var Interact = require('./Interactions.js');
-var Door = require('./door.js');
-var Light = require('./light.js');
+var Const = require('../const.js');
 
-var Animatronics = require('./Animatronics.js');
-var Bonnie = require('./bonnie.js');
-var Chica = require('./chica.js');
+var Door = require('../interactions/door.js');
+var Light = require('../interactions/light.js');
 
-var Battery = require('./Battery.js');
-var Night = require('./nights.js');
-var InsideMonitor = require('./InsideMonitor.js');
+var Bonnie = require('../animatronics/bonnie.js');
+var Chica = require('../animatronics/chica.js');
+
+var Battery = require('../Battery.js');
+var Night = require('../nights.js');
+var InsideMonitor = require('../InsideMonitor.js');
 
 var GameScene =
 {
     preload: function () 
     {
-
+        this.var = new Const();
     },
 
     create: function () 
     {
-        
-        var tamX = 792;
-        var tamY = 594;
-        this.game.world.resize(tamX * 13, tamY);
+        this.game.world.resize(this.var._tamX * 13, this.var._tamY);
         this.game.camera.x = 396;
         this.timeForHour = 90000;
         this.realTimeToChange = this.timeForHour;
@@ -56,16 +53,16 @@ var GameScene =
         var office = this.game.add.sprite(0, 0, 'office');
 
         //Door and light buttons
-        this.lightLeft = new Light(this.game, 157, 274, 34, 94, 'leftLight');
-        this.lightRight = new Light(this.game, 51.5 * 4 + tamX + tamX / 2, 274, 92 + tamX + tamX / 3, 94, 'rightLight');
+        this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight');
+        this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight');
 
-        this.doorLeft = new Door(this.game, 157, 220, 185, 78);
-        this.doorRight = new Door(this.game, tamX + 301 * 2, 220, tamX + 173 * 2, 78);
+        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
+        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
 
         //Side edges
-        this.moveLeft = this.game.add.sprite(0, 0, 'sideEdge');
+        this.moveLeft = this.game.add.sprite(this.var._edgeIzqPosX, this.var._edgeIzqPosY, 'sideEdge');
         this.moveLeft.inputEnabled = true;
-        this.moveRight = this.game.add.sprite(792 - 45, 0, 'sideEdge');
+        this.moveRight = this.game.add.sprite(this.var._edgeDerPosX, this.var._edgeDerPosY, 'sideEdge');
         this.moveRight.inputEnabled = true;
 
         this.moveRight.fixedToCamera = true;
@@ -90,40 +87,40 @@ var GameScene =
         {
             cameraPositions:
             {
-                ShowStage: {nameFrame: 0, sprite: this.game.add.sprite(0, 0, 'showStage'), x: tamX * 2, y: 0 },
-                DinningRoom: {nameFrame: 1, sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: tamX * 3, y: 0 },
-                Backstage: {nameFrame: 2, sprite: this.game.add.sprite(0, 0, 'backstage'), x: tamX * 4, y: 0 },
-                Restrooms: {nameFrame: 3, sprite: this.game.add.sprite(0, 0, 'restrooms'), x: tamX * 5, y: 0 },
-                Kitchen: {nameFrame: 4, sprite: this.game.add.sprite(0, 0, 'kitchen'), x: tamX * 6, y: 0 },
-                EastHall: {nameFrame: 5, sprite: this.game.add.sprite(0, 0, 'eastHall'), x: tamX * 7, y: 0 },
-                SupplyCloset: {nameFrame: 6, sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: tamX * 8, y: 0 },
-                EHallCorner: {nameFrame: 7, sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: tamX * 9, y: 0 },
-                WestHall: {nameFrame: 8, sprite: this.game.add.sprite(0, 0, 'westHall'), x: tamX * 10, y: 0 },
-                WHallCorner: {nameFrame: 9, sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: tamX * 11, y: 0 },
-                PirateCove: {nameFrame: 10, sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: tamX * 12, y: 0 },
+                ShowStage: {nameFrame: 0, sprite: this.game.add.sprite(0, 0, 'showStage'), x: this.var._showstagePosX, y: this.var._showstagePosY },
+                DinningRoom: {nameFrame: 1, sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: this.var._dinningRoomPosX, y: this.var._dinningRoomPosY },
+                Backstage: {nameFrame: 2, sprite: this.game.add.sprite(0, 0, 'backstage'), x: this.var._backstagePosX, y: this.var._backstagePosY },
+                Restrooms: {nameFrame: 3, sprite: this.game.add.sprite(0, 0, 'restrooms'), x: this.var._restroomsPosX, y: this.var._restroomsPosY },
+                Kitchen: {nameFrame: 4, sprite: this.game.add.sprite(0, 0, 'kitchen'), x: this.var._kitchenPosX, y: this.var._kitchenPosY },
+                EastHall: {nameFrame: 5, sprite: this.game.add.sprite(0, 0, 'eastHall'), x: this.var._eastHallPosX, y: this.var._eastHallPosY },
+                SupplyCloset: {nameFrame: 6, sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: this.var._supplyClosetPosX, y: this.var._supplyClosetPosY },
+                EHallCorner: {nameFrame: 7, sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: this.var._eHallCornerPosX, y: this.var._eHallCornerPosY },
+                WestHall: {nameFrame: 8, sprite: this.game.add.sprite(0, 0, 'westHall'), x: this.var._tamX * 10, y: 0 },
+                WHallCorner: {nameFrame: 9, sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: this.var._tamX * 11, y: 0 },
+                PirateCove: {nameFrame: 10, sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: this.var._tamX * 12, y: 0 },
             }
         }
 
         //Draw cameras
-        addCamera(Rooms.cameraPositions.ShowStage, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.DinningRoom, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.Backstage, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.Restrooms, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.Kitchen, tamX, 300, 0.3);
-        addCamera(Rooms.cameraPositions.EastHall, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.SupplyCloset, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.EHallCorner, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.WestHall, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.WHallCorner, tamX, tamY, 1.5);
-        addCamera(Rooms.cameraPositions.PirateCove, tamX, tamY, 1.5);
+        addCamera(Rooms.cameraPositions.ShowStage, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.DinningRoom, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.Backstage, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.Restrooms, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.Kitchen, this.var._tamX, 300, 0.3);
+        addCamera(Rooms.cameraPositions.EastHall, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.SupplyCloset, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.EHallCorner, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.WestHall, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.WHallCorner, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.PirateCove, this.var._tamX, this.var._tamY, 1.5);
 
         //===================================================ANIMATRONICS=================================================================
 
         //Bonnie
-        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerBonnie'));
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(this.var._tamX/2 - 160 , 0, 'screamerBonnie'));
 
         //Chica
-        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.game.add.sprite(tamX/2 - 160 , 0, 'screamerChica'));
+        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.game.add.sprite(this.var._tamX/2 - 160 , 0, 'screamerChica'));
 
         //Draw animatronics
         this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
@@ -150,7 +147,7 @@ var GameScene =
         this.mapEdge.fixedToCamera = true;
 
         //Texto de las camaras
-        this.camerasTexts = this.game.add.sprite(tamX - 190, tamY - 250, 'camerasTexts');
+        this.camerasTexts = this.game.add.sprite(this.var._tamX - 190, this.var._tamY - 250, 'camerasTexts');
         this.camerasTexts.scale.setTo(0.5, 0.5);
         this.camerasTexts.fixedToCamera = true;
 
@@ -265,15 +262,15 @@ var GameScene =
 
         //==========================================================NIGHTS========================================================================
         //Noches
-        this.nigthsText = this.game.add.sprite(tamX - 140, 60, 'manyTexts', 4);
+        this.nigthsText = this.game.add.sprite(this.var._tamX - 140, 60, 'manyTexts', 4);
         this.nigthsText.scale.setTo(0.7,0.7)
         this.nigthsText.fixedToCamera = true;
 
         //Horas
-        this.hourText = this.game.add.sprite(tamX - 80, 10, 'manyTexts', 3);
+        this.hourText = this.game.add.sprite(this.var._tamX - 80, 10, 'manyTexts', 3);
         this.hourText.fixedToCamera = true;
 
-        this.night = new Night(this.game.add.sprite(tamX -145, 17, 'numbers'),this.game.add.sprite(tamX - 115, 17, 'numbers'),this.game.add.sprite(tamX - 50, 64, 'numbers') );
+        this.night = new Night(this.game.add.sprite(this.var._tamX -145, 17, 'numbers'),this.game.add.sprite(this.var._tamX - 115, 17, 'numbers'),this.game.add.sprite(this.var._tamX - 50, 64, 'numbers') );
     },
 
     update: function () 

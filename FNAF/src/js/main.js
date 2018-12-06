@@ -1,9 +1,8 @@
 'use strict';
 
-var PlayScene = require('./play_scene.js');
-var MenuScene = require('./menuScene.js');
-var GameScene = require('./gameScene.js');
-
+var Const = require('./const.js')
+var MenuScene = require('./scenes/menuScene.js');
+var GameScene = require('./scenes/gameScene.js');
 
 var BootScene = 
 {
@@ -97,7 +96,6 @@ window.onload = function ()
 
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
-  game.state.add('play', PlayScene);
   game.state.add('menu', MenuScene);
   game.state.add('game', GameScene);
 

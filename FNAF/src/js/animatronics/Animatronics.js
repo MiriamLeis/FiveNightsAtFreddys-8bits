@@ -49,6 +49,10 @@ Animatronics.prototype.moveEffect = function(game, staticEffect)
     game.time.events.add(3000, function(){staticEffect.alpha = 0.1}, this)
 };
 
+
+
+
+
 //-----------------FreddyFoxy
 function FreddyFoxy(sprite, screamer, posIni, hour, actTime)
 {
