@@ -1,6 +1,6 @@
 
 //--------------------Clase Animatronicos
-function Animatronics(sprite, screamer, attack, path, hours, actTime, Var)
+function Animatronics(sprite, screamer, path, hours, actTime, Var)
 {
     this.var = Var;
     //Phaser.Sprite.apply(this,game,sprite)
@@ -14,8 +14,6 @@ function Animatronics(sprite, screamer, attack, path, hours, actTime, Var)
     this._screamer.scale.setTo(this.var._screamerScale, this.var._screamerScale);
     this._screamer.alpha = 0;
     this._screamer.fixedToCamera = true;
-
-    this._spriteAttack = attack;
 
     this._path = path; //Array de functions
     this._pos = this._path[0];

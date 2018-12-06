@@ -52,13 +52,6 @@ var GameScene =
 
         var office = this.game.add.sprite(0, 0, 'office');
 
-        //Door and light buttons
-        this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight');
-        this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight');
-
-        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
-        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
-
         //Side edges
         this.moveLeft = this.game.add.sprite(this.var._edgeIzqPosX, this.var._edgeIzqPosY, 'sideEdge');
         this.moveLeft.inputEnabled = true;
@@ -117,17 +110,23 @@ var GameScene =
 
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'),
-                                this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'),
-                                this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'));
+                                this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
          
         //Chica
         this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'),
-                                this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'),
-                                this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'));
+                                this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'),);
 
         //Draw animatronics
         this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
         this.freddy.scale.setTo(1.5, 1.5);
+
+
+        //Door and light buttons
+        this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.game.add.sprite(this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight'), this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'), this.bonnie);
+        this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.game.add.sprite(this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight'), this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'), this.chica);
+        
+        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
+        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
 
         //===============================================STATIC EFFECT MONITOR=============================================================
 

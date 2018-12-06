@@ -6,7 +6,7 @@ var Const = require('../const.js');
 function Bonnie(sprite, screamer, attack)
 {
     this.var = new Const();
-    BonnieChica.apply(this,[sprite, screamer, attack,
+    BonnieChica.apply(this,[sprite, screamer,
                         //ruta
                         [new Room (this.var._bonnieRoom1X, this.var._bonnieRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                         new Room (this.var._bonnieRoom2X, this.var._bonnieRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, 3, null), 

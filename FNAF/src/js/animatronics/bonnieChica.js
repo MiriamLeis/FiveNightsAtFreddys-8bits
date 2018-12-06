@@ -3,11 +3,12 @@ var Animatronics = require('./Animatronics.js');
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, screamer, attack, path, hour, actTime, Var)
+function BonnieChica(sprite, screamer, path, hour, actTime, Var)
 {
-    Animatronics.apply(this,[sprite, screamer, attack, path, hour, actTime, Var]);
+    Animatronics.apply(this,[sprite, screamer, path, hour, actTime, Var]);
     this.dinningRoom = false;
     this.inOffice = false;
+    this.attacking = false;
     this.var = Var;
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
@@ -144,29 +145,44 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
 
         this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
+        console.log(this.inOffice)
         if(!this.inOffice)
             this.move(game, otherAnimatronic, staticEffect, door, light);
     }, this);
 }
+
+BonnieChica.prototype.isInOffice = function()
+{
+    return this.inOffice;
+}
+BonnieChica.prototype.isAttacking = function()
+{
+    return this.attacking;
+}
+
 BonnieChica.prototype.attack = function(game, door, light)
 {
+    this.attacking = true;
+    console.log("Tas Muerto Crack");
     var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);//Cambiar por tiempos de ataque
 
     game.time.events.add(timeToMove, function()
     {
-        console.log("Tas Muerto Crack");
+        
         if(!door.getActive())
         {
            if(light.getActive()) 
             light.changeActive();
 
-            light.inputEnabled = false;
-            door.inputEnabled = false;
             this.inOffice = true;
+            console.log("hola");
+           // light.inputEnabled = false;
+            //door.inputEnabled = false;
+            
 
         }
-    }
-    )
+        this.attacking = false;
+    })
 
 }
 

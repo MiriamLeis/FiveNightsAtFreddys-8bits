@@ -1,16 +1,22 @@
 'use strict';
 
 var Interact = require('./Interactions.js');
+var Const = require('../const.js');
 
-
-function Light(game, posXButton, posYButton, posXLight, posYLight, sprite)
+function Light(game, posXButton, posYButton, sprite, animSprite, anim)
 {
+    this.var = new Const();
     Interact.apply(this);
 
-    this.light = game.add.sprite(posXLight, posYLight,sprite);
+    this.light = sprite;
     this.light.visible = false;
 
     this.button = game.add.button(posXButton, posYButton, 'buttonLight', function(){this.turnOff()}, this);
+
+    this.animSprite = animSprite;
+    this.animSprite.alpha = 0;
+
+    this.anim = anim;
 };
 
 Light.prototype = Object.create(Interact.prototype);
@@ -22,11 +28,15 @@ Light.prototype.turnOff = function()
     {
         this.button.frame = 1;
         this.light.visible = true;
+        
+        if(this.anim.isAttacking())
+            this.animSprite.alpha = 1;
     }
     else
     {
         this.button.frame = 0;
         this.light.visible = false;
+        this.animSprite.alpha = 0;
     }
 }
 module.exports = Light;
