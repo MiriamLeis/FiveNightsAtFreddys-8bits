@@ -48,7 +48,13 @@ Animatronics.prototype.changeInfo = function(night)
 Animatronics.prototype.moveEffect = function(game, staticEffect)
 {  
     staticEffect.alpha = 1;
-    game.time.events.add(3000, function(){staticEffect.alpha = 0.1}, this)
+    game.time.events.add(3000, function()
+    {
+        if (game.camera.x < this.var._showStagePosX)
+            staticEffect.alpha = 0;
+        else
+            staticEffect.alpha = 0.1;
+    }, this)
 };
 
 

@@ -1,10 +1,12 @@
 
 //CREACION RUTAS
-function Room(x, y, name, room1, room2, room3, attack = null)
+function Room(x, y, posX, posY, name, room1, room2, room3, attack = false)
 {
     this._x = x;
     this._y = y;
     this._name = name;
+    this._posCam = {x: posX, y: posY};
+    this._attack = attack;
 
     if (room1 != null)
     {
@@ -24,11 +26,9 @@ function Room(x, y, name, room1, room2, room3, attack = null)
         }
     }
 
-    if (attack != null)
-    {
+    if (attack != false)
         this._number++;
-        this._attack = attack;
-    }
+
 }
 
 module.exports = Room;

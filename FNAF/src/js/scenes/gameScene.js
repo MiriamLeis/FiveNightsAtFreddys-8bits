@@ -135,9 +135,10 @@ var GameScene =
 
         //===================================================ANIMATRONICS MOVE===========================================================
 
-        this.bonnie.move(this.game, this.chica/*, this.staticEffect*/);
+        //this.bonnie.move(this.game, this.chica, this.staticEffect);
+        this.bonnie.attack();
 
-        this.chica.move(this.game, this.bonnie);
+        this.chica.move(this.game, this.bonnie, this.staticEffect);
 
         //=====================================================MONITOR=====================================================================
 
@@ -352,21 +353,9 @@ var GameScene =
             this.night.changeHour(this.battery); //cuando hagamos la escena de win de la noche posiblemente lo quitemos
             this.realTimeToChange = this.timeForHour + this.game.time.now;
         }
-
-        if((this.bonnie.returnIsMoving() && !this.inOffice) || (this.chica.returnIsMoving() && !this.inOffice))
-        {
-            this.staticEffect.alpha =1;
-        }
-        else if(!this.inOffice)
-        {
-            this.staticEffect.alpha =0.1;
-        }
     }
 
 }
-
-
-
 
 
 function addCamera(camera, camTamX, camTamY, camTam) 
