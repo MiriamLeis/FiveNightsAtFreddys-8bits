@@ -59,10 +59,6 @@ function Const()
     this._camKitchenTam = 0.3;
     this._camKitchenY = 300;
 
-    //Screamers
-    this._screamerPosX = this._tamX/2 - 160;
-    this._screamerPosY = 0;
-
     //Monitor stuff
     this._cameraTextPosX = this._tamX - 190;
     this._cameraTextPosY = this._tamY - 250;
@@ -189,6 +185,10 @@ function Const()
     //============================================================ANIMATRONICS=============================================
 
     this._spriteAnimScale = 1.5;
+    
+    //Screamers
+    this._screamerPosX = this._tamX/2 - 160;
+    this._screamerPosY = 0;
     this._screamerScale = 2.5;
 
     //===========================================================BONNIE/CHICA===============================================
@@ -218,6 +218,10 @@ function Const()
     this._bonnieRoom6X = (792 * 11) + 375;
     this._bonnieRoom6Y = 280;
 
+    //Attack
+    this._spriteBonnieAttackPosX = 0;
+    this._spriteBonnieAttackPosY = 0;
+
     //======================================================CHICA=============================================
 
     this._chicaRoom1X = (792 * 2) + 450;
@@ -238,6 +242,9 @@ function Const()
     this._chicaRoom6X = (792 * 9) + 350;
     this._chicaRoom6Y = 300;
 
+    //Attack
+    this._spriteChicaAttackPosX = 0;
+    this._spriteChicaAttackPosY = 0;
 };
 
 

@@ -3,12 +3,12 @@ var Animatronics = require('./Animatronics.js');
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, screamer, path, hour, actTime, Var)
+function BonnieChica(sprite, screamer, attack, path, hour, actTime, Var)
 {
-    Animatronics.apply(this,[sprite, screamer, path, hour, actTime, Var]);
+    this.var = Var;
+    Animatronics.apply(this,[sprite, screamer, attack, path, hour, actTime, this.var]);
     this.dinningRoom = false;
     this.inOffice = false;
-    this.var = Var;
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
