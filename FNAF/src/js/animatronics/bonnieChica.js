@@ -7,7 +7,7 @@ function BonnieChica(sprite, screamer, path, hour, actTime, Var)
 {
     Animatronics.apply(this,[sprite, screamer, path, hour, actTime, Var]);
     this.dinningRoom = false;
-    //this.isMoving = false;
+    this.inOffice = false;
     this.var = Var;
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
@@ -21,7 +21,7 @@ BonnieChica.prototype.dinningRoomFalse = function()
 {
     this.dinningRoom = false;
 }
-BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect)
+BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door, light)
 {
     //Tiempo para moverse
     var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);
@@ -63,9 +63,8 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect)
             }
             else
             {
-                console.log("Hola");
-                if (percentage > -1)
-                    this.attack();
+                if (percentage > this.var._2roomsPercentage1)
+                    this.attack(game, door, light);
                 else
                     this._pos = this._path[this._pos._room1];
             }
@@ -117,7 +116,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect)
             else
             {
                 if (percentage > this.var._3roomsPercentage1)
-                    this.attack();
+                    this.attack(game ,door, light);
                 else if (percentage > this.var._3roomsPercentage2)
                     this._pos = this._path[this._pos._room2];
                 else
@@ -144,12 +143,31 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect)
                 this.moveEffect(game, staticEffect);
 
         this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
-        this.move(game, otherAnimatronic, staticEffect);
+
+        if(!this.inOffice)
+            this.move(game, otherAnimatronic, staticEffect, door, light);
     }, this);
 }
-BonnieChica.prototype.attack = function()
+BonnieChica.prototype.attack = function(game, door, light)
 {
-    console.log('LA HAS PALMAO');
+    var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);//Cambiar por tiempos de ataque
+
+    game.time.events.add(timeToMove, function()
+    {
+        console.log("Tas Muerto Crack");
+        if(!door.getActive())
+        {
+           if(light.getActive()) 
+            light.changeActive();
+
+            light.inputEnabled = false;
+            door.inputEnabled = false;
+            this.inOffice = true;
+
+        }
+    }
+    )
+
 }
 
 module.exports = BonnieChica;
