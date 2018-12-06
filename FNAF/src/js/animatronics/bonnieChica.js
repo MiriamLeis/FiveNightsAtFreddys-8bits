@@ -145,10 +145,11 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
 
         this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
-        console.log(this.inOffice)
+        
         if(!this.inOffice)
             this.move(game, otherAnimatronic, staticEffect, door, light);
     }, this);
+
 }
 
 BonnieChica.prototype.isInOffice = function()
@@ -182,7 +183,7 @@ BonnieChica.prototype.attack = function(game, door, light)
 
         }
         this.attacking = false;
-    })
+    }, this)
 
 }
 
