@@ -3,10 +3,10 @@ var BonnieChica = require('./bonnieChica.js');
 var Const = require('../const.js');
 
 //---------------------Chica-------------------------//
-function Chica(sprite, screamer, attack)
+function Chica(sprite, screamer, animation, posIni, hourIni, actTime)
 {
     this.var = new Const();
-    BonnieChica.apply(this,[sprite, screamer, attack
+    BonnieChica.apply(this,[sprite, screamer,
                         //ruta
                         [new Room (this.var._chicaRoom1X, this.var._chicaRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                         new Room (this.var._chicaRoom2X, this.var._chicaRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, 3, 4), 
@@ -17,8 +17,7 @@ function Chica(sprite, screamer, attack)
                         //rango de horas de activacion
                         [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}], 
-                        this.var]);
+                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}], this.var]);
 }
 Chica.prototype = Object.create(BonnieChica.prototype);
 Chica.prototype.constructor = Chica;
