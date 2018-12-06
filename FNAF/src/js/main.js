@@ -55,7 +55,7 @@ var PreloaderScene =
     this.game.load.spritesheet('freddy','./images/animatronics/Freddy.png', 33, 66, 3);
     this.game.load.spritesheet('darkFreddy','./images/animatronics/FreddyDark.png', 33, 66, 2);
     this.game.load.image('screamerFreddy', './images/animatronics/screamerFreddy.png');
-    this.game.load.spritesheet('freddyAttack', './images/animatronics/FreddyAttack.png');
+    this.game.load.spritesheet('freddyAttack', './images/animatronics/FreddyAttack.png', 33, 33, 2);
     this.game.load.image('foxy','./images/animatronics/Foxy.png');
     this.game.load.spritesheet('foxyRun','./images/animatronics/FoxyRun.png', 33, 66, 2);
     this.game.load.image('screamerFoxy', './images/animatronics/screamerFoxy.png');
