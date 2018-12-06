@@ -53,6 +53,10 @@ function Const()
     this._wHallCornerPosY = 0;
     this._pirateCovePosX = this._tamX * 12;
     this._pirateCovePosY = 0;
+
+    this._camTam = 1.5;
+    this._camkKitchenTam = 0.3;
+    this._camKitchenY = 300;
 };
 
 module.exports = Const;

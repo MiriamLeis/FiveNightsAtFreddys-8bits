@@ -95,24 +95,24 @@ var GameScene =
                 EastHall: {nameFrame: 5, sprite: this.game.add.sprite(0, 0, 'eastHall'), x: this.var._eastHallPosX, y: this.var._eastHallPosY },
                 SupplyCloset: {nameFrame: 6, sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: this.var._supplyClosetPosX, y: this.var._supplyClosetPosY },
                 EHallCorner: {nameFrame: 7, sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: this.var._eHallCornerPosX, y: this.var._eHallCornerPosY },
-                WestHall: {nameFrame: 8, sprite: this.game.add.sprite(0, 0, 'westHall'), x: this.var._tamX * 10, y: 0 },
-                WHallCorner: {nameFrame: 9, sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: this.var._tamX * 11, y: 0 },
-                PirateCove: {nameFrame: 10, sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: this.var._tamX * 12, y: 0 },
+                WestHall: {nameFrame: 8, sprite: this.game.add.sprite(0, 0, 'westHall'), x: this.var._westHallPosX, y: this.var._westHallPosY },
+                WHallCorner: {nameFrame: 9, sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: this.var.wHallCornerX, y: this.var._westHallPosY },
+                PirateCove: {nameFrame: 10, sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: this.var.pirateCoveX, y: this.var._westHallPosY },
             }
         }
 
         //Draw cameras
-        addCamera(Rooms.cameraPositions.ShowStage, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.DinningRoom, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.Backstage, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.Restrooms, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.Kitchen, this.var._tamX, 300, 0.3);
-        addCamera(Rooms.cameraPositions.EastHall, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.SupplyCloset, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.EHallCorner, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.WestHall, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.WHallCorner, this.var._tamX, this.var._tamY, 1.5);
-        addCamera(Rooms.cameraPositions.PirateCove, this.var._tamX, this.var._tamY, 1.5);
+        addCamera(Rooms.cameraPositions.ShowStage, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.DinningRoom, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.Backstage, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.Restrooms, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.Kitchen, this.var._tamX, this.var._camkKitchenY, this.var._camkKitchenTam);
+        addCamera(Rooms.cameraPositions.EastHall, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.SupplyCloset, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.EHallCorner, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.WestHall, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.WHallCorner, this.var._tamX, this.var._tamY, this.var._camTam);
+        addCamera(Rooms.cameraPositions.PirateCove, this.var._tamX, this.var._tamY, this.var._camTam);
 
         //===================================================ANIMATRONICS=================================================================
 
