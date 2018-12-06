@@ -87,7 +87,7 @@ var GameScene =
         {
             cameraPositions:
             {
-                ShowStage: {nameFrame: 0, sprite: this.game.add.sprite(0, 0, 'showStage'), x: this.var._showstagePosX, y: this.var._showstagePosY },
+                ShowStage: {nameFrame: 0, sprite: this.game.add.sprite(0, 0, 'showStage'), x: this.var._showStagePosX, y: this.var._showStagePosY },
                 DinningRoom: {nameFrame: 1, sprite: this.game.add.sprite(0, 0, 'dinningRoom'), x: this.var._dinningRoomPosX, y: this.var._dinningRoomPosY },
                 Backstage: {nameFrame: 2, sprite: this.game.add.sprite(0, 0, 'backstage'), x: this.var._backstagePosX, y: this.var._backstagePosY },
                 Restrooms: {nameFrame: 3, sprite: this.game.add.sprite(0, 0, 'restrooms'), x: this.var._restroomsPosX, y: this.var._restroomsPosY },
@@ -96,17 +96,16 @@ var GameScene =
                 SupplyCloset: {nameFrame: 6, sprite: this.game.add.sprite(0, 0, 'supplyCloset'), x: this.var._supplyClosetPosX, y: this.var._supplyClosetPosY },
                 EHallCorner: {nameFrame: 7, sprite: this.game.add.sprite(0, 0, 'eHallCorner'), x: this.var._eHallCornerPosX, y: this.var._eHallCornerPosY },
                 WestHall: {nameFrame: 8, sprite: this.game.add.sprite(0, 0, 'westHall'), x: this.var._westHallPosX, y: this.var._westHallPosY },
-                WHallCorner: {nameFrame: 9, sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: this.var.wHallCornerX, y: this.var._westHallPosY },
-                PirateCove: {nameFrame: 10, sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: this.var.pirateCoveX, y: this.var._westHallPosY },
+                WHallCorner: {nameFrame: 9, sprite: this.game.add.sprite(0, 0, 'wHallCorner'), x: this.var._wHallCornerPosX, y: this.var._wHallCornerPosY },
+                PirateCove: {nameFrame: 10, sprite: this.game.add.sprite(0, 0, 'pirateCov1'), x: this.var._pirateCovePosX, y: this.var._pirateCovePosY },
             }
         }
-
         //Draw cameras
         addCamera(Rooms.cameraPositions.ShowStage, this.var._tamX, this.var._tamY, this.var._camTam);
         addCamera(Rooms.cameraPositions.DinningRoom, this.var._tamX, this.var._tamY, this.var._camTam);
         addCamera(Rooms.cameraPositions.Backstage, this.var._tamX, this.var._tamY, this.var._camTam);
         addCamera(Rooms.cameraPositions.Restrooms, this.var._tamX, this.var._tamY, this.var._camTam);
-        addCamera(Rooms.cameraPositions.Kitchen, this.var._tamX, this.var._camkKitchenY, this.var._camkKitchenTam);
+        addCamera(Rooms.cameraPositions.Kitchen, this.var._tamX, this.var._camKitchenY, this.var._camKitchenTam);
         addCamera(Rooms.cameraPositions.EastHall, this.var._tamX, this.var._tamY, this.var._camTam);
         addCamera(Rooms.cameraPositions.SupplyCloset, this.var._tamX, this.var._tamY, this.var._camTam);
         addCamera(Rooms.cameraPositions.EHallCorner, this.var._tamX, this.var._tamY, this.var._camTam);
@@ -117,10 +116,10 @@ var GameScene =
         //===================================================ANIMATRONICS=================================================================
 
         //Bonnie
-        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(this.var._tamX/2 - 160 , 0, 'screamerBonnie'));
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
 
         //Chica
-        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.game.add.sprite(this.var._tamX/2 - 160 , 0, 'screamerChica'));
+        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
 
         //Draw animatronics
         this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
@@ -147,15 +146,15 @@ var GameScene =
         this.mapEdge.fixedToCamera = true;
 
         //Texto de las camaras
-        this.camerasTexts = this.game.add.sprite(this.var._tamX - 190, this.var._tamY - 250, 'camerasTexts');
-        this.camerasTexts.scale.setTo(0.5, 0.5);
+        this.camerasTexts = this.game.add.sprite(this.var._cameraTextPosX, this.var._cameraTextPosY, 'camerasTexts');
+        this.camerasTexts.scale.setTo(this.var._cameraTextScale, this.var._cameraTextScale);
         this.camerasTexts.fixedToCamera = true;
 
         //Draw REC
-        this.REC = this.game.add.image(45, 20, 'REC');
-        this.REC.scale.setTo(0.75, 0.75);
+        this.REC = this.game.add.image(this.var._recPosX, this.var._recPosY, 'REC');
+        this.REC.scale.setTo(this.var._recScale, this.var._recScale);
 
-        this.RECPoint = this.game.add.sprite(12, 15, 'RECPoint');
+        this.RECPoint = this.game.add.sprite(this.var._recPointPosX, this.var._recPointPosY, 'RECPoint');
         this.RECPoint.animations.add('blink');
         this.RECPoint.animations.play('blink', 1, true);
 
@@ -164,8 +163,8 @@ var GameScene =
 
         //Draw map
         this.map = this.game.add.image(0, 0, 'camerasMap');
-        this.map.scale.setTo(2, 2);
-        this.map.anchor.set(-2, -1.94);
+        this.map.scale.setTo(this.var._mapScale, this.var._mapScale);
+        this.map.anchor.set(this.var._mapPosX, this.var._mapPosY);
         this.map.fixedToCamera = true;
 
         //Draw map buttons
@@ -174,27 +173,27 @@ var GameScene =
         //==========================================================BATTERY========================================================================
 
         //Porcentaje
-        this.powerLeftText = this.game.add.sprite(20, 490, 'manyTexts', 1)
-        this.powerLeftText.scale.setTo(0.6, 0.6);
-        this.percentageText = this.game.add.sprite(this.powerLeftText.width + 79, 490, 'manyTexts', 2);
-        this.percentageText.scale.setTo(0.6, 0.6);
+        this.powerLeftText = this.game.add.sprite(this.var._powerLeftTextPosX, this.var._powerLeftTextPosY, 'manyTexts', 1)
+        this.powerLeftText.scale.setTo(this.var._powerLeftTextScale, this.var._powerLeftTextScale);
+        this.percentageText = this.game.add.sprite(this.powerLeftText.width + this.var._percentageTextPosX, this.var._percentageTextPosY, 'manyTexts', 2);
+        this.percentageText.scale.setTo(this.var._percentageTextScale, this.var._percentageTextScale);
 
         this.powerLeftText.fixedToCamera = true;
         this.percentageText.fixedToCamera = true;
 
         //Barritas
-        this.battery = new Battery(this.game.add.sprite(100, 525, 'battery'),
-                                    this.game.add.sprite(this.powerLeftText.width + 10, 490, 'numbers'),
-                                    this.game.add.sprite(this.powerLeftText.width + 33, 490, 'numbers'),
-                                    this.game.add.sprite(this.powerLeftText.width + 56, 490, 'numbers'));
-        this.usageText = this.game.add.sprite(20, 530, 'manyTexts')
-        this.usageText.scale.setTo(0.6, 0.6);
+        this.battery = new Battery(this.game.add.sprite(this.var._batterytPosX, this.var._batterytPosY, 'battery'),
+                                    this.game.add.sprite(this.powerLeftText.width + this.var._batteryNumber1PosX, this.var._batteryNumber1PosY, 'numbers'),
+                                    this.game.add.sprite(this.powerLeftText.width + this.var._batteryNumber2PosX, this.var._batteryNumber2PosY, 'numbers'),
+                                    this.game.add.sprite(this.powerLeftText.width + this.var._batteryNumber3PosX, this.var._batteryNumber3PosY, 'numbers'));
+        this.usageText = this.game.add.sprite(this.var._usageTextPosX, this.var._usageTextPosY, 'manyTexts')
+        this.usageText.scale.setTo(this.var._usageTextScale, this.var._usageTextScale);
 
         this.usageText.fixedToCamera = true;
 
         //=================================================CHANGE MONITOR/CAMERA=============================================================
 
-        this.changeView = this.game.add.button(800 / 2 - 316.8 / 2, 600 - 66 - 10, 'buttonMonitor', function () 
+        this.changeView = this.game.add.button(this.var._changeViewPosX, this.var._changeViewPosY, 'buttonMonitor', function () 
         { 
 
             if (this.inOffice) 
@@ -245,8 +244,8 @@ var GameScene =
          }, this, 1, 0);
 
 
-        this.changeView.scale.setTo(0.8, 1);
-        this.changeView.alpha = 0.4;
+        this.changeView.scale.setTo(this.var._changeViewScaleX, this.var._changeViewScaleY);
+        this.changeView.alpha = this.var._changeViewAlpha;
         this.changeView.fixedToCamera = true;
          
         this.mapEdge.alpha = 0;
@@ -262,30 +261,30 @@ var GameScene =
 
         //==========================================================NIGHTS========================================================================
         //Noches
-        this.nigthsText = this.game.add.sprite(this.var._tamX - 140, 60, 'manyTexts', 4);
-        this.nigthsText.scale.setTo(0.7,0.7)
+        this.nigthsText = this.game.add.sprite(this.var._nigthsTextPosX, this.var._nigthsTextPosY, 'manyTexts', 4);
+        this.nigthsText.scale.setTo(this.var._nigthsTextScale,this.var._nigthsTextScale)
         this.nigthsText.fixedToCamera = true;
 
         //Horas
-        this.hourText = this.game.add.sprite(this.var._tamX - 80, 10, 'manyTexts', 3);
+        this.hourText = this.game.add.sprite(this.var._hourTextPosX, this.var._hourTextPosY, 'manyTexts', 3);
         this.hourText.fixedToCamera = true;
 
-        this.night = new Night(this.game.add.sprite(this.var._tamX -145, 17, 'numbers'),this.game.add.sprite(this.var._tamX - 115, 17, 'numbers'),this.game.add.sprite(this.var._tamX - 50, 64, 'numbers') );
+        this.night = new Night(this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
     },
 
     update: function () 
     {
         if (this.moveLeft.input.pointerOver())
         {
-            this.lastPosOffice = this.game.camera.x = this.game.camera.x - 13;
-            if(this.game.camera.x < 1 && this.lightRight.getActive())
+            this.lastPosOffice = this.game.camera.x = this.game.camera.x - this.var._camMovSpeed;
+            if(this.game.camera.x < this.var._turnOffLeftLightPos  && this.lightRight.getActive())
                 this.lightRight.turnOff();
 
         }
-        else if (this.moveRight.input.pointerOver() && this.game.camera.x < 781)
+        else if (this.moveRight.input.pointerOver() && this.game.camera.x < this.var._turnOffRightLightPos )
         {
-            this.lastPosOffice = this.game.camera.x = this.game.camera.x + 13;
-            if(this.game.camera.x > 780 && this.lightLeft.getActive())
+            this.lastPosOffice = this.game.camera.x = this.game.camera.x + this.var._camMovSpeed;
+            if(this.game.camera.x > this.var._turnOffRightLightPos  && this.lightLeft.getActive())
                 this.lightLeft.turnOff();
         }
 

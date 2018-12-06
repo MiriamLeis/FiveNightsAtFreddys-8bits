@@ -1,14 +1,14 @@
 //--------------------Clase Animatronicos
 var Animatronics = require('./Animatronics.js'); 
-var Room = require('./room.js'); 
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, screamer, path, hour, actTime)
+function BonnieChica(sprite, screamer, path, hour, actTime, Var)
 {
-    Animatronics.apply(this,[sprite, screamer, path, hour, actTime]);
+    Animatronics.apply(this,[sprite, screamer, path, hour, actTime, Var]);
     this.dinningRoom = false;
     this.isMoving = false;
+    this.var = Var;
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
@@ -38,7 +38,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
         {
             var percentage = Math.floor(Math.random() * (101 - 0));
 
-            if (percentage > 40)
+            if (percentage > this.var._2roomsPercentage1)
             {
                 if(this._path[this._pos._room2]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                 {
@@ -75,7 +75,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
         {
             var percentage = Math.floor(Math.random() * (101 - 0));
 
-            if (percentage > 50)
+            if (percentage > this.var._3roomsPercentage1)
             {
 
                 if(this._path[this._pos._room3]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
@@ -93,7 +93,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
                     this.noLongerMoving(game);
                 }
             }
-            else if (percentage > 25)
+            else if (percentage > this.var._3roomsPercentage2)
             {
                 if(this._path[this._pos._room2]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                 {
@@ -143,7 +143,6 @@ BonnieChica.prototype.move = function(game, otherAnimatronic/*, staticEffect*/)
             }
 
         }
-        console.log(this._pos._name)
         this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
         this.move(game, otherAnimatronic);
     }, this);

@@ -1,8 +1,10 @@
 'use strict';
 
+var Const = require('./const.js');
 //meter phoneGuy
 function Night(spriteDec, spriteU, numberNight)
 {
+    this.var = new Const();
     //Control del paso de hora y noches
     this._night = 1;
     this._hour = 0;
@@ -20,9 +22,9 @@ function Night(spriteDec, spriteU, numberNight)
     this.spriteDec.frame = 1;
     this.spriteNight.frame = 1;
 
-    this.spriteU.scale.setTo(0.8, 0.8);
-    this.spriteDec.scale.setTo(0.8, 0.8);
-    this.spriteNight.scale.setTo(0.55,0.55);
+    this.spriteU.scale.setTo(this.var._spriteNightNumScale, this.var._spriteNightNumScale);
+    this.spriteDec.scale.setTo(this.var._spriteNightNumScale, this.var._spriteNightNumScale);
+    this.spriteNight.scale.setTo(this.var._spriteNightScale,this.var._spriteNightScale);
 }
 Night.prototype.changeNight = function(freddy, chica, bonnie, /*foxy*/)
 {

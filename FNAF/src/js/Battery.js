@@ -1,36 +1,40 @@
 'use strict';
 
+var Const = require('./const.js');
+
 function Battery(spriteBar, spriteCent, spriteDec, spriteU)
 {
+    this.var = new Const();
+
     //Sprite de las barritas
     this.spriteBar = spriteBar;
-    this.spriteBar.scale.setTo(0.70, 0.60);
+    this.spriteBar.scale.setTo(this.var._spriteBarScaleX, this.var._spriteBarScaleY);
     this.spriteBar.fixedToCamera = true;
 
     //Sprite de los porcentajes
     this.spriteCent = spriteCent;
-    this.spriteCent.scale.setTo(0.6, 0.6);
+    this.spriteCent.scale.setTo(this.var._spriteNumScale, this.var._spriteNumScale);
     this.spriteCent.fixedToCamera = true;
 
     this.spriteDec = spriteDec;
-    this.spriteDec.scale.setTo(0.6, 0.6);
+    this.spriteDec.scale.setTo(this.var._spriteNumScale, this.var._spriteNumScale);
     this.spriteDec.fixedToCamera = true;
 
     this.spriteU = spriteU;
-    this.spriteU.scale.setTo(0.6, 0.6);
+    this.spriteU.scale.setTo(this.var._spriteNumScale, this.var._spriteNumScale);
     this.spriteU.fixedToCamera = true;
 
     //Cosillas para el control del tiempo
     this.restBattery = 100;
     this.batteryUssage = 1; //De primeras
-    this.timeToChange = 10000; //De primeras
+    this.timeToChange = this.var._timeToChange1; //De primeras
     this.realTimeToChange = 0;
 
     this.times = [];
-    this.times.push(10000);
-    this.times.push(5000);
-    this.times.push(3000);
-    this.times.push(2000);
+    this.times.push(this.var._timeToChange1);
+    this.times.push(this.var._timeToChange2);
+    this.times.push(this.var._timeToChange3);
+    this.times.push(this.var._timeToChange4);
 
     this.spriteCent.frame = 1;
 }
