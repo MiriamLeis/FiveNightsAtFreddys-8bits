@@ -11,7 +11,7 @@ function Light(game, posXButton, posYButton, sprite, animSprite, anim)
     this.light = sprite;
     this.light.visible = false;
 
-    this.button = game.add.button(posXButton, posYButton, 'buttonLight', function(){this.turnOff()}, this);
+    this.button = game.add.button(posXButton, posYButton, 'buttonLight', function(){ this.turnOff() }, this);
 
     this.animSprite = animSprite;
     this.animSprite.alpha = 0;
@@ -38,5 +38,9 @@ Light.prototype.turnOff = function()
         this.light.visible = false;
         this.animSprite.alpha = 0;
     }
+}
+Light.prototype.enabledInput = function(b)
+{
+    this.button.inputEnabled = b;
 }
 module.exports = Light;

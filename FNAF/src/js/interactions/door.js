@@ -6,13 +6,13 @@ function Door(game, posXButton, posYButton, posXDoor, posYDoor)
 {
     Interact.apply(this);
     
-    var doorOpen = game.add.sprite(posXDoor, posYDoor, 'doorOpen', 2);
-    var doorOpenAnim = doorOpen.animations.add('open');
+    this.doorOpen = game.add.sprite(posXDoor, posYDoor, 'doorOpen', 2);
+    this.doorOpenAnim = this.doorOpen.animations.add('open');
     
-    var doorClose = game.add.sprite(posXDoor, posYDoor, 'doorClose');
-    var doorCloseAnim = doorClose.animations.add('close');
+    this.doorClose = game.add.sprite(posXDoor, posYDoor, 'doorClose');
+    this.doorCloseAnim = this.doorClose.animations.add('close');
 
-    var button = game.add.button(posXButton, posYButton, 'buttonDoor', function(){this.actionOnClick(button, doorOpenAnim, doorCloseAnim)}, this);
+   this.button = game.add.button(posXButton, posYButton, 'buttonDoor', function(){this.actionOnClick(this.button, this.doorOpenAnim, this.doorCloseAnim)}, this);
 };
 
 Door.prototype = Object.create(Interact.prototype);
@@ -36,6 +36,9 @@ Door.prototype.actionOnClick = function(button, doorAnimOp, doorAnimClos)
         doorAnimOp.loop = false;
     }
 }
-
+Door.prototype.enabledInput = function(b)
+{
+    this.button.inputEnabled = b;
+}
 
 module.exports = Door;
