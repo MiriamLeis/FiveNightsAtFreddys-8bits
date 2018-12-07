@@ -22,12 +22,11 @@ var GameScene =
     create: function () 
     {
         this.game.world.resize(this.var._tamX * 13, this.var._tamY);
-        this.game.camera.x = 396;
-        this.timeForHour = 90000;
-        this.realTimeToChange = this.timeForHour;
+        this.game.camera.x = this.var._iniCamPos;
+        this.realTimeToChange = this.var._timeForHour + this.game.time.now;
 
         this.inOffice = true;
-        this.lastPosOffice = 396;
+        this.lastPosOffice = this.var._iniCamPos;
 
         this.moveLeft;
         this.moveRight;
@@ -60,10 +59,6 @@ var GameScene =
 
         this.moveRight.fixedToCamera = true;
         this.moveLeft.fixedToCamera = true;
-
-        //Doors
-        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
-        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
 
         //=====================================================CAMERAS========================================================================
 
@@ -113,12 +108,10 @@ var GameScene =
         //===================================================ANIMATRONICS=================================================================
 
         //Bonnie
-        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'),
-                                this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), 0);
          
         //Chica
-        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'),
-                                this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'),);
+        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), 0);
 
         //Draw animatronics
         this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
@@ -129,6 +122,16 @@ var GameScene =
         //Lights
         this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.game.add.sprite(this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight'), this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'), this.bonnie);
         this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.game.add.sprite(this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight'), this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'), this.chica);
+        //Doors
+        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
+        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
+
+        //===================================================SCREAMERS=================================================================
+
+        //Bonnie
+        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
+        //Chica
+        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
 
         //===============================================STATIC EFFECT MONITOR=============================================================
 
@@ -187,7 +190,7 @@ var GameScene =
         this.percentageText.fixedToCamera = true;
 
         //Barritas
-        this.battery = new Battery(this.game.add.sprite(this.var._batterytPosX, this.var._batterytPosY, 'battery'),
+        this.battery = new Battery(this.game, this.game.add.sprite(this.var._batterytPosX, this.var._batterytPosY, 'battery'),
                                     this.game.add.sprite(this.powerLeftText.width + this.var._batteryNumber1PosX, this.var._batteryNumber1PosY, 'numbers'),
                                     this.game.add.sprite(this.powerLeftText.width + this.var._batteryNumber2PosX, this.var._batteryNumber2PosY, 'numbers'),
                                     this.game.add.sprite(this.powerLeftText.width + this.var._batteryNumber3PosX, this.var._batteryNumber3PosY, 'numbers'));
@@ -195,6 +198,21 @@ var GameScene =
         this.usageText.scale.setTo(this.var._usageTextScale, this.var._usageTextScale);
 
         this.usageText.fixedToCamera = true;
+
+        //==========================================================NIGHTS========================================================================
+
+        //Noches
+        this.nigthsText = this.game.add.sprite(this.var._nigthsTextPosX, this.var._nigthsTextPosY, 'manyTexts', 4);
+        this.nigthsText.scale.setTo(this.var._nigthsTextScale,this.var._nigthsTextScale)
+        this.nigthsText.fixedToCamera = true;
+
+        //Horas
+        this.hourText = this.game.add.sprite(this.var._hourTextPosX, this.var._hourTextPosY, 'manyTexts', 3);
+        this.hourText.fixedToCamera = true;
+
+        this.night = new Night(this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),
+                                                    this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),
+                                                    this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
 
         //=================================================CHANGE MONITOR/CAMERA=============================================================
         
@@ -240,15 +258,73 @@ var GameScene =
 
                 if (this.bonnie.isInOffice())
                 {
-                    this.bonnie.showScreamer();
+                    this.bonnie.alphaScreamer(1);
                     this.changeView.alpha = 0;
                     this.changeView.inputEnabled = false;
+
+                    this.game.time.events.add(this.var._timeForReset, function()
+                    {
+                        //------------------DESTRUIR
+                        this.bonnie.alphaScreamer(0);
+                        delete this.bonnie;
+                        delete this.chica;
+                        //------------------Resetear objetos
+                        this.night.reset(this.doorRight, this.doorLeft, this.lightRight, this.lightLeft, this.battery);
+                        this.monitor.reset(Rooms);
+                        //Bonnie
+                        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.night.getNight() - 1);
+                        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
+                        //Chica
+                        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.night.getNight() - 1);
+                        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
+
+                        //-----------------Resetear variables
+                        this.changeView.alpha = this.var._changeViewAlpha;
+                        this.changeView.inputEnabled = true;
+                        this.moveRight.inputEnabled = true;
+                        this.moveLeft.inputEnabled = true;
+                        this.game.camera.x = this.var._iniCamPos;
+
+                        //------------------Mover animatronicos de nuevo
+                        this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
+                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
+
+                    }, this)
                 }
                 else if (this.chica.isInOffice())
                 {
-                    this.chica.showScreamer();
+                    this.chica.alphaScreamer(1);
                     this.changeView.alpha = 0;
                     this.changeView.inputEnabled = false;
+
+                    this.game.time.events.add(this.var._timeForReset, function()
+                    { 
+                        //------------------DESTRUIR
+                        this.chica.alphaScreamer(0);
+                        delete this.bonnie;
+                        delete this.chica;
+                        //------------------Resetear objetos
+                        this.night.reset(this.doorRight, this.doorLeft, this.lightRight, this.lightLeft, this.battery);
+                        this.monitor.reset(Rooms);
+                        //Bonnie
+                        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.night.getNight() - 1);
+                        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
+                        //Chica
+                        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.night.getNight() - 1);
+                        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
+
+                        //-----------------Resetear variables
+                        this.changeView.alpha = this.var._changeViewAlpha;
+                        this.changeView.inputEnabled = true;
+                        this.moveRight.inputEnabled = true;
+                        this.moveLeft.inputEnabled = true;
+                        this.game.camera.x = this.var._iniCamPos;
+
+                        //------------------Mover animatronicos de nuevo
+                        this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
+                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
+
+                    }, this)
                 }
                 else
                 {
@@ -263,11 +339,11 @@ var GameScene =
 
          }, this, 1, 0);
 
-
         this.changeView.scale.setTo(this.var._changeViewScaleX, this.var._changeViewScaleY);
         this.changeView.alpha = this.var._changeViewAlpha;
         this.changeView.fixedToCamera = true;
          
+        //----------------------Se ocultan las cosas del Monitor porque empieza en oficina
         this.mapEdge.alpha = 0;
         this.staticEffect.alpha = 0;
         this.REC.alpha = 0;
@@ -278,18 +354,6 @@ var GameScene =
 
         this.moveRight.inputEnabled = true;
         this.moveLeft.inputEnabled = true;
-
-        //==========================================================NIGHTS========================================================================
-        //Noches
-        this.nigthsText = this.game.add.sprite(this.var._nigthsTextPosX, this.var._nigthsTextPosY, 'manyTexts', 4);
-        this.nigthsText.scale.setTo(this.var._nigthsTextScale,this.var._nigthsTextScale)
-        this.nigthsText.fixedToCamera = true;
-
-        //Horas
-        this.hourText = this.game.add.sprite(this.var._hourTextPosX, this.var._hourTextPosY, 'manyTexts', 3);
-        this.hourText.fixedToCamera = true;
-
-        this.night = new Night(this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
     },
 
     update: function () 
@@ -370,7 +434,7 @@ var GameScene =
         if(this.game.time.now >this.realTimeToChange)
         {
             this.night.changeHour(this.battery); //cuando hagamos la escena de win de la noche posiblemente lo quitemos
-            this.realTimeToChange = this.timeForHour + this.game.time.now;
+            this.realTimeToChange = this.var._timeForHour + this.game.time.now;
         }
     }
 

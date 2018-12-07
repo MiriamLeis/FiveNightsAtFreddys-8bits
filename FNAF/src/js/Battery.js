@@ -2,7 +2,7 @@
 
 var Const = require('./const.js');
 
-function Battery(spriteBar, spriteCent, spriteDec, spriteU)
+function Battery(game, spriteBar, spriteCent, spriteDec, spriteU)
 {
     this.var = new Const();
 
@@ -27,7 +27,7 @@ function Battery(spriteBar, spriteCent, spriteDec, spriteU)
     //Cosillas para el control del tiempo
     this.restBattery = 100;
     this.batteryUssage = 1; //De primeras
-    this.timeToChange = this.var._timeToChange1; //De primeras
+    this.timeToChange = this.var._timeToChange1 + game.time.now; //De primeras
     this.realTimeToChange = 0;
 
     this.times = [];
@@ -114,7 +114,7 @@ Battery.prototype.decreaseBattery = function()
 Battery.prototype.reset = function()
 {
     this.restBattery = 100;
-    //his.batteryUssage = 1;
+    this.batteryUssage = 1;
     this.spriteCent.frame = 1;
     this.spriteDec.frame = 0;
     this.spriteU.frame = 0;

@@ -12,6 +12,11 @@ function Const()
     this._tamX = 792;
     this._tamY = 594;
 
+    this._iniCamPos = 396;
+    this._timeForHour = 90000;
+
+    this._timeForReset = 2000;
+
     //Luces
     this._lightButtonIzqPosX = 157;
     this._lightButtonIzqPosY = 274;

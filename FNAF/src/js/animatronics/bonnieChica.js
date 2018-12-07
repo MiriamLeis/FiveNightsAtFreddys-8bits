@@ -3,9 +3,9 @@ var Animatronics = require('./Animatronics.js');
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, screamer, path, hour, actTime, Var)
+function BonnieChica(sprite, night, path, hour, actTime, Var)
 {
-    Animatronics.apply(this,[sprite, screamer, path, hour, actTime, Var]);
+    Animatronics.apply(this,[sprite, night, path, hour, actTime, Var]);
     this.dinningRoom = false;
     this.inOffice = false;
     this.attacking = false;

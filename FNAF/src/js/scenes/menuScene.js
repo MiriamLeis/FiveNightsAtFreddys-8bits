@@ -16,12 +16,12 @@ var Menu =
         this.title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
 
         //---------------------------------------------------NEW GAME-----------------------------------------------------
-        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ game.state.start('game'); }, this, 1, 0, 1);
+        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
 
         //---------------------------------------------------CONTINUE-----------------------------------------------------
 
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
-        
+
 
         //----------------------------------------------------STATIC EFFECT-----------------------------------------------
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');

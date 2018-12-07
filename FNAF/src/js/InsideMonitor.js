@@ -21,7 +21,11 @@ function InsideMonitor (game, Rooms, camerasTexts)
     this.cam1A.frame = 11;
     this.lastPos = Rooms.cameraPositions.ShowStage.x;
 };
-
+InsideMonitor.prototype.reset = function(Rooms)
+{   
+    this.cam1A.frame = 11;
+    this.lastPos = Rooms.cameraPositions.ShowStage.x;
+}
 InsideMonitor.prototype.changeActive = function(button, game, roomName, roomCam, numCam)
 {   
     this.lastPos = game.camera.x = roomCam.x;
@@ -42,7 +46,6 @@ InsideMonitor.prototype.changeActive = function(button, game, roomName, roomCam,
     button.frame = numCam + 11;
     roomName.frame = roomCam.nameFrame;
 }
-
 InsideMonitor.prototype.addButton = function(game, roomName, roomCam, posX, posY, button, numCam)
 {
     var button = game.add.button(0, 0, 'buttonsCameras', function (){this.changeActive(button, game, roomName, roomCam, numCam)}, this);
@@ -53,7 +56,6 @@ InsideMonitor.prototype.addButton = function(game, roomName, roomCam, posX, posY
 
     return button;
 }
-
 InsideMonitor.prototype.notInput = function()
 {
     this.cam1A.inputEnabled = false;
@@ -108,8 +110,6 @@ InsideMonitor.prototype.Input = function()
     this.cam6.alpha = 1;
     this.cam7.alpha = 1;
 }
-
-
 InsideMonitor.prototype.LastPos = function()
 {
     return this.lastPos;

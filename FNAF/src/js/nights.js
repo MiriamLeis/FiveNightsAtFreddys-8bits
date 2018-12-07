@@ -26,6 +26,15 @@ function Night(spriteDec, spriteU, numberNight)
     this.spriteDec.scale.setTo(this.var._spriteNightNumScale, this.var._spriteNightNumScale);
     this.spriteNight.scale.setTo(this.var._spriteNightScale,this.var._spriteNightScale);
 }
+Night.prototype.reset = function(doorR, doorL, lightR, lightL, battery)
+{
+    doorR.reset();
+    doorL.reset();
+    lightR.reset();
+    lightL.reset();
+    battery.reset();
+}
+Night.prototype.getNight = function() {return this._night;}
 Night.prototype.changeNight = function(freddy, chica, bonnie, /*foxy*/)
 {
     this._night++;

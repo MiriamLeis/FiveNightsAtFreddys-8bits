@@ -21,6 +21,14 @@ function Light(game, posXButton, posYButton, sprite, animSprite, anim)
 
 Light.prototype = Object.create(Interact.prototype);
 Light.prototype.constructor = Light;
+
+Light.prototype.reset = function()
+{
+    this.resetInteract();
+    this.button.frame = 0;
+    this.light.visible = false;
+    this.animSprite.alpha = 0;
+}
 Light.prototype.turnOff = function() 
 {
     this.changeActive();

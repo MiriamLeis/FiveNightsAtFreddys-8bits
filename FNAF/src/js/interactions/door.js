@@ -12,28 +12,34 @@ function Door(game, posXButton, posYButton, posXDoor, posYDoor)
     this.doorClose = game.add.sprite(posXDoor, posYDoor, 'doorClose');
     this.doorCloseAnim = this.doorClose.animations.add('close');
 
-   this.button = game.add.button(posXButton, posYButton, 'buttonDoor', function(){this.actionOnClick(this.button, this.doorOpenAnim, this.doorCloseAnim)}, this);
+   this.button = game.add.button(posXButton, posYButton, 'buttonDoor', function(){this.actionOnClick()}, this);
 };
 
 Door.prototype = Object.create(Interact.prototype);
 Door.prototype.constructor = Door;
 
-Door.prototype.actionOnClick = function(button, doorAnimOp, doorAnimClos) 
+Door.prototype.reset = function()
+{
+    this.resetInteract();
+    this.button.frame = 0;
+    this.doorCloseAnim.frame = 0;
+}
+Door.prototype.actionOnClick = function() 
 {
     this.changeActive();
     if (this._active)
     {
-        button.frame = 1;
-        doorAnimOp.frame = 2;
-        doorAnimClos.play(10, true);
-        doorAnimClos.loop = false;
+        this.button.frame = 1;
+        this.doorOpenAnim.frame = 2;
+        this.doorCloseAnim.play(10, true);
+        this.doorCloseAnim.loop = false;
     }
     else
     {
-        button.frame = 0;
-        doorAnimClos.frame = 0;
-        doorAnimOp.play(10, true);
-        doorAnimOp.loop = false;
+        this.button.frame = 0;
+        this.doorCloseAnim.frame = 0;
+        this.doorOpenAnim.play(10, true);
+        this.doorOpenAnim.loop = false;
     }
 }
 Door.prototype.enabledInput = function(b)
