@@ -61,6 +61,10 @@ var GameScene =
         this.moveRight.fixedToCamera = true;
         this.moveLeft.fixedToCamera = true;
 
+        //Doors
+        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
+        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
+
         //=====================================================CAMERAS========================================================================
 
         var ShowStage = 'ShowStage';
@@ -120,13 +124,11 @@ var GameScene =
         this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
         this.freddy.scale.setTo(1.5, 1.5);
 
+        //===================================================OFFICE 2.0=================================================================
 
-        //Door and light buttons
+        //Lights
         this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.game.add.sprite(this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight'), this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'), this.bonnie);
         this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.game.add.sprite(this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight'), this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'), this.chica);
-        
-        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
-        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
 
         //===============================================STATIC EFFECT MONITOR=============================================================
 
@@ -139,9 +141,8 @@ var GameScene =
         //===================================================ANIMATRONICS MOVE===========================================================
 
         this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
-        //this.bonnie.attack();
 
-        //this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
+        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
 
         //=====================================================MONITOR=====================================================================
 
@@ -196,7 +197,7 @@ var GameScene =
         this.usageText.fixedToCamera = true;
 
         //=================================================CHANGE MONITOR/CAMERA=============================================================
-
+        
         this.changeView = this.game.add.button(this.var._changeViewPosX, this.var._changeViewPosY, 'buttonMonitor', function () 
         { 
 
@@ -237,10 +238,25 @@ var GameScene =
                 this.camerasTexts.alpha = 0;
                 this.monitor.notInput();
 
-                this.moveRight.inputEnabled = true;
-                this.moveLeft.inputEnabled = true;
+                if (this.bonnie.isInOffice())
+                {
+                    this.bonnie.showScreamer();
+                    this.changeView.alpha = 0;
+                    this.changeView.inputEnabled = false;
+                }
+                else if (this.chica.isInOffice())
+                {
+                    this.chica.showScreamer();
+                    this.changeView.alpha = 0;
+                    this.changeView.inputEnabled = false;
+                }
+                else
+                {
+                    this.moveRight.inputEnabled = true;
+                    this.moveLeft.inputEnabled = true;
 
-                this.battery.decreaseBatteryUsage(this.game.time.now);
+                    this.battery.decreaseBatteryUsage(this.game.time.now);
+                }
             }
 
             this.inOffice = !this.inOffice;

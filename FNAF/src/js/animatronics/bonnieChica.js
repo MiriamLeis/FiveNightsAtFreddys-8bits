@@ -70,7 +70,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                     else
                     {
                         
-                        if (percentage > this.var._2roomsPercentage1)
+                        if (!light.getActive() && percentage > this.var._2roomsPercentage1)
                         {
                             console.log("soy chica");
                             this.attack(game, door, light);    
@@ -125,7 +125,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                     }
                     else
                     {
-                        if (percentage > this.var._3roomsPercentage1)
+                        if (!light.getActive() && percentage > this.var._3roomsPercentage1)
                         {
                             console.log("soy bonnie");
                             this.attack(game ,door, light);
@@ -158,6 +158,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
 
                 this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
+                if(!this.inOffice)
                 this.move(game, otherAnimatronic, staticEffect, door, light);
             }
         }, this);
@@ -178,13 +179,14 @@ BonnieChica.prototype.attack = function(game, door, light)
 {
     if(!this.inOffice)
     {
-        this.hideSprite();
+        this.alphaSprite(0);
         this.attacking = true;
         console.log("Tas Muerto Crack");
         var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);//Cambiar por tiempos de ataque
 
         game.time.events.add(timeToMove, function()
         {
+            console.log('po ia e iejado');
             if(!this.inOffice)
             {
                 if(!door.getActive())
@@ -200,13 +202,13 @@ BonnieChica.prototype.attack = function(game, door, light)
                 {
                     console.log("Pue adioh");
                     this._pos = this._path[this._pos._room2];
-                    this.showSprite();
+                    this.alphaSprite(1);
                 }
                 else
                 {
                     console.log("Pue adioh");
                     this._pos = this._path[this._pos._room1];
-                    this.showSprite();
+                    this.alphaSprite(1);
                 }
                 this.attacking = false;
             }

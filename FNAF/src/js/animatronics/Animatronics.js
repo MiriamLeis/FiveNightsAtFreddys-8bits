@@ -39,14 +39,10 @@ Animatronics.prototype.showScreamer = function()
 {
     this._screamer.alpha = 1;
 };
-Animatronics.prototype.showSprite = function()
+Animatronics.prototype.alphaSprite = function(n)
 {
-    this._sprite.alpha = 1;
-};
-Animatronics.prototype.hideSprite = function()
-{
-    this._sprite.alpha = 0;
-};
+    this._sprite.alpha = n;
+}
 Animatronics.prototype.changeInfo = function(night)
 {
     this._pos = this._path[0];
