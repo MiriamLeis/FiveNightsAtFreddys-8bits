@@ -69,9 +69,12 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                     }
                     else
                     {
-                        console.log(light);
+                        
                         if (percentage > this.var._2roomsPercentage1)
-                            this.attack(game, door, light);
+                        {
+                            console.log("soy chica");
+                            this.attack(game, door, light);    
+                        }
                         else
                             this._pos = this._path[this._pos._room1];
                     }
@@ -123,7 +126,10 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                     else
                     {
                         if (percentage > this.var._3roomsPercentage1)
+                        {
+                            console.log("soy bonnie");
                             this.attack(game ,door, light);
+                        }
                         else if (percentage > this.var._3roomsPercentage2)
                             this._pos = this._path[this._pos._room2];
                         else
@@ -170,16 +176,17 @@ BonnieChica.prototype.isAttacking = function()
 
 BonnieChica.prototype.attack = function(game, door, light)
 {
-    console.log(light);
     if(!this.inOffice)
     {
+        this.hideSprite();
         this.attacking = true;
         console.log("Tas Muerto Crack");
         var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);//Cambiar por tiempos de ataque
 
         game.time.events.add(timeToMove, function()
         {
-            if(!this.inOffice){
+            if(!this.inOffice)
+            {
                 if(!door.getActive())
                 {
                     if(light.getActive()) 
@@ -188,6 +195,18 @@ BonnieChica.prototype.attack = function(game, door, light)
                     this.inOffice = true;
                     light.enabledInput(false);
                     door.enabledInput(false);
+                }
+                else if(this._pos._number == 3)
+                {
+                    console.log("Pue adioh");
+                    this._pos = this._path[this._pos._room2];
+                    this.showSprite();
+                }
+                else
+                {
+                    console.log("Pue adioh");
+                    this._pos = this._path[this._pos._room1];
+                    this.showSprite();
                 }
                 this.attacking = false;
             }

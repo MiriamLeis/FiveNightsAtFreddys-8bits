@@ -141,7 +141,7 @@ var GameScene =
         this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
         //this.bonnie.attack();
 
-        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
+        //this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
 
         //=====================================================MONITOR=====================================================================
 
