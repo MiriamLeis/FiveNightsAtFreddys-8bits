@@ -84,11 +84,13 @@ var PreloaderScene =
     this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 364, 66, 11);
     this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 264, 66, 5);
     this.game.load.spritesheet('numbers', './images/texts/numbers.png', 33, 66, 10);
+    this.game.load.image('titleText', './images/texts/Title.png');
+    this.game.load.spritesheet('newGameText', './images/texts/NewGame.png', 276, 66, 2);
   },
 
   create: function () 
   {
-    this.game.state.start('game');
+    this.game.state.start('menu');
   }
 };
 
