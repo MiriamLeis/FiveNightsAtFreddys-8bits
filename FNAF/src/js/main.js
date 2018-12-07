@@ -3,6 +3,8 @@
 var Const = require('./const.js')
 var MenuScene = require('./scenes/menuScene.js');
 var GameScene = require('./scenes/gameScene.js');
+var DeathScene = require('./scenes/deathScene.js');
+var WinScene = require('./scenes/winScene.js');
 
 var BootScene = 
 {
@@ -103,6 +105,8 @@ window.onload = function ()
   game.state.add('preloader', PreloaderScene);
   game.state.add('menu', MenuScene);
   game.state.add('game', GameScene);
+  game.state.add('death', DeathScene);
+  game.state.add('win', WinScene);
 
 
   game.state.start('boot');

@@ -2,11 +2,23 @@
 
 var Const = require('./const.js');
 //meter phoneGuy
-function Night(spriteDec, spriteU, numberNight)
+function Night(game, spriteDec, spriteU, numberNight)
 {
     this.var = new Const();
+    this.game = game;
     //Control del paso de hora y noches
-    this._night = 1;
+    if(!localStorage.getItem('numNight'))
+    {
+        console.log("no sa guardao")
+
+        this._night = 1;
+    }
+    else
+    {
+        console.log("sa guardao")
+
+        this._night = JSON.parse(localStorage.getItem('numNight'));
+    }
     this._hour = 0;
     this._hourArr = [12,1,2,3,4,5,6];
 
@@ -20,7 +32,7 @@ function Night(spriteDec, spriteU, numberNight)
     
     this.spriteU.frame = 2;
     this.spriteDec.frame = 1;
-    this.spriteNight.frame = 1;
+    this.spriteNight.frame = this._night;
 
     this.spriteU.scale.setTo(this.var._spriteNightNumScale, this.var._spriteNightNumScale);
     this.spriteDec.scale.setTo(this.var._spriteNightNumScale, this.var._spriteNightNumScale);
@@ -35,15 +47,7 @@ Night.prototype.reset = function(doorR, doorL, lightR, lightL, battery)
     battery.reset();
 }
 Night.prototype.getNight = function() {return this._night;}
-Night.prototype.changeNight = function(freddy, chica, bonnie, /*foxy*/)
-{
-    this._night++;
-    this.spriteNight.frame++;
-    freddy.changeInfo(night);
-    chica.changeInfo(night);
-    bonnie.changeInfo(night);
-    //foxy.changeInfo(night);
-}
+
 Night.prototype.startNight = function()
 {
     //animacion hora al terminar
@@ -52,11 +56,8 @@ Night.prototype.startNight = function()
 Night.prototype.finishNight = function()
 {
     this._night++;
-    this.spriteNight.frame = this._night;
-
-    this.spriteDec.alpha = 1;
-    this._hour = 0;
-    this.spriteU.frame = this._hourArr[2];
+    localStorage.setItem("numNight", JSON.stringify(this._night));
+    this.game.state.start('win');
 }
 Night.prototype.changeHour = function(battery)
 {
@@ -67,7 +68,6 @@ Night.prototype.changeHour = function(battery)
     if(this._hour == 6)
     {
         this.finishNight();
-        battery.reset();
     }
 }
 

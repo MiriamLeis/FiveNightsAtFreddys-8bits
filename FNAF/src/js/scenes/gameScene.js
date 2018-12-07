@@ -210,7 +210,7 @@ var GameScene =
         this.hourText = this.game.add.sprite(this.var._hourTextPosX, this.var._hourTextPosY, 'manyTexts', 3);
         this.hourText.fixedToCamera = true;
 
-        this.night = new Night(this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),
+        this.night = new Night(this.game, this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),
                                                     this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),
                                                     this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
 
@@ -264,8 +264,9 @@ var GameScene =
 
                     this.game.time.events.add(this.var._timeForReset, function()
                     {
+                        this.game.state.start('death');
                         //------------------DESTRUIR
-                        this.bonnie.alphaScreamer(0);
+                        /*this.bonnie.alphaScreamer(0);
                         delete this.bonnie;
                         delete this.chica;
                         //------------------Resetear objetos
@@ -287,7 +288,7 @@ var GameScene =
 
                         //------------------Mover animatronicos de nuevo
                         this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
-                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
+                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);*/
 
                     }, this)
                 }
@@ -299,8 +300,9 @@ var GameScene =
 
                     this.game.time.events.add(this.var._timeForReset, function()
                     { 
+                        this.game.state.start('death');
                         //------------------DESTRUIR
-                        this.chica.alphaScreamer(0);
+                        /*this.chica.alphaScreamer(0);
                         delete this.bonnie;
                         delete this.chica;
                         //------------------Resetear objetos
@@ -322,7 +324,7 @@ var GameScene =
 
                         //------------------Mover animatronicos de nuevo
                         this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
-                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
+                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);*/
 
                     }, this)
                 }
