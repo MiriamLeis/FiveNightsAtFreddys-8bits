@@ -18,13 +18,22 @@ var WinScene =
 
         //---------------------------------------------------NEW GAME-----------------------------------------------------
         //Cambiar imagenes
-        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
+        
         //---------------------------------------------------CONTINUE-----------------------------------------------------
-
+        this.game.time.events.add(10000, function()
+                    {
+                    this.game.state.start('game');
+                    },this);
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
 
+        
 
         //----------------------------------------------------STATIC EFFECT-----------------------------------------------
+        this.hourText = this.game.add.sprite(this.var._winTextX, this.var._winTextY, 'manyTexts', 3);
+
+        this.nmumber = this.game.add.sprite(this.var._winNumberX , this.var._winNumberY, 'numbers', 6)
+        this.nmumber.scale.setTo(this.var._winNumberScale,this.var._winNumberScale);
+
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
         this.staticEffect.animations.add('startEffect');
         this.staticEffect.animations.play('startEffect', 5, true);

@@ -258,6 +258,14 @@ function Const()
     this._spriteChicaAttackPosX = this._tamX * 2 - 144;
     this._spriteChicaAttackPosY = 176;
 
+    //====================================================WIN SCENE============================================
+    this._winTextX = 410;
+    this._winTextY = 250;
+
+    this._winNumberX = 370;
+    this._winNumberY = 254;
+    this._winNumberScale = 0.9;
+
 };
 
 
