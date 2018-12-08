@@ -1,6 +1,6 @@
 
 //--------------------Clase Animatronicos
-function Animatronics(sprite, night, path, hours, actTime, Var)
+function Animatronics(sprite, path, hours, actTime, Var)
 {
     this.var = Var;
     //Phaser.Sprite.apply(this,game,sprite)
@@ -21,69 +21,33 @@ function Animatronics(sprite, night, path, hours, actTime, Var)
     this._actualActTime = actTime[night];
 };
 
-Animatronics.prototype = Object.create(Phaser.Sprite.prototype);
-Animatronics.prototype.constructor = Animatronics;
-
-Animatronics.prototype.delete = function()
-{
-    this._sprite.destroy();
-    this._screamer.destroy();
-}
-Animatronics.prototype.createScreamer = function(screamer)
-{
-    this._screamer = screamer;
-    this._screamer.scale.setTo(this.var._screamerScale, this.var._screamerScale);
-    this._screamer.alpha = 0;
-    this._screamer.fixedToCamera = true;
-};
-Animatronics.prototype.getPos = function() 
-{
-    return this._pos;
-};
-Animatronics.prototype.activateAnim = function()
-{//MIRAR
-    this._sprite.animations.add('animation');
-    this._sprite.animations.play('animation', 10, true);
-};
-Animatronics.prototype.alphaScreamer = function(n)
-{
-    this._screamer.alpha = n;
-};
-Animatronics.prototype.alphaSprite = function(n)
-{
-    this._sprite.alpha = n;
-}
-Animatronics.prototype.changeInfo = function(night)
-{
-    this._pos = this._path[0];
-    this._hoursIni = this._hours[night];
-    this._actualActTime = this._actTime[night];
-};
-Animatronics.prototype.moveEffect = function(game, staticEffect)
-{  
-    staticEffect.alpha = 1;
-    game.time.events.add(3000, function()
-    {
-        if (game.camera.x < this.var._showStagePosX)
-            staticEffect.alpha = 0;
-        else
-            staticEffect.alpha = 0.1;
-    }, this)
-};
-
-
+//--------------------Clase Animatronicos
+var Animatronics = require('./Animatronics.js'); 
+var Const = require('../const.js');
+var Room = require('./room.js');
 
 
 //---------------------Freddy-------------------------//
-function Freddy(sprite, screamer, animation, posIni, hourIni, actTime)
+function Freddy(sprite)
 {
-    FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
+    this.var = new Const();
+    Animatronics.apply(this,[sprite,  
+                                    [new Room (this.var._chicaRoom1X, this.var._chicaRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
+                                    new Room (this.var._chicaRoom2X, this.var._chicaRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, null,null), 
+                                    new Room (this.var._chicaRoom3X, this.var._chicaRoom3Y, this.var._restroomsPosX, this.var._restroomsPosY, 'restroom', 3, null, null), 
+                                    new Room (this.var._chicaRoom4X, this.var._chicaRoom4Y, this.var._kitchenPosX, this.var._kitchenPosY, 'kitchen', 4, null, null),
+                                    new Room (this.var._chicaRoom5X, this.var._chicaRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 5, null, null), 
+                                    new Room (this.var._chicaRoom6X, this.var._chicaRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', null, null, null, true)],
+                                    //rango de horas de activacion
+                                    [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
+                                    //rango de segundos de movimiento
+                                    [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}], this.var]);
 };
-Freddy.prototype = Object.create(FreddyFoxy.prototype);
+Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
 
 Freddy.prototype.move = function(){};
 Freddy.prototype.attack = function(){};
 
 
-module.exports = Animatronics;
+module.exports = Freddy;

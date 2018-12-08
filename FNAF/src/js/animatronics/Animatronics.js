@@ -75,7 +75,7 @@ Animatronics.prototype.changeNight = function(night)
 }
 
 //---------------------Foxy-------------------------//
-function Foxy(sprite, screamer, animation, posIni, hourIni, actTime)
+/*function Foxy(sprite, screamer, animation, posIni, hourIni, actTime)
 {
     FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
 };
@@ -83,20 +83,6 @@ Foxy.prototype = Object.create(FreddyFoxy.prototype);
 Foxy.prototype.constructor = Foxy;
 
 Foxy.prototype.move = function(){};
-Foxy.prototype.attack = function(){};
-
-
-
-//---------------------Freddy-------------------------//
-function Freddy(sprite, screamer, animation, posIni, hourIni, actTime)
-{
-    FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
-};
-Freddy.prototype = Object.create(FreddyFoxy.prototype);
-Freddy.prototype.constructor = Freddy;
-
-Freddy.prototype.move = function(){};
-Freddy.prototype.attack = function(){};
-
+Foxy.prototype.attack = function(){};*/
 
 module.exports = Animatronics;
