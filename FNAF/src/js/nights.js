@@ -1,7 +1,7 @@
 'use strict';
 
 var Const = require('./const.js');
-//meter phoneGuy
+//meter  phoneGuy
 function Night(game, spriteDec, spriteU, numberNight)
 {
     this.var = new Const();
