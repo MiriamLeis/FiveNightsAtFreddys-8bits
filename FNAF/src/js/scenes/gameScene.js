@@ -141,10 +141,27 @@ var GameScene =
 
         this.staticEffect.fixedToCamera = true;
 
+        //==========================================================NIGHTS========================================================================
+
+        //Noches
+        this.nigthsText = this.game.add.sprite(this.var._nigthsTextPosX, this.var._nigthsTextPosY, 'manyTexts', 4);
+        this.nigthsText.scale.setTo(this.var._nigthsTextScale,this.var._nigthsTextScale)
+        this.nigthsText.fixedToCamera = true;
+
+        //Horas
+        this.hourText = this.game.add.sprite(this.var._hourTextPosX, this.var._hourTextPosY, 'manyTexts', 3);
+        this.hourText.fixedToCamera = true;
+
+        this.night = new Night(this.game, this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),
+                                                    this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),
+                                                    this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
+
         //===================================================ANIMATRONICS MOVE===========================================================
 
+        this.bonnie.changeNight(this.night.getNight());
         this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
 
+        this.chica.changeNight(this.night.getNight());
         this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
 
         //=====================================================MONITOR=====================================================================
@@ -198,21 +215,6 @@ var GameScene =
         this.usageText.scale.setTo(this.var._usageTextScale, this.var._usageTextScale);
 
         this.usageText.fixedToCamera = true;
-
-        //==========================================================NIGHTS========================================================================
-
-        //Noches
-        this.nigthsText = this.game.add.sprite(this.var._nigthsTextPosX, this.var._nigthsTextPosY, 'manyTexts', 4);
-        this.nigthsText.scale.setTo(this.var._nigthsTextScale,this.var._nigthsTextScale)
-        this.nigthsText.fixedToCamera = true;
-
-        //Horas
-        this.hourText = this.game.add.sprite(this.var._hourTextPosX, this.var._hourTextPosY, 'manyTexts', 3);
-        this.hourText.fixedToCamera = true;
-
-        this.night = new Night(this.game, this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),
-                                                    this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),
-                                                    this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
 
         //=================================================CHANGE MONITOR/CAMERA=============================================================
         

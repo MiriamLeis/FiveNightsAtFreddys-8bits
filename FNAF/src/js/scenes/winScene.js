@@ -20,7 +20,7 @@ var WinScene =
         //Cambiar imagenes
         
         //---------------------------------------------------CONTINUE-----------------------------------------------------
-        this.game.time.events.add(10000, function()
+        this.game.time.events.add(3000, function()
                     {
                     this.game.state.start('game');
                     },this);

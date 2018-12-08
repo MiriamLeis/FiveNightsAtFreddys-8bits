@@ -1,6 +1,6 @@
 
 //--------------------Clase Animatronicos
-function Animatronics(sprite, path, hours, actTime, Var)
+function Animatronics(sprite, night, path, hours, actTime, Var)
 {
     this.var = Var;
     //Phaser.Sprite.apply(this,game,sprite)
@@ -15,8 +15,10 @@ function Animatronics(sprite, path, hours, actTime, Var)
     this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
     this._hours = hours;
+    this._hoursIni = this._hours[night];//Array de noches con las horas de inicio
 
     this._actTime = actTime; //Array de noches con los parametros de actIni y actFin
+    this._actualActTime = actTime[night];
 };
 
 Animatronics.prototype = Object.create(Phaser.Sprite.prototype);
@@ -68,22 +70,7 @@ Animatronics.prototype.moveEffect = function(game, staticEffect)
             staticEffect.alpha = 0.1;
     }, this)
 };
-Animatronics.prototype.changeNight = function(night)
-{
-    this._actualActTime = this._actTime[night];
-    this._hoursIni = this._hours[night];//Array de noches con las horas de inicio
-}
 
-//---------------------Foxy-------------------------//
-function Foxy(sprite, screamer, animation, posIni, hourIni, actTime)
-{
-    FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
-};
-Foxy.prototype = Object.create(FreddyFoxy.prototype);
-Foxy.prototype.constructor = Foxy;
-
-Foxy.prototype.move = function(){};
-Foxy.prototype.attack = function(){};
 
 
 
