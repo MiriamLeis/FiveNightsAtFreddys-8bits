@@ -81,7 +81,6 @@ var PreloaderScene =
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
 
     //Text
-    
     this.game.load.image('REC', './images/texts/REC.png');
     this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 364, 66, 11);
     this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 264, 66, 5);
@@ -90,6 +89,7 @@ var PreloaderScene =
     this.game.load.spritesheet('newGameText', './images/texts/NewGame.png', 276, 66, 2);
     this.game.load.spritesheet('continueText', './images/texts/Continue.png', 272, 66, 2);
     this.game.load.image('gameOverText', './images/texts/GameOver.png');
+    this.game.load.image('freddyMenu', './images/animatronics/FreddyMenu.png');
   },
 
   create: function () 

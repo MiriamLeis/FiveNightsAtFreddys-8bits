@@ -11,6 +11,9 @@ function Const()
     this._contPosX = 50; 
     this._contPosY = 600 - 180;
 
+    this._freddyPosX = 800 - 350; 
+    this._freddyPosY = 0;
+
     //=====================================================DEATHSCENE=============================================
     this._gOTextPosX = 800 - 270; 
     this._gOTextPosY = 600 - 70;
