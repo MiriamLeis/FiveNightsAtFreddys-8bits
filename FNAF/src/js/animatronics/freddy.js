@@ -10,7 +10,7 @@ function Freddy(sprite, attack)
     this.var = new Const();
 
     this.attackSprite = attack;
-    //this.attackSprite.alpha = 0;
+    this.attackSprite.alpha = 0;
 
     Animatronics.apply(this,[sprite,  
                             //ruta
@@ -42,17 +42,13 @@ Freddy.prototype.attack = function()
 };
 Freddy.prototype.attackBattery = function(game)
 {
-    console.log('holi');
-    this.attackSprite.alpha = 1;
-    this.attackSprite.animations.add('start');
-    this.attackSprite.animations.play('start', 1, true);
-    /*game.time.events.add(18000, function()
+    game.time.events.add(5000, function()
     {
        this.attackSprite.alpha = 1;
        this.attackSprite.animations.add('start');
-       this.attackSprite.animations.play('start', 10, true);
+       this.attackSprite.animations.play('start', 1, true);
     }
-    , this);*/
+    , this);
 };
 
 

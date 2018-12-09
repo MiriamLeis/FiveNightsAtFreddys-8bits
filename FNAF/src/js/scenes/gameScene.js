@@ -116,7 +116,7 @@ var GameScene =
 
         //Fredyy
         this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
-                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPos, 'freddyAttack'));
+                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'));
 
         //===================================================OFFICE 2.0=================================================================
 
@@ -130,14 +130,13 @@ var GameScene =
         //===================================================SCREAMERS=================================================================
 
         //Bonnie
-        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
+        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerBonniePosX , this.var._screamerBonniePosY, 'screamerBonnie'));
 
         //Chica
-        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
+        this.chica.createScreamer(this.game.add.sprite(this.var._screamerChicaPosX , this.var._screamerChicaPosY, 'screamerChica'));
 
         //Freddy
-        this.freddy.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerFreddy'));
-        this.freddy.attackBattery(this.game);
+        this.freddy.createScreamer(this.game.add.sprite(this.var._screamerFreddyPosX , this.var._screamerFreddyPosY, 'screamerFreddy'));
 
 
         //===============================================STATIC EFFECT MONITOR=============================================================
@@ -147,6 +146,20 @@ var GameScene =
         this.staticEffect.animations.play('startEffect', 10, true);
 
         this.staticEffect.fixedToCamera = true;
+
+        //===============================================OFFICE EFFECT=============================================================
+
+        this.officeEffect = this.game.add.sprite(0, 0, 'officeEffect');
+        this.officeEffect.alpha = 0.5;
+
+        this.officeEffect.fixedToCamera = true;
+
+        //===============================================DRAKNESS EFFECT=============================================================
+
+        this.darkness = this.game.add.sprite(0, 0, 'darkness');
+        this.darkness.alpha = 0;
+
+        this.darkness.fixedToCamera = true;
 
         //==========================================================NIGHTS========================================================================
 
@@ -239,6 +252,7 @@ var GameScene =
             if (this.inOffice) 
             {
                 this.game.camera.x = this.monitor.LastPos();
+                this.officeEffect.alpha = 0;
 
                 this.mapEdge.alpha = 1;
                 this.staticEffect.alpha = 0.1;
@@ -255,7 +269,6 @@ var GameScene =
                     
                 this.monitor.Input();
 
-
                 this.moveRight.inputEnabled = false;
                 this.moveLeft.inputEnabled = false;
 
@@ -264,6 +277,7 @@ var GameScene =
             else 
             {
                 this.game.camera.x = this.lastPosOffice;
+                this.officeEffect.alpha = 0.5;
 
                 this.mapEdge.alpha = 0;
                 this.staticEffect.alpha = 0;

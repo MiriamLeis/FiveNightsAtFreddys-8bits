@@ -79,6 +79,8 @@ var PreloaderScene =
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
+    this.game.load.image('officeEffect', './images/effect/borde.png');
+    this.game.load.image('darkness', './images/effect/fondoOficina.png');
 
     //Text
     this.game.load.image('REC', './images/texts/REC.png');

@@ -30,7 +30,6 @@ Animatronics.prototype.delete = function()
 Animatronics.prototype.createScreamer = function(screamer)
 {
     this._screamer = screamer;
-    this._screamer.scale.setTo(this.var._screamerScale, this.var._screamerScale);
     this._screamer.alpha = 0;
     this._screamer.fixedToCamera = true;
 };

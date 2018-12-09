@@ -199,7 +199,7 @@ function Const()
     this._cam7PosX = -21.8;
     this._cam7PosY = -12.85;
 
-    //=====================================================================NIGHT=========================================
+    //==========================================================NIGHT=========================================
 
     this._spriteNightNumScale = 0.8;
     this._spriteNightScale = 0.55;
@@ -208,10 +208,16 @@ function Const()
 
     this._spriteAnimScale = 1.5;
 
-    //Screamers
-    this._screamerPosX = this._tamX/2 - 160;
-    this._screamerPosY = 0;   
-    this._screamerScale = 2.5;
+    //------Screamers
+    //Bonnie
+        this._screamerBonniePosX = -50;
+        this._screamerBonniePosY = -200;  
+    //Chica
+        this._screamerChicaPosX = -25;
+        this._screamerChicaPosY = 0;
+    //Freddy
+        this._screamerFreddyPosX = -200;
+        this._screamerFreddyPosY = -50;
 
     //===========================================================BONNIE/CHICA===============================================
 
@@ -289,8 +295,8 @@ function Const()
     this._freddyRoom6Y = 300;
 
     //Attack
-    this._spriteFreddyAttackPosX = 10;
-    this._spriteFreddyAttackPosY = 10;
+    this._spriteFreddyAttackPosX = 220;
+    this._spriteFreddyAttackPosY = 150;
 
     //====================================================WIN SCENE============================================
     this._winTextX = 410;
