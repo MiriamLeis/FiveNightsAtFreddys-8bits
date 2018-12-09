@@ -8,6 +8,9 @@ function Const()
     this._nGPosX = 50; 
     this._nGPosY = 600 - 250;
 
+    this._contPosX = 50; 
+    this._contPosY = 600 - 180;
+
     //=====================================================GAMESCENE=============================================
     this._tamX = 792;
     this._tamY = 594;

@@ -17,10 +17,9 @@ var Menu =
 
         //---------------------------------------------------NEW GAME-----------------------------------------------------
         var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ localStorage.removeItem('numNight'); this.game.state.start('game'); }, this, 1, 0, 1);
-        //Cambiar sprite
-        var buttonContinue = this.game.add.button(this.var._nGPosX, this.var._nGPosY +100, 'newGameText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
 
         //---------------------------------------------------CONTINUE-----------------------------------------------------
+        var buttonContinue = this.game.add.button(this.var._contPosX, this.var._contPosY, 'continueText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
 
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
 

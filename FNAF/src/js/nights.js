@@ -46,13 +46,14 @@ Night.prototype.reset = function(doorR, doorL, lightR, lightL, battery)
     lightL.reset();
     battery.reset();
 }
-Night.prototype.getNight = function() {return this._night;}
-
+Night.prototype.getNight = function() 
+{
+    return this._night;
+}
 Night.prototype.startNight = function()
 {
     //animacion hora al terminar
 }
-
 Night.prototype.finishNight = function()
 {
     this._night++;
@@ -70,7 +71,6 @@ Night.prototype.changeHour = function(battery)
         this.finishNight();
     }
 }
-
 module.exports = Night;
 //Se veran si se añaden mas
 

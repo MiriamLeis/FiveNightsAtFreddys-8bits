@@ -88,11 +88,12 @@ var PreloaderScene =
     this.game.load.spritesheet('numbers', './images/texts/numbers.png', 33, 66, 10);
     this.game.load.image('titleText', './images/texts/Title.png');
     this.game.load.spritesheet('newGameText', './images/texts/NewGame.png', 276, 66, 2);
+    this.game.load.spritesheet('continueText', './images/texts/Continue.png', 272, 66, 2);
   },
 
   create: function () 
   {
-    this.game.state.start('menu');
+    this.game.state.start('win');
   }
 };
 
@@ -111,32 +112,3 @@ window.onload = function ()
 
   game.state.start('boot');
 };
-
-
-function Main()
-{
-  /*
-  Create
-  {
-    Se crea 1 menu,
-    Se crea phoneguy,
-    Se crea 1 night,
-    Se crea 1 office.
-  }
-
-  Update
-  {
-    Audio phoneGuy.
-
-    Bucle del juego
-    {
-      Booleano de finPartida,
-      Cambio a escena oficina,
-      Actualizacion de los animatronicos,
-      Input.
-    }
-  }
-
-
-  */
-}
