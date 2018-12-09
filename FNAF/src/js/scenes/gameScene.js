@@ -159,10 +159,16 @@ var GameScene =
         //===================================================ANIMATRONICS MOVE===========================================================
 
         this.bonnie.changeNight(this.night.getNight());
-        this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
+        this.game.time.events.add(this.bonnie.getHour() * this.var._timeForHour, function()
+        {
+            this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft)
+        }, this);
 
         this.chica.changeNight(this.night.getNight());
-        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
+        this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
+        {
+            this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight)
+        }, this);
 
         //=====================================================MONITOR=====================================================================
 
@@ -267,31 +273,6 @@ var GameScene =
                     this.game.time.events.add(this.var._timeForReset, function()
                     {
                         this.game.state.start('death');
-                        //------------------DESTRUIR
-                        /*this.bonnie.alphaScreamer(0);
-                        delete this.bonnie;
-                        delete this.chica;
-                        //------------------Resetear objetos
-                        this.night.reset(this.doorRight, this.doorLeft, this.lightRight, this.lightLeft, this.battery);
-                        this.monitor.reset(Rooms);
-                        //Bonnie
-                        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.night.getNight() - 1);
-                        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
-                        //Chica
-                        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.night.getNight() - 1);
-                        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
-
-                        //-----------------Resetear variables
-                        this.changeView.alpha = this.var._changeViewAlpha;
-                        this.changeView.inputEnabled = true;
-                        this.moveRight.inputEnabled = true;
-                        this.moveLeft.inputEnabled = true;
-                        this.game.camera.x = this.var._iniCamPos;
-
-                        //------------------Mover animatronicos de nuevo
-                        this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
-                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);*/
-
                     }, this)
                 }
                 else if (this.chica.isInOffice())
@@ -303,31 +284,6 @@ var GameScene =
                     this.game.time.events.add(this.var._timeForReset, function()
                     { 
                         this.game.state.start('death');
-                        //------------------DESTRUIR
-                        /*this.chica.alphaScreamer(0);
-                        delete this.bonnie;
-                        delete this.chica;
-                        //------------------Resetear objetos
-                        this.night.reset(this.doorRight, this.doorLeft, this.lightRight, this.lightLeft, this.battery);
-                        this.monitor.reset(Rooms);
-                        //Bonnie
-                        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.night.getNight() - 1);
-                        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
-                        //Chica
-                        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.night.getNight() - 1);
-                        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
-
-                        //-----------------Resetear variables
-                        this.changeView.alpha = this.var._changeViewAlpha;
-                        this.changeView.inputEnabled = true;
-                        this.moveRight.inputEnabled = true;
-                        this.moveLeft.inputEnabled = true;
-                        this.game.camera.x = this.var._iniCamPos;
-
-                        //------------------Mover animatronicos de nuevo
-                        this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
-                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);*/
-
                     }, this)
                 }
                 else

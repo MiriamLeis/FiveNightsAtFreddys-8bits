@@ -89,11 +89,12 @@ var PreloaderScene =
     this.game.load.image('titleText', './images/texts/Title.png');
     this.game.load.spritesheet('newGameText', './images/texts/NewGame.png', 276, 66, 2);
     this.game.load.spritesheet('continueText', './images/texts/Continue.png', 272, 66, 2);
+    this.game.load.image('gameOverText', './images/texts/GameOver.png');
   },
 
   create: function () 
   {
-    this.game.state.start('win');
+    this.game.state.start('menu');
   }
 };
 

@@ -10,26 +10,17 @@ var DeathScene =
 
     create: function()
     {
-        
-
-        //---------------------------------------------------TITLE--------------------------------------------------------
-        //Cambiar imagenes
-        //this.title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
-
-        //---------------------------------------------------NEW GAME-----------------------------------------------------
-        //Cambiar imagenes
-        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
-
-        //---------------------------------------------------CONTINUE-----------------------------------------------------
-
-        //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
-
-
         //----------------------------------------------------STATIC EFFECT-----------------------------------------------
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
         this.staticEffect.animations.add('startEffect');
         this.staticEffect.animations.play('startEffect', 5, true);
         this.staticEffect.alpha = 0.4;
+
+        //----------------------------------------------------GAME OVER TEXT-----------------------------------------------
+        this.game.time.events.add(2000, function (){ this.game.add.sprite(this.var._gOTextPosX, this.var._gOTextPosY, 'gameOverText'); }, this);
+
+        //---------------------------------------------------RETURN MENU-----------------------------------------------------
+        this.game.time.events.add(7000, function (){ this.game.state.start('menu'); }, this);
     }
     
 };

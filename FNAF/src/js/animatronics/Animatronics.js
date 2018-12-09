@@ -70,8 +70,14 @@ Animatronics.prototype.moveEffect = function(game, staticEffect)
 };
 Animatronics.prototype.changeNight = function(night)
 {
-    this._actualActTime = this._actTime[night];
-    this._hoursIni = this._hours[night];//Array de noches con las horas de inicio
+    this._actualActTime = this._actTime[night - 1];
+    this._hoursIni = this._hours[night - 1];//Array de noches con las horas de inicio
+}
+Animatronics.prototype.getHour = function()
+{
+    var num = (Math.random() * (this._hoursIni.max - this._hoursIni.min)) + this._hoursIni.min;
+    console.log(num);
+    return num;
 }
 
 //---------------------Foxy-------------------------//
