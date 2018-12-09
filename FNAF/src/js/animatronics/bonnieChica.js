@@ -3,17 +3,23 @@ var Animatronics = require('./Animatronics.js');
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, path, hour, actTime, Var)
+function BonnieChica(sprite, path, hour, actTime, attackTime, Var)
 {
     Animatronics.apply(this,[sprite, path, hour, actTime, Var]);
     this.dinningRoom = false;
     this.inOffice = false;
     this.attacking = false;
     this.var = Var;
+    this.attackTime = attackTime;
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
 
+BonnieChica.prototype.preChangeNight = function(night)
+{
+    this.attackTimeIni = this.attackTime[night];
+    this.changeNight(night);
+}
 BonnieChica.prototype.dinningRoomTrue = function()
 {
     this.dinningRoom = true;
@@ -71,10 +77,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                     {
                         
                         if (!light.getActive() && percentage > this.var._2roomsPercentage1)
-                        {
-                            console.log("soy chica");
                             this.attack(game, door, light);    
-                        }
                         else
                             this._pos = this._path[this._pos._room1];
                     }
@@ -126,10 +129,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                     else
                     {
                         if (!light.getActive() && percentage > this.var._3roomsPercentage1)
-                        {
-                            console.log("soy bonnie");
                             this.attack(game ,door, light);
-                        }
                         else if (percentage > this.var._3roomsPercentage2)
                             this._pos = this._path[this._pos._room2];
                         else
@@ -162,10 +162,9 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                 this.move(game, otherAnimatronic, staticEffect, door, light);
             }
         }, this);
-    }else{console.log("sigo intentando moverme XD")}
+    }
 
 }
-
 BonnieChica.prototype.isInOffice = function()
 {
     return this.inOffice;
@@ -174,19 +173,16 @@ BonnieChica.prototype.isAttacking = function()
 {
     return this.attacking;
 }
-
 BonnieChica.prototype.attack = function(game, door, light)
 {
     if(!this.inOffice)
     {
         this.alphaSprite(0);
         this.attacking = true;
-        console.log("Tas Muerto Crack");
-        var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);//Cambiar por tiempos de ataque
+        var timeToMove = Math.floor(((Math.random() * (this.attackTimeIni.max - this.attackTimeIni.min)) + this.attackTimeIni.min) * 1000);//Cambiar por tiempos de ataque
 
         game.time.events.add(timeToMove, function()
         {
-            console.log('po ia e iejado');
             if(!this.inOffice)
             {
                 if(!door.getActive())
@@ -200,20 +196,18 @@ BonnieChica.prototype.attack = function(game, door, light)
                 }
                 else if(this._pos._number == 3)
                 {
-                    console.log("Pue adioh");
                     this._pos = this._path[this._pos._room2];
                     this.alphaSprite(1);
                 }
                 else
                 {
-                    console.log("Pue adioh");
                     this._pos = this._path[this._pos._room1];
                     this.alphaSprite(1);
                 }
                 this.attacking = false;
             }
         }, this);
-    }else{console.log("sigo intentando moverme XD")}
+    }
 
 }
 

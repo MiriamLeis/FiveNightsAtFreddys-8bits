@@ -7,6 +7,7 @@ var Light = require('../interactions/light.js');
 
 var Bonnie = require('../animatronics/bonnie.js');
 var Chica = require('../animatronics/chica.js');
+var Freddy = require('../animatronics/freddy.js');
 
 var Battery = require('../Battery.js');
 var Night = require('../nights.js');
@@ -108,14 +109,14 @@ var GameScene =
         //===================================================ANIMATRONICS=================================================================
 
         //Bonnie
-        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), 0);
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'));
          
         //Chica
-        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), 0);
+        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'));
 
-        //Draw animatronics
-        this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
-        this.freddy.scale.setTo(1.5, 1.5);
+        //Fredyy
+        this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
+                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPos, 'freddyAttack'));
 
         //===================================================OFFICE 2.0=================================================================
 
@@ -130,8 +131,14 @@ var GameScene =
 
         //Bonnie
         this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
+
         //Chica
         this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
+
+        //Freddy
+        this.freddy.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerFreddy'));
+        this.freddy.attackBattery(this.game);
+
 
         //===============================================STATIC EFFECT MONITOR=============================================================
 
@@ -158,13 +165,15 @@ var GameScene =
 
         //===================================================ANIMATRONICS MOVE===========================================================
 
-        this.bonnie.changeNight(this.night.getNight());
+        //Bonnie
+        this.bonnie.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.bonnie.getHour() * this.var._timeForHour, function()
         {
             this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft)
         }, this);
 
-        this.chica.changeNight(this.night.getNight());
+        //Chica
+        this.chica.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
         {
             this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight)

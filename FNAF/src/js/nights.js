@@ -1,24 +1,19 @@
 'use strict';
 
 var Const = require('./const.js');
+
 //meter phoneGuy
 function Night(game, spriteDec, spriteU, numberNight)
 {
     this.var = new Const();
     this.game = game;
+    
     //Control del paso de hora y noches
     if(!localStorage.getItem('numNight'))
-    {
-        console.log("no sa guardao")
-
         this._night = 1;
-    }
     else
-    {
-        console.log("sa guardao")
-
         this._night = JSON.parse(localStorage.getItem('numNight'));
-    }
+
     this._hour = 0;
     this._hourArr = [12,1,2,3,4,5,6];
 

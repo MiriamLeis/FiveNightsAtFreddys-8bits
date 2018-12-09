@@ -75,9 +75,7 @@ Animatronics.prototype.changeNight = function(night)
 }
 Animatronics.prototype.getHour = function()
 {
-    var num = (Math.random() * (this._hoursIni.max - this._hoursIni.min)) + this._hoursIni.min;
-    console.log(num);
-    return num;
+    return (Math.random() * (this._hoursIni.max - this._hoursIni.min)) + this._hoursIni.min;
 }
 
 //---------------------Foxy-------------------------//

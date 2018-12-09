@@ -17,6 +17,8 @@ function Chica(sprite)
                         //rango de horas de activacion
                         [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
+                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}],
+                        //rango de segundos de ataque
                         [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}], this.var]);
 }
 Chica.prototype = Object.create(BonnieChica.prototype);
