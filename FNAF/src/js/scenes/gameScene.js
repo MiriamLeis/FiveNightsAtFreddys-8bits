@@ -146,13 +146,13 @@ var GameScene =
         //===================================================SCREAMERS=================================================================
 
         //Bonnie
-        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerBonniePosX , this.var._screamerBonniePosY, 'screamerBonnie'));
+        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerBonnie'));
 
         //Chica
-        this.chica.createScreamer(this.game.add.sprite(this.var._screamerChicaPosX , this.var._screamerChicaPosY, 'screamerChica'));
+        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerChica'));
 
         //Freddy
-        this.freddy.createScreamer(this.game.add.sprite(this.var._screamerFreddyPosX , this.var._screamerFreddyPosY, 'screamerFreddy'));
+        this.freddy.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerFreddy'));
 
         //===============================================OFFICE EFFECT=============================================================
 

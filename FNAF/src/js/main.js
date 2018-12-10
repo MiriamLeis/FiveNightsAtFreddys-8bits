@@ -49,10 +49,10 @@ var PreloaderScene =
 
     //Animatronics
     this.game.load.spritesheet('bonnie','./images/animatronics/Bonnie.png', 33, 66, 3);
-    this.game.load.image('screamerBonnie', './images/animatronics/screamerBonnie.png');
+    this.game.load.spritesheet('screamerBonnie', './images/animatronics/screamerBonnie.png', 800, 600, 6);
     this.game.load.image('bonnieAttack', './images/animatronics/BonnieAttack.png');
     this.game.load.spritesheet('chica','./images/animatronics/Chica.png', 33, 66, 3);
-    this.game.load.image('screamerChica', './images/animatronics/screamerChica.png');
+    this.game.load.spritesheet('screamerChica', './images/animatronics/screamerChica.png', 800, 600, 6);
     this.game.load.image('chicaAttack', './images/animatronics/ChicaAttack.png');
     this.game.load.spritesheet('freddy','./images/animatronics/Freddy.png', 33, 66, 3);
     this.game.load.spritesheet('darkFreddy','./images/animatronics/FreddyDark.png', 33, 66, 2);

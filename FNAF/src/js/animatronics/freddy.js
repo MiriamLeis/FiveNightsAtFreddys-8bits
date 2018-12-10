@@ -39,7 +39,7 @@ Freddy.prototype.move = function(game, bonnie, chica)
     var timeToMove = Math.floor(Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000;
     this.movement = game.time.events.add (timeToMove, function()
     {
-        this._sprite.frame = 0;
+        /*this._sprite.frame = 0;
 
         this._pos = this._path[this._pos._room1];
 
@@ -49,7 +49,7 @@ Freddy.prototype.move = function(game, bonnie, chica)
         if(this._pos._name == bonnie._pos._name || this._pos._name == chica._pos._name)
             this.showDarkSprite();
         
-        this.move(game, bonnie, chica);
+        this.move(game, bonnie, chica);*/
     }, this);
 };
 Freddy.prototype.spotted = function(game, bonnie, chica)
@@ -111,10 +111,6 @@ Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, move
         game.time.events.add(time, function()
         {
             this.alphaScreamer(1);
-            this._screamer.animations.add ('screamer');
-            this._screamer.animations.play ('screamer', 10, false);
-            
-            //En un futuro hacer la animacion
             game.time.events.add(1000, function(){ game.state.start('death'); }, this);
         }, this);
     }

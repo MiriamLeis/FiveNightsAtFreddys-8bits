@@ -30,8 +30,9 @@ Animatronics.prototype.delete = function()
 Animatronics.prototype.createScreamer = function(screamer)
 {
     this._screamer = screamer;
-    this._screamer.alpha = 0;
     this._screamer.fixedToCamera = true;
+    this._screamer.alpha = 0;
+    this._screamerAnim = this._screamer.animations.add('screamer');
 };
 Animatronics.prototype.getPos = function() 
 {
@@ -45,6 +46,7 @@ Animatronics.prototype.activateAnim = function()
 Animatronics.prototype.alphaScreamer = function(n)
 {
     this._screamer.alpha = n;
+    this._screamerAnim.play(5, true);
 };
 Animatronics.prototype.alphaSprite = function(n)
 {

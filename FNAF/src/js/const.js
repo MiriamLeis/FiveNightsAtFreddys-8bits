@@ -205,15 +205,8 @@ function Const()
     this._spriteAnimScale = 1.5;
 
     //------Screamers
-    //Bonnie
-        this._screamerBonniePosX = -50;
-        this._screamerBonniePosY = -200;  
-    //Chica
-        this._screamerChicaPosX = -25;
-        this._screamerChicaPosY = 0;
-    //Freddy
-        this._screamerFreddyPosX = 0;
-        this._screamerFreddyPosY = 0;
+    this._screamerPosX = 0;
+    this._screamerPosY = 0;
 
     //===========================================================BONNIE/CHICA===============================================
 
