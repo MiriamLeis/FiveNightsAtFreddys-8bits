@@ -10,6 +10,7 @@ function Freddy(sprite, darkFreddy, attack)
     this.var = new Const();
 
     this.darkFreddy = darkFreddy
+    this.darkFreddy.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
     this.darkFreddy.alpha = 0;
     this.darkFreddyAnim = this.darkFreddy.animations.add('loop');
 
@@ -38,7 +39,7 @@ Freddy.prototype.move = function(game, bonnie, chica)
     var timeToMove = Math.floor(Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min);
     var move = game.time.events.add (timeToMove, function()
     {
-
+        
     }, this);
 };
 Freddy.prototype.attack = function()
