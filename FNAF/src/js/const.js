@@ -19,7 +19,7 @@ function Const()
     this._tamY = 594;
 
     this._iniCamPos = 396;
-    this._timeForHour = 90000;
+    this._timeForHour = 1000;
 
     this._timeForReset = 2000;
 
@@ -295,10 +295,8 @@ function Const()
     this._winTextX = this._tamX / 2 - 403 / 2 + 90;
     this._winTextY = this._tamX/2 - 186 / 2 - 60;
 
-    this._winNumberX = 370;
-    this._winNumberY = 254;
-    this._winNumberScale = 0.9;
-
+    this._winTalX = 0;
+    this._winTalY = 0;
 };
 
 

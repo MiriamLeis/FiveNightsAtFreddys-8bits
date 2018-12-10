@@ -19,19 +19,19 @@ var WinScene =
         
 
         //---------------------------------------------------CHANGE SCENE-----------------------------------------------------
-        this.game.time.events.add(3000, function()
+        this.game.time.events.add(9000, function()
         {
-            /*this._night = JSON.parse(localStorage.getItem('numNight'));
+            this._night = JSON.parse(localStorage.getItem('numNight'));
             if(this._night == 6)
             {
-                this.winText = this.game.add.sprite(this.var._winTextX, this.var._winTextY, 'end');
+                this.winText = this.game.add.sprite(this.var._winTalX, this.var._winTalY, 'end');
 
-                this.game.time.events.add(3000, function()
+                this.game.time.events.add(5000, function()
                 {
                     this.game.state.start('menu');
                 },this);
             }
-            else*/
+            else
                 this.game.state.start('game');
         },this);
     }
