@@ -189,12 +189,12 @@ var GameScene =
         this.chica.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
         {
-            this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRightm, this.freddy)
+            this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight, this.freddy)
         }, this);
 
         //Freddy
         this.freddy.changeNight(this.night.getNight());
-        this.freddy.move(this.game, this.bonnie, this.chica);
+        this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
 
         //=====================================================MONITOR=====================================================================
 
@@ -470,7 +470,7 @@ var GameScene =
 
         //==========================Freddy===================
         if(!this.inOffice)
-            this.freddy.spotted(this.game, this.bonnie, this.chica);
+            this.freddy.spotted(this.game, this.bonnie, this.chica, this.staticEffect);
     }
 
 }

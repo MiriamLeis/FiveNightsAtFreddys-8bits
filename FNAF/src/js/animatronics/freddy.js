@@ -12,7 +12,6 @@ function Freddy(sprite, darkFreddy, attack)
     this.darkFreddy = darkFreddy
     this.darkFreddy.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
     this.darkFreddy.alpha = 0;
-    this.darkFreddyAnim = this.darkFreddy.animations.add('loop');
 
     this.attackSprite = attack;
     this.attackSprite.alpha = 0;
@@ -34,42 +33,54 @@ function Freddy(sprite, darkFreddy, attack)
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
 
-Freddy.prototype.move = function(game, bonnie, chica)
+Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
 {
-    var timeToMove = Math.floor(Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000;
+    var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);
+    console.log(timeToMove);
     this.movement = game.time.events.add (timeToMove, function()
     {
-        /*this._sprite.frame = 0;
+        this._sprite.frame = 0;
 
-        this._pos = this._path[this._pos._room1];
+        if(!this._pos._attack)
+            this._pos = this._path[this._pos._room1];
+        else 
+            this.attack();
 
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
         this.darkFreddy.x = this._pos._x;    this.darkFreddy.y = this._pos._y;
 
         if(this._pos._name == bonnie._pos._name || this._pos._name == chica._pos._name)
             this.showDarkSprite();
+        else
+            this.hideDarkSprite();
         
-        this.move(game, bonnie, chica);*/
+        if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+            this.moveEffect(game, staticEffect);
+
+        this.move(game, bonnie, chica, staticEffect);
     }, this);
 };
-Freddy.prototype.spotted = function(game, bonnie, chica)
+Freddy.prototype.spotted = function(game, bonnie, chica, staticEffect)
 {
     if(game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
     {
         game.time.events.remove(this.movement);
-        this.move(game, bonnie, chica);
+        this.move(game, bonnie, chica, staticEffect);
     }
 
 };
 Freddy.prototype.showDarkSprite = function()
 {
+    this.darkFreddy.animations.add('loop');
     this.darkFreddy.alpha = 1;
-    this._sprite.frame = 0;
+    this.darkFreddy.animations.play('loop', 1, true);
+    this._sprite.alpha = 0;
 };
 Freddy.prototype.hideDarkSprite = function()
 {
     this.darkFreddy.alpha = 0;
-    this._sprite.frame = 1;
+    this.darkFreddy.animations.stop('loop');
+    this._sprite.alpha = 1;
 };
 Freddy.prototype.attack = function()
 {
