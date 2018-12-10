@@ -194,7 +194,7 @@ var GameScene =
 
         //Freddy
         this.freddy.changeNight(this.night.getNight());
-        this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
+        this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect, this.doorRight);
 
         //=====================================================MONITOR=====================================================================
 

@@ -33,10 +33,10 @@ function Freddy(sprite, darkFreddy, attack)
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
 
-Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
+Freddy.prototype.move = function(game, bonnie, chica, staticEffect, door)
 {
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);
-    console.log(timeToMove);
+    
     this.movement = game.time.events.add (timeToMove, function()
     {
         this._sprite.frame = 0;
@@ -44,7 +44,7 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
         if(!this._pos._attack)
             this._pos = this._path[this._pos._room1];
         else 
-            this.attack();
+            this.attack(game, staticEffect, door);
 
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
         this.darkFreddy.x = this._pos._x;    this.darkFreddy.y = this._pos._y;
@@ -57,15 +57,22 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
         if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
             this.moveEffect(game, staticEffect);
 
-        this.move(game, bonnie, chica, staticEffect);
+        if(!this._pos._attack)
+            this.move(game, bonnie, chica, staticEffect);
     }, this);
 };
 Freddy.prototype.spotted = function(game, bonnie, chica, staticEffect)
 {
-    if(game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+    var spot = (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y);
+    if(spot && !this._pos._attack)
     {
         game.time.events.remove(this.movement);
         this.move(game, bonnie, chica, staticEffect);
+    }
+    else if(spot)
+    {
+        game.time.events.remove(this.attacking);
+        this.attack(game, bonnie, chica, staticEffect);
     }
 
 };
@@ -82,8 +89,25 @@ Freddy.prototype.hideDarkSprite = function()
     this.darkFreddy.animations.stop('loop');
     this._sprite.alpha = 1;
 };
-Freddy.prototype.attack = function()
+Freddy.prototype.attack = function(game, staticEffect, door)
 {
+    var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);//Cambiar por los de ataque
+
+    this.attacking = game.time.events.add (timeToMove, function()
+    {
+        this._sprite.alpha = 0;
+
+        if(!door.getActive())
+        {
+            this.alphaScreamer(1);
+            game.time.events.add(1000, function(){ game.state.start('death'); }, this);
+        }
+        else
+            this.attack();
+        
+
+        this.attack(game, staticEffect, door);
+    }, this);
 
 };
 Freddy.prototype.attackBattery = function(game, darkness, moveLeft, moveRight)
