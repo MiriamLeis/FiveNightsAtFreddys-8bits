@@ -861,7 +861,7 @@ function Const()
     this._tamY = 594;
 
     this._iniCamPos = 396;
-    this._timeForHour = 90000;
+    this._timeForHour = 1000;
 
     this._timeForReset = 2000;
 
@@ -1137,10 +1137,8 @@ function Const()
     this._winTextX = this._tamX / 2 - 403 / 2 + 90;
     this._winTextY = this._tamX/2 - 186 / 2 - 60;
 
-    this._winNumberX = 370;
-    this._winNumberY = 254;
-    this._winNumberScale = 0.9;
-
+    this._winTalX = 0;
+    this._winTalY = 0;
 };
 
 
@@ -1364,7 +1362,7 @@ var PreloaderScene =
     this.game.load.spritesheet('continueText', './images/texts/Continue.png', 272, 66, 2);
     this.game.load.image('gameOverText', './images/texts/GameOver.png');
     this.game.load.image('freddyMenu', './images/animatronics/FreddyMenu.png');
-    this.game.load.spritesheet('win', './images/texts/WIN.png', 404, 186, 7);
+    this.game.load.spritesheet('win', './images/texts/WIN.png', 450, 186, 7);
     this.game.load.image('end', './images/texts/END.png');
   },
 
@@ -2118,19 +2116,19 @@ var WinScene =
         
 
         //---------------------------------------------------CHANGE SCENE-----------------------------------------------------
-        this.game.time.events.add(3000, function()
+        this.game.time.events.add(9000, function()
         {
-            /*this._night = JSON.parse(localStorage.getItem('numNight'));
+            this._night = JSON.parse(localStorage.getItem('numNight'));
             if(this._night == 6)
             {
-                this.winText = this.game.add.sprite(this.var._winTextX, this.var._winTextY, 'end');
+                this.winText = this.game.add.sprite(this.var._winTalX, this.var._winTalY, 'end');
 
-                this.game.time.events.add(3000, function()
+                this.game.time.events.add(5000, function()
                 {
                     this.game.state.start('menu');
                 },this);
             }
-            else*/
+            else
                 this.game.state.start('game');
         },this);
     }
