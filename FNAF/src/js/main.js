@@ -92,12 +92,13 @@ var PreloaderScene =
     this.game.load.spritesheet('continueText', './images/texts/Continue.png', 272, 66, 2);
     this.game.load.image('gameOverText', './images/texts/GameOver.png');
     this.game.load.image('freddyMenu', './images/animatronics/FreddyMenu.png');
-    this.game.load.spritesheet('win', './images/texts/WIN.png', 403, 186, 7);
+    this.game.load.spritesheet('win', './images/texts/WIN.png', 404, 186, 7);
+    this.game.load.image('end', './images/texts/END.png');
   },
 
   create: function () 
   {
-    this.game.state.start('win');
+    this.game.state.start('menu');
   }
 };
 

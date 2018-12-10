@@ -51,10 +51,12 @@ Night.prototype.startNight = function()
 }
 Night.prototype.finishNight = function()
 {
-    
-    this._night++;
-    localStorage.setItem("numNight", JSON.stringify(this._night));
-    this.game.state.start('win');
+    if(this._night < 6)
+    {
+        this._night++;
+        localStorage.setItem("numNight", JSON.stringify(this._night));
+    }       
+        this.game.state.start('win');
 }
 Night.prototype.changeHour = function(battery)
 {
