@@ -5,12 +5,17 @@ var Room = require('./room.js');
 
 
 //---------------------Freddy-------------------------//
-function Freddy(sprite, attack)
+function Freddy(sprite, darkFreddy, attack)
 {
     this.var = new Const();
 
+    this.darkFreddy = darkFreddy
+    this.darkFreddy.alpha = 0;
+    this.darkFreddyAnim = this.darkFreddy.animations.add('loop');
+
     this.attackSprite = attack;
     this.attackSprite.alpha = 0;
+    this.attackDarkAnim = this.attackSprite.animations.add('start');
 
     Animatronics.apply(this,[sprite,  
                             //ruta
@@ -40,16 +45,52 @@ Freddy.prototype.attack = function()
 {
 
 };
-Freddy.prototype.attackBattery = function(game)
+Freddy.prototype.attackBattery = function(game, darkness, moveLeft, moveRight)
 {
-    game.time.events.add(5000, function()
+    game.time.events.add(18000, function()
     {
-       this.attackSprite.alpha = 1;
-       this.attackSprite.animations.add('start');
-       this.attackSprite.animations.play('start', 1, true);
-    }
-    , this);
-};
+        this.attackSprite.alpha = 1;
+        this.attackDarkAnim.play(1, true);
+       //suena musiquita
+       posCamera = game.camera.x;
 
+        game.time.events.add(6000, function()
+        {
+            var cont = 6000;
+            this.dontMoveAttack(game, posCamera, cont, darkness, moveLeft, moveRight);
+        }, this);
+    }, this);
+};
+Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, moveLeft, moveRight)
+{
+    if (game.camera.x != posCamera || cont >= 21000)
+    {
+        this.attackSprite.alpha = 0;
+        this.attackDarkAnim.stop('start');
+
+        moveLeft.inputEnabled = false;
+        moveRight.inputEnabled = false;
+
+        //parar musiquita
+        darkness.alpha = 0.9; //cambiar
+
+        if (game.camera.x != posCamera)
+            var time = 2000;
+        else
+            var time = 9000;
+        game.time.events.add(time, function()
+        {
+            this.alphaScreamer(1);
+            //En un futuro hacer la animacion
+            game.time.events.add(1500, function(){ game.state.start('death'); }, this);
+        }, this);
+    }
+    else
+        game.time.events.add(3000, function()
+        {
+            cont += 3000;
+            this.dontMoveAttack(game, posCamera, cont, darkness, moveLeft, moveRight);
+        }, this);
+}
 
 module.exports = Freddy;

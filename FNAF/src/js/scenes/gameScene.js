@@ -116,6 +116,7 @@ var GameScene =
 
         //Fredyy
         this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
+                                this.game.add.sprite(0, 0, 'darkFreddy'),
                                 this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'));
 
         //===================================================OFFICE 2.0=================================================================
@@ -126,6 +127,21 @@ var GameScene =
         //Doors
         this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
         this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
+
+        //===============================================STATIC EFFECT MONITOR=============================================================
+
+        this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
+        this.staticEffect.animations.add('startEffect');
+        this.staticEffect.animations.play('startEffect', 10, true);
+
+        this.staticEffect.fixedToCamera = true;
+
+        //===============================================DRAKNESS EFFECT=============================================================
+
+        this.darkness = this.game.add.sprite(0, 0, 'darkness');
+        this.darkness.alpha = 0;
+
+        this.darkness.fixedToCamera = true;
 
         //===================================================SCREAMERS=================================================================
 
@@ -138,28 +154,12 @@ var GameScene =
         //Freddy
         this.freddy.createScreamer(this.game.add.sprite(this.var._screamerFreddyPosX , this.var._screamerFreddyPosY, 'screamerFreddy'));
 
-
-        //===============================================STATIC EFFECT MONITOR=============================================================
-
-        this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
-        this.staticEffect.animations.add('startEffect');
-        this.staticEffect.animations.play('startEffect', 10, true);
-
-        this.staticEffect.fixedToCamera = true;
-
         //===============================================OFFICE EFFECT=============================================================
 
         this.officeEffect = this.game.add.sprite(0, 0, 'officeEffect');
         this.officeEffect.alpha = 0.5;
 
         this.officeEffect.fixedToCamera = true;
-
-        //===============================================DRAKNESS EFFECT=============================================================
-
-        this.darkness = this.game.add.sprite(0, 0, 'darkness');
-        this.darkness.alpha = 0;
-
-        this.darkness.fixedToCamera = true;
 
         //==========================================================NIGHTS========================================================================
 
@@ -337,6 +337,8 @@ var GameScene =
 
         this.moveRight.inputEnabled = true;
         this.moveLeft.inputEnabled = true;
+
+        this.attackForDark = false;
     },
 
     update: function () 
@@ -409,6 +411,48 @@ var GameScene =
         if (this.game.time.now > this.battery.tellBatteryTime())
         {
             this.battery.decreaseBattery();
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        if (this.battery.emptyBattery() && !this.attackForDark)
+        {
+            this.attackForDark = true;
+
+            this.darkness.alpha = 0.5; //cambiar
+            this.officeEffect.alpha = 0.6;
+
+            this.changeView.inputEnabled = false;
+            this.changeView.alpha = 0;
+            this.doorLeft.enabledInput(false);
+            this.doorLeft.reset();
+            this.doorRight.enabledInput(false);
+            this.doorRight.reset();
+            this.lightLeft.enabledInput(false);
+            this.lightLeft.reset();
+            this.lightRight.enabledInput(false);
+            this.lightRight.reset();
+
+            if (!this.inOffice)
+            {
+                this.inOffice = !this.inOffice;
+
+                //Desactivar todo
+                this.game.camera.x = this.lastPosOffice;
+                this.officeEffect.alpha = 0.5;
+                this.mapEdge.alpha = 0;
+                this.staticEffect.alpha = 0;
+                this.REC.alpha = 0;
+                this.RECPoint.alpha = 0;
+                this.map.alpha = 0;
+                this.camerasTexts.alpha = 0;
+                this.monitor.notInput();
+
+                //Activar desplazamiento por la oficina
+                this.moveRight.inputEnabled = true;
+                this.moveLeft.inputEnabled = true;
+            }
+            this.freddy.attackBattery(this.game, this.darkness, this.moveLeft, this.moveRight);
+
         }
 
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------

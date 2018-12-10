@@ -14,10 +14,6 @@ function Const()
     this._freddyPosX = 800 - 350; 
     this._freddyPosY = 0;
 
-    //=====================================================DEATHSCENE=============================================
-    this._gOTextPosX = 800 - 270; 
-    this._gOTextPosY = 600 - 70;
-
     //=====================================================GAMESCENE=============================================
     this._tamX = 792;
     this._tamY = 594;
@@ -297,6 +293,10 @@ function Const()
     //Attack
     this._spriteFreddyAttackPosX = 220;
     this._spriteFreddyAttackPosY = 150;
+
+    //=====================================================DEATHSCENE=============================================
+    this._gOTextPosX = 50; 
+    this._gOTextPosY = this._tamY - 70;
 
     //====================================================WIN SCENE============================================
     this._winTextX = 410;

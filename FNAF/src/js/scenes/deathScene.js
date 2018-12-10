@@ -10,6 +10,10 @@ var DeathScene =
 
     create: function()
     {
+
+        //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
+        var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');
+        
         //----------------------------------------------------STATIC EFFECT-----------------------------------------------
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
         this.staticEffect.animations.add('startEffect');

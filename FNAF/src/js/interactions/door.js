@@ -20,9 +20,14 @@ Door.prototype.constructor = Door;
 
 Door.prototype.reset = function()
 {
-    this.resetInteract();
-    this.button.frame = 0;
-    this.doorCloseAnim.frame = 0;
+    if (this._active)
+    {
+        this.resetInteract();
+        this.button.frame = 0;
+        this.doorCloseAnim.frame = 0;
+        this.doorOpenAnim.play(10, true);
+        this.doorOpenAnim.loop = false;
+    }
 }
 Door.prototype.actionOnClick = function() 
 {
