@@ -8,8 +8,8 @@ body {
   margin: 0;
   font-family: Courier, 'Courier New', monospace;
   font-size: 1.6rem;
-  background: #fff;
-  color: #000;
+  background: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 a {

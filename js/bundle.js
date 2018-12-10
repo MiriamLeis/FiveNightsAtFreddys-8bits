@@ -122,7 +122,7 @@ Battery.prototype.reset = function()
 }
 
 module.exports = Battery;
-},{"./const.js":8}],2:[function(require,module,exports){
+},{"./const.js":9}],2:[function(require,module,exports){
 'use strict';
 
 var Const = require('./const.js');
@@ -241,10 +241,10 @@ InsideMonitor.prototype.LastPos = function()
 }
 
 module.exports = InsideMonitor;
-},{"./const.js":8}],3:[function(require,module,exports){
+},{"./const.js":9}],3:[function(require,module,exports){
 
 //--------------------Clase Animatronicos
-function Animatronics(sprite, night, path, hours, actTime, Var)
+function Animatronics(sprite, path, hours, actTime, Var)
 {
     this.var = Var;
     //Phaser.Sprite.apply(this,game,sprite)
@@ -259,10 +259,8 @@ function Animatronics(sprite, night, path, hours, actTime, Var)
     this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
     this._hours = hours;
-    this._hoursIni = this._hours[night];//Array de noches con las horas de inicio
 
     this._actTime = actTime; //Array de noches con los parametros de actIni y actFin
-    this._actualActTime = actTime[night];
 };
 
 Animatronics.prototype = Object.create(Phaser.Sprite.prototype);
@@ -276,9 +274,9 @@ Animatronics.prototype.delete = function()
 Animatronics.prototype.createScreamer = function(screamer)
 {
     this._screamer = screamer;
-    this._screamer.scale.setTo(this.var._screamerScale, this.var._screamerScale);
-    this._screamer.alpha = 0;
     this._screamer.fixedToCamera = true;
+    this._screamer.alpha = 0;
+    this._screamerAnim = this._screamer.animations.add('screamer');
 };
 Animatronics.prototype.getPos = function() 
 {
@@ -292,6 +290,7 @@ Animatronics.prototype.activateAnim = function()
 Animatronics.prototype.alphaScreamer = function(n)
 {
     this._screamer.alpha = n;
+    this._screamerAnim.play(6, false);
 };
 Animatronics.prototype.alphaSprite = function(n)
 {
@@ -314,24 +313,18 @@ Animatronics.prototype.moveEffect = function(game, staticEffect)
             staticEffect.alpha = 0.1;
     }, this)
 };
-
-
-
-
-
-//-----------------FreddyFoxy
-function FreddyFoxy(sprite, screamer, posIni, hour, actTime)
+Animatronics.prototype.changeNight = function(night)
 {
-    Animatronics.apply(this,[sprite, screamer, path, hourIni, actTime]);
-};
-FreddyFoxy.prototype = Object.create(Animatronics.prototype);
-FreddyFoxy.prototype.constructor = FreddyFoxy;
-
-
-
+    this._actualActTime = this._actTime[night - 1];
+    this._hoursIni = this._hours[night - 1];//Array de noches con las horas de inicio
+}
+Animatronics.prototype.getHour = function()
+{
+    return (Math.random() * (this._hoursIni.max - this._hoursIni.min)) + this._hoursIni.min;
+}
 
 //---------------------Foxy-------------------------//
-function Foxy(sprite, screamer, animation, posIni, hourIni, actTime)
+/*function Foxy(sprite, screamer, animation, posIni, hourIni, actTime)
 {
     FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
 };
@@ -339,21 +332,7 @@ Foxy.prototype = Object.create(FreddyFoxy.prototype);
 Foxy.prototype.constructor = Foxy;
 
 Foxy.prototype.move = function(){};
-Foxy.prototype.attack = function(){};
-
-
-
-//---------------------Freddy-------------------------//
-function Freddy(sprite, screamer, animation, posIni, hourIni, actTime)
-{
-    FreddyFoxy.apply(this,[sprite, screamer, animation, path, posIni, hourIni, actTime]);
-};
-Freddy.prototype = Object.create(FreddyFoxy.prototype);
-Freddy.prototype.constructor = Freddy;
-
-Freddy.prototype.move = function(){};
-Freddy.prototype.attack = function(){};
-
+Foxy.prototype.attack = function(){};*/
 
 module.exports = Animatronics;
 },{}],4:[function(require,module,exports){
@@ -362,10 +341,10 @@ var BonnieChica = require('./bonnieChica.js');
 var Const = require('../const.js');
 
 //---------------------Bonnie-------------------------//
-function Bonnie(sprite, night)
+function Bonnie(sprite)
 {
     this.var = new Const();
-    BonnieChica.apply(this,[sprite, night,
+    BonnieChica.apply(this,[sprite,
                         //ruta
                         [new Room (this.var._bonnieRoom1X, this.var._bonnieRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                         new Room (this.var._bonnieRoom2X, this.var._bonnieRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, 3, null), 
@@ -374,31 +353,39 @@ function Bonnie(sprite, night)
                         new Room (this.var._bonnieRoom5X, this.var._bonnieRoom5Y, this.var._supplyClosetPosX, this.var._supplyClosetPosY, 'supplyCloset', 3, 5, null), 
                         new Room (this.var._bonnieRoom6X, this.var._bonnieRoom6Y, this.var._wHallCornerPosX, this.var._wHallCornerPosY, 'wHallCorner', 3, 4, null, true)],
                         //rango de horas de activacion
-                        [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1, max: 2}, {min: 0, max: 1}, {min: 0, max: 1}, {min: 0, max: 0}],
+                        [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}], this.var]);
+                        [{min: 15, max: 30}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
+                        //rango de segundos de ataque
+                        [{min: 10, max: 15}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
 }
 Bonnie.prototype = Object.create(BonnieChica.prototype);
 Bonnie.prototype.constructor = Bonnie;
 
 module.exports = Bonnie;
-},{"../const.js":8,"./bonnieChica.js":5,"./room.js":7}],5:[function(require,module,exports){
+},{"../const.js":9,"./bonnieChica.js":5,"./room.js":8}],5:[function(require,module,exports){
 //--------------------Clase Animatronicos
 var Animatronics = require('./Animatronics.js'); 
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, night, path, hour, actTime, Var)
+function BonnieChica(sprite, path, hour, actTime, attackTime, Var)
 {
-    Animatronics.apply(this,[sprite, night, path, hour, actTime, Var]);
+    Animatronics.apply(this,[sprite, path, hour, actTime, Var]);
     this.dinningRoom = false;
     this.inOffice = false;
     this.attacking = false;
     this.var = Var;
+    this.attackTime = attackTime;
 };
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
 
+BonnieChica.prototype.preChangeNight = function(night)
+{
+    this.attackTimeIni = this.attackTime[night];
+    this.changeNight(night);
+}
 BonnieChica.prototype.dinningRoomTrue = function()
 {
     this.dinningRoom = true;
@@ -407,7 +394,7 @@ BonnieChica.prototype.dinningRoomFalse = function()
 {
     this.dinningRoom = false;
 }
-BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door, light)
+BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door, light, freddy)
 {
     if(!this.inOffice)
     {
@@ -440,6 +427,11 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room2];
                                 this.dinningRoomFalse();
                             }
+                            //FreddyOscuro
+                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                                freddy.hideDarkSprite();
+                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                                freddy.showDarkSprite();
                         }
                         else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                         {
@@ -451,17 +443,26 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room1];
                             this.dinningRoomFalse();
                         }
+
+                        //FreddyOscuro
+                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                            freddy.hideDarkSprite();
+                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                            freddy.showDarkSprite();
                     }
                     else
                     {
                         
                         if (!light.getActive() && percentage > this.var._2roomsPercentage1)
-                        {
-                            console.log("soy chica");
                             this.attack(game, door, light);    
-                        }
                         else
                             this._pos = this._path[this._pos._room1];
+
+                        //FreddyOscuro
+                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                            freddy.hideDarkSprite();
+                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                            freddy.showDarkSprite();
                     }
                 }
                 else if (this._pos._number == 3)
@@ -483,6 +484,11 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room3];
                                 this.dinningRoomFalse();
                             }
+                            //FreddyOscuro
+                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                                freddy.hideDarkSprite();
+                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                                freddy.showDarkSprite();
                         }
                         else if (percentage > this.var._3roomsPercentage2)
                         {
@@ -496,6 +502,11 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room2];
                                 this.dinningRoomFalse();
                             }
+                            //FreddyOscuro
+                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                                freddy.hideDarkSprite();
+                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                                freddy.showDarkSprite();
                         }
                         else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                         {
@@ -507,18 +518,26 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room1];
                             this.dinningRoomFalse();
                         }
+                        //FreddyOscuro
+                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                            freddy.hideDarkSprite();
+                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                            freddy.showDarkSprite();
                     }
                     else
                     {
                         if (!light.getActive() && percentage > this.var._3roomsPercentage1)
-                        {
-                            console.log("soy bonnie");
                             this.attack(game ,door, light);
-                        }
                         else if (percentage > this.var._3roomsPercentage2)
                             this._pos = this._path[this._pos._room2];
                         else
                             this._pos = this._path[this._pos._room1];
+
+                        //FreddyOscuro
+                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                            freddy.hideDarkSprite();
+                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                            freddy.showDarkSprite();
                     }
                 }
                 else
@@ -535,6 +554,12 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                         this.dinningRoomFalse();
                     }
 
+                    //FreddyOscuro
+                    if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                        freddy.hideDarkSprite();
+                    else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                        freddy.showDarkSprite();
+
                 }
                 //Controlar que el efecto de static effect aparezca cuando miras donde estan o donde se van a mover
                 if (this._antPos != this._pos)
@@ -544,13 +569,12 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                 this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
                 if(!this.inOffice)
-                this.move(game, otherAnimatronic, staticEffect, door, light);
+                this.move(game, otherAnimatronic, staticEffect, door, light, freddy);
             }
         }, this);
-    }else{console.log("sigo intentando moverme XD")}
+    }
 
 }
-
 BonnieChica.prototype.isInOffice = function()
 {
     return this.inOffice;
@@ -559,19 +583,16 @@ BonnieChica.prototype.isAttacking = function()
 {
     return this.attacking;
 }
-
 BonnieChica.prototype.attack = function(game, door, light)
 {
     if(!this.inOffice)
     {
         this.alphaSprite(0);
         this.attacking = true;
-        console.log("Tas Muerto Crack");
-        var timeToMove = Math.floor(((Math.random() * (this._actualActTime.max - this._actualActTime.min)) + this._actualActTime.min) * 1000);//Cambiar por tiempos de ataque
+        var timeToMove = Math.floor(((Math.random() * (this.attackTimeIni.max - this.attackTimeIni.min)) + this.attackTimeIni.min) * 1000);//Cambiar por tiempos de ataque
 
         game.time.events.add(timeToMove, function()
         {
-            console.log('po ia e iejado');
             if(!this.inOffice)
             {
                 if(!door.getActive())
@@ -585,20 +606,18 @@ BonnieChica.prototype.attack = function(game, door, light)
                 }
                 else if(this._pos._number == 3)
                 {
-                    console.log("Pue adioh");
                     this._pos = this._path[this._pos._room2];
                     this.alphaSprite(1);
                 }
                 else
                 {
-                    console.log("Pue adioh");
                     this._pos = this._path[this._pos._room1];
                     this.alphaSprite(1);
                 }
                 this.attacking = false;
             }
         }, this);
-    }else{console.log("sigo intentando moverme XD")}
+    }
 
 }
 
@@ -609,10 +628,10 @@ var BonnieChica = require('./bonnieChica.js');
 var Const = require('../const.js');
 
 //---------------------Chica-------------------------//
-function Chica(sprite, night)
+function Chica(sprite)
 {
     this.var = new Const();
-    BonnieChica.apply(this,[sprite, night,
+    BonnieChica.apply(this,[sprite,
                         //ruta
                         [new Room (this.var._chicaRoom1X, this.var._chicaRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                         new Room (this.var._chicaRoom2X, this.var._chicaRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, 3, 4), 
@@ -623,13 +642,169 @@ function Chica(sprite, night)
                         //rango de horas de activacion
                         [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}, {min: 5, max: 10}], this.var]);
+                        [{min: 20, max: 35}, {min: 15, max: 30}, {min: 5, max: 10}, {min: 15, max: 20}, {min: 7, max: 10}, {min: 5, max: 8}],
+                        //rango de segundos de ataque
+                        [{min: 10, max: 15}, {min: 8, max: 12}, {min: 7, max: 11}, {min: 6, max: 9}, {min: 3, max: 5}, {min: 3.5, max: 4.5}], this.var]);
+
 }
 Chica.prototype = Object.create(BonnieChica.prototype);
 Chica.prototype.constructor = Chica;
 
 module.exports = Chica;
-},{"../const.js":8,"./bonnieChica.js":5,"./room.js":7}],7:[function(require,module,exports){
+},{"../const.js":9,"./bonnieChica.js":5,"./room.js":8}],7:[function(require,module,exports){
+//--------------------Clases
+var Animatronics = require('./Animatronics.js'); 
+var Const = require('../const.js');
+var Room = require('./room.js');
+
+
+//---------------------Freddy-------------------------//
+function Freddy(sprite, darkFreddy, attack)
+{
+    this.var = new Const();
+    
+    this.darkFreddy = darkFreddy
+    this.darkFreddy.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
+    this.darkFreddy.alpha = 0;
+
+    this.attackSprite = attack;
+    this.attackSprite.alpha = 0;
+    this.attackDarkAnim = this.attackSprite.animations.add('start');
+
+    this.lookAway = false;
+    this.startedMoving = false;
+
+    Animatronics.apply(this,[sprite,  
+                            //ruta
+                            [new Room (this.var._freddyRoom1X, this.var._freddyRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
+                            new Room (this.var._freddyRoom2X, this.var._freddyRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, null,null), 
+                            new Room (this.var._freddyRoom3X, this.var._freddyRoom3Y, this.var._restroomsPosX, this.var._restroomsPosY, 'restroom', 3, null, null), 
+                            new Room (this.var._freddyRoom4X, this.var._freddyRoom4Y, this.var._kitchenPosX, this.var._kitchenPosY, 'kitchen', 4, null, null),
+                            new Room (this.var._freddyRoom5X, this.var._freddyRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 5, null, null), 
+                            new Room (this.var._freddyRoom6X, this.var._freddyRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', null, null, null, true)],
+                            //rango de horas de activacion
+                            [{min: 6, max: 6}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
+                            //rango de segundos de movimiento
+                            [{min: 20, max: 50}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+};
+Freddy.prototype = Object.create(Animatronics.prototype);
+Freddy.prototype.constructor = Freddy;
+
+Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
+{
+    this.startedMoving = true;
+
+    var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);
+    
+    this.movement = game.time.events.add (timeToMove, function()
+    {
+        this._sprite.frame = 0;
+        var antPos = this._pos;
+        if(!this._pos._attack)
+            this._pos = this._path[this._pos._room1];
+
+        this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+        this.darkFreddy.x = this._pos._x;    this.darkFreddy.y = this._pos._y;
+
+        if(this._pos._name == bonnie._pos._name || this._pos._name == chica._pos._name)
+            this.showDarkSprite();
+        else
+            this.hideDarkSprite();
+        
+        if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y && antPos != this._pos)
+            this.moveEffect(game, staticEffect);
+
+        if(!this._pos.attack)
+            this.move(game, bonnie, chica, staticEffect);
+    }, this);
+};
+Freddy.prototype.spotted = function(game, bonnie, chica, staticEffect)
+{
+    if(game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y && !this._pos._attack)
+    {
+        game.time.events.remove(this.movement);
+        this.move(game, bonnie, chica, staticEffect);
+    }
+
+};
+Freddy.prototype.showDarkSprite = function()
+{
+    this.darkFreddy.animations.add('loop');
+    this.darkFreddy.alpha = 1;
+    this.darkFreddy.animations.play('loop', 1, true);
+    this._sprite.alpha = 0;
+};
+Freddy.prototype.hideDarkSprite = function()
+{
+    this.darkFreddy.alpha = 0;
+    this.darkFreddy.animations.stop('loop');
+    this._sprite.alpha = 1;
+};
+Freddy.prototype.attack = function()
+{
+    return this._pos.attack;
+};
+Freddy.prototype.lookingAway = function()
+{
+    this.lookAway = true;
+};
+Freddy.prototype.returnLookingAway = function()
+{
+    return this.lookAway;
+};
+Freddy.prototype.startToMove = function()
+{
+    return this.startedMoving;
+};
+Freddy.prototype.attackBattery = function(game, darkness, moveLeft, moveRight)
+{
+    game.time.events.add(18000, function()
+    {
+        this.attackSprite.alpha = 1;
+        this.attackDarkAnim.play(1, true);
+       //suena musiquita
+       posCamera = game.camera.x;
+
+        game.time.events.add(6000, function()
+        {
+            var cont = 6000;
+            this.dontMoveAttack(game, posCamera, cont, darkness, moveLeft, moveRight);
+        }, this);
+    }, this);
+};
+Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, moveLeft, moveRight)
+{
+    if (game.camera.x != posCamera || cont >= 21000)
+    {
+        this.attackSprite.alpha = 0;
+        this.attackDarkAnim.stop('start');
+
+        moveLeft.inputEnabled = false;
+        moveRight.inputEnabled = false;
+
+        //parar musiquita
+        darkness.alpha = 0.9; //cambiar
+
+        if (game.camera.x != posCamera)
+            var time = 2000;
+        else
+            var time = 9000;
+        game.time.events.add(time, function()
+        {
+            this.alphaScreamer(1);
+            game.time.events.add(1000, function(){ game.state.start('death'); }, this);
+        }, this);
+    }
+    else
+        game.time.events.add(3000, function()
+        {
+            cont += 3000;
+            this.dontMoveAttack(game, posCamera, cont, darkness, moveLeft, moveRight);
+        }, this);
+}
+
+module.exports = Freddy;
+},{"../const.js":9,"./Animatronics.js":3,"./room.js":8}],8:[function(require,module,exports){
 
 //CREACION RUTAS
 function Room(x, y, posX, posY, name, room1, room2, room3, attack = false)
@@ -664,7 +839,7 @@ function Room(x, y, posX, posY, name, room1, room2, room3, attack = false)
 }
 
 module.exports = Room;
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 
 function Const()
 {
@@ -674,6 +849,12 @@ function Const()
 
     this._nGPosX = 50; 
     this._nGPosY = 600 - 250;
+
+    this._contPosX = 50; 
+    this._contPosY = 600 - 180;
+
+    this._freddyPosX = 800 - 350; 
+    this._freddyPosY = 0;
 
     //=====================================================GAMESCENE=============================================
     this._tamX = 792;
@@ -856,7 +1037,7 @@ function Const()
     this._cam7PosX = -21.8;
     this._cam7PosY = -12.85;
 
-    //=====================================================================NIGHT=========================================
+    //==========================================================NIGHT=========================================
 
     this._spriteNightNumScale = 0.8;
     this._spriteNightScale = 0.55;
@@ -865,10 +1046,9 @@ function Const()
 
     this._spriteAnimScale = 1.5;
 
-    //Screamers
-    this._screamerPosX = this._tamX/2 - 160;
-    this._screamerPosY = 0;   
-    this._screamerScale = 2.5;
+    //------Screamers
+    this._screamerPosX = 0;
+    this._screamerPosY = 0;
 
     //===========================================================BONNIE/CHICA===============================================
 
@@ -879,22 +1059,22 @@ function Const()
 
     //=====================================================BONNIE===========================================
 
-    this._bonnieRoom1X = (792 * 2) + 300;
+    this._bonnieRoom1X = (this._tamX * 2) + 300;
     this._bonnieRoom1Y = 240;
 
-    this._bonnieRoom2X = (792 * 3) + 375;
+    this._bonnieRoom2X = (this._tamX * 3) + 375;
     this._bonnieRoom2Y = 340;
 
-    this._bonnieRoom3X = (792 * 4) + 450;
+    this._bonnieRoom3X = (this._tamX * 4) + 450;
     this._bonnieRoom3Y = 310;
 
-    this._bonnieRoom4X = (792 * 10) + 375;
+    this._bonnieRoom4X = (this._tamX * 10) + 375;
     this._bonnieRoom4Y = 330;
 
-    this._bonnieRoom5X = (792 * 8) + 365;
+    this._bonnieRoom5X = (this._tamX * 8) + 365;
     this._bonnieRoom5Y = 280;
 
-    this._bonnieRoom6X = (792 * 11) + 375;
+    this._bonnieRoom6X = (this._tamX * 11) + 375;
     this._bonnieRoom6Y = 280;
 
     //Attack
@@ -903,33 +1083,69 @@ function Const()
 
     //======================================================CHICA=============================================
 
-    this._chicaRoom1X = (792 * 2) + 450;
+    this._chicaRoom1X = (this._tamX * 2) + 450;
     this._chicaRoom1Y = 240;
 
-    this._chicaRoom2X = (792 * 3) + 375;
+    this._chicaRoom2X = (this._tamX * 3) + 375;
     this._chicaRoom2Y = 340;
 
-    this._chicaRoom3X = (792 * 5) + 400;
+    this._chicaRoom3X = (this._tamX * 5) + 400;
     this._chicaRoom3Y = 200;
 
-    this._chicaRoom4X = (792 * 6) + 375;
-    this._chicaRoom4Y = 594 + 66;
+    this._chicaRoom4X = (this._tamX * 6) + 375;
+    this._chicaRoom4Y = this._tamY + 66;
 
-    this._chicaRoom5X = (792 * 7) + 365;
+    this._chicaRoom5X = (this._tamX * 7) + 365;
     this._chicaRoom5Y = 280;
 
-    this._chicaRoom6X = (792 * 9) + 350;
-    this._chicaRoom6Y = 300;
+    this._chicaRoom6X = (this._tamX * 9) + 350;
+    this._chicaRoom6Y = 330;
 
     //Attack
     this._spriteChicaAttackPosX = this._tamX * 2 - 144;
     this._spriteChicaAttackPosY = 176;
 
+    //======================================================FREDDY=============================================
+
+    this._freddyRoom1X = (this._tamX * 2) + 390;
+    this._freddyRoom1Y = 280;
+
+    this._freddyRoom2X = (this._tamX * 3) + 375;
+    this._freddyRoom2Y = 220;
+
+    this._freddyRoom3X = (this._tamX * 5) + 310;
+    this._freddyRoom3Y = 420;
+
+    this._freddyRoom4X = (this._tamX * 6) + 375;
+    this._freddyRoom4Y = this._tamY + 66;
+
+    this._freddyRoom5X = (this._tamX * 7) + 385;
+    this._freddyRoom5Y = 400;
+
+    this._freddyRoom6X = (this._tamX * 9) + 360;
+    this._freddyRoom6Y = 280;
+
+    //Attack
+    this._spriteFreddyAttackPosX = 220;
+    this._spriteFreddyAttackPosY = 150;
+
+    //=====================================================DEATHSCENE=============================================
+    this._gOTextPosX = 50; 
+    this._gOTextPosY = this._tamY - 70;
+
+    //====================================================WIN SCENE============================================
+    this._winTextX = this._tamX / 2 - 403 / 2 + 90;
+    this._winTextY = this._tamX/2 - 186 / 2 - 60;
+
+    this._winNumberX = 370;
+    this._winNumberY = 254;
+    this._winNumberScale = 0.9;
+
 };
 
 
 module.exports = Const;
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 function Interact () 
@@ -941,7 +1157,7 @@ Interact.prototype.getActive = function(){ return this._active; }
 Interact.prototype.changeActive = function(){ this._active = !this._active; }
 
 module.exports = Interact;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 var Interact = require('./Interactions.js');
@@ -964,9 +1180,14 @@ Door.prototype.constructor = Door;
 
 Door.prototype.reset = function()
 {
-    this.resetInteract();
-    this.button.frame = 0;
-    this.doorCloseAnim.frame = 0;
+    if (this._active)
+    {
+        this.resetInteract();
+        this.button.frame = 0;
+        this.doorCloseAnim.frame = 0;
+        this.doorOpenAnim.play(10, true);
+        this.doorOpenAnim.loop = false;
+    }
 }
 Door.prototype.actionOnClick = function() 
 {
@@ -992,7 +1213,7 @@ Door.prototype.enabledInput = function(b)
 }
 
 module.exports = Door;
-},{"./Interactions.js":9}],11:[function(require,module,exports){
+},{"./Interactions.js":10}],12:[function(require,module,exports){
 'use strict';
 
 var Interact = require('./Interactions.js');
@@ -1048,7 +1269,7 @@ Light.prototype.enabledInput = function(b)
 }
 module.exports = Light;
 
-},{"../const.js":8,"./Interactions.js":9}],12:[function(require,module,exports){
+},{"../const.js":9,"./Interactions.js":10}],13:[function(require,module,exports){
 'use strict';
 
 var Const = require('./const.js')
@@ -1100,15 +1321,15 @@ var PreloaderScene =
 
     //Animatronics
     this.game.load.spritesheet('bonnie','./images/animatronics/Bonnie.png', 33, 66, 3);
-    this.game.load.image('screamerBonnie', './images/animatronics/screamerBonnie.png');
+    this.game.load.spritesheet('screamerBonnie', './images/animatronics/screamerBonnie.png', 800, 600, 6);
     this.game.load.image('bonnieAttack', './images/animatronics/BonnieAttack.png');
     this.game.load.spritesheet('chica','./images/animatronics/Chica.png', 33, 66, 3);
-    this.game.load.image('screamerChica', './images/animatronics/screamerChica.png');
+    this.game.load.spritesheet('screamerChica', './images/animatronics/screamerChica.png', 800, 600, 6);
     this.game.load.image('chicaAttack', './images/animatronics/ChicaAttack.png');
     this.game.load.spritesheet('freddy','./images/animatronics/Freddy.png', 33, 66, 3);
     this.game.load.spritesheet('darkFreddy','./images/animatronics/FreddyDark.png', 33, 66, 2);
-    this.game.load.image('screamerFreddy', './images/animatronics/screamerFreddy.png');
-    this.game.load.spritesheet('freddyAttack', './images/animatronics/FreddyAttack.png', 33, 33, 2);
+    this.game.load.spritesheet('screamerFreddy', './images/animatronics/screamerFreddy.png', 800, 598, 6);
+    this.game.load.spritesheet('freddyAttack', './images/animatronics/FreddyAttack.png', 198, 198, 2);
     this.game.load.image('foxy','./images/animatronics/Foxy.png');
     this.game.load.spritesheet('foxyRun','./images/animatronics/FoxyRun.png', 33, 66, 2);
     this.game.load.image('screamerFoxy', './images/animatronics/screamerFoxy.png');
@@ -1130,15 +1351,21 @@ var PreloaderScene =
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
+    this.game.load.image('officeEffect', './images/effect/borde.png');
+    this.game.load.image('darkness', './images/effect/fondoOficina.png');
 
     //Text
-    
     this.game.load.image('REC', './images/texts/REC.png');
     this.game.load.spritesheet('camerasTexts', './images/texts/camerasNames.png', 364, 66, 11);
     this.game.load.spritesheet('manyTexts', './images/texts/manyTexts.png', 264, 66, 5);
     this.game.load.spritesheet('numbers', './images/texts/numbers.png', 33, 66, 10);
     this.game.load.image('titleText', './images/texts/Title.png');
     this.game.load.spritesheet('newGameText', './images/texts/NewGame.png', 276, 66, 2);
+    this.game.load.spritesheet('continueText', './images/texts/Continue.png', 272, 66, 2);
+    this.game.load.image('gameOverText', './images/texts/GameOver.png');
+    this.game.load.image('freddyMenu', './images/animatronics/FreddyMenu.png');
+    this.game.load.spritesheet('win', './images/texts/WIN.png', 404, 186, 7);
+    this.game.load.image('end', './images/texts/END.png');
   },
 
   create: function () 
@@ -1162,57 +1389,23 @@ window.onload = function ()
 
   game.state.start('boot');
 };
-
-
-function Main()
-{
-  /*
-  Create
-  {
-    Se crea 1 menu,
-    Se crea phoneguy,
-    Se crea 1 night,
-    Se crea 1 office.
-  }
-
-  Update
-  {
-    Audio phoneGuy.
-
-    Bucle del juego
-    {
-      Booleano de finPartida,
-      Cambio a escena oficina,
-      Actualizacion de los animatronicos,
-      Input.
-    }
-  }
-
-
-  */
-}
-},{"./const.js":8,"./scenes/deathScene.js":14,"./scenes/gameScene.js":15,"./scenes/menuScene.js":16,"./scenes/winScene.js":17}],13:[function(require,module,exports){
+},{"./const.js":9,"./scenes/deathScene.js":15,"./scenes/gameScene.js":16,"./scenes/menuScene.js":17,"./scenes/winScene.js":18}],14:[function(require,module,exports){
 'use strict';
 
 var Const = require('./const.js');
+
 //meter phoneGuy
 function Night(game, spriteDec, spriteU, numberNight)
 {
     this.var = new Const();
     this.game = game;
+    
     //Control del paso de hora y noches
     if(!localStorage.getItem('numNight'))
-    {
-        console.log("no sa guardao")
-
         this._night = 1;
-    }
     else
-    {
-        console.log("sa guardao")
-
         this._night = JSON.parse(localStorage.getItem('numNight'));
-    }
+
     this._hour = 0;
     this._hourArr = [12,1,2,3,4,5,6];
 
@@ -1240,18 +1433,22 @@ Night.prototype.reset = function(doorR, doorL, lightR, lightL, battery)
     lightL.reset();
     battery.reset();
 }
-Night.prototype.getNight = function() {return this._night;}
-
+Night.prototype.getNight = function() 
+{
+    return this._night;
+}
 Night.prototype.startNight = function()
 {
     //animacion hora al terminar
 }
-
 Night.prototype.finishNight = function()
 {
-    this._night++;
-    localStorage.setItem("numNight", JSON.stringify(this._night));
-    this.game.state.start('win');
+    if(this._night < 6)
+    {
+        this._night++;
+        localStorage.setItem("numNight", JSON.stringify(this._night));
+    }       
+        this.game.state.start('win');
 }
 Night.prototype.changeHour = function(battery)
 {
@@ -1264,7 +1461,6 @@ Night.prototype.changeHour = function(battery)
         this.finishNight();
     }
 }
-
 module.exports = Night;
 //Se veran si se añaden mas
 
@@ -1317,7 +1513,7 @@ module.exports = Night;
     this.actTime.push({min: 5, max: 10});
     this.actTime.push({min: 5, max: 10});
     this.actTime.push({min: 5, max: 10});*/
-},{"./const.js":8}],14:[function(require,module,exports){
+},{"./const.js":9}],15:[function(require,module,exports){
 'use strict';
 var Const = require ('../const.js');
 
@@ -1330,32 +1526,27 @@ var DeathScene =
 
     create: function()
     {
-        
-
-        //---------------------------------------------------TITLE--------------------------------------------------------
-        //Cambiar imagenes
-        //this.title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
-
-        //---------------------------------------------------NEW GAME-----------------------------------------------------
-        //Cambiar imagenes
-        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
-
-        //---------------------------------------------------CONTINUE-----------------------------------------------------
 
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
-
-
+        var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');
+        
         //----------------------------------------------------STATIC EFFECT-----------------------------------------------
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
         this.staticEffect.animations.add('startEffect');
         this.staticEffect.animations.play('startEffect', 5, true);
         this.staticEffect.alpha = 0.4;
+
+        //----------------------------------------------------GAME OVER TEXT-----------------------------------------------
+        this.game.time.events.add(2000, function (){ this.game.add.sprite(this.var._gOTextPosX, this.var._gOTextPosY, 'gameOverText'); }, this);
+
+        //---------------------------------------------------RETURN MENU-----------------------------------------------------
+        this.game.time.events.add(7000, function (){ this.game.state.start('menu'); }, this);
     }
     
 };
 
 module.exports = DeathScene;
-},{"../const.js":8}],15:[function(require,module,exports){
+},{"../const.js":9}],16:[function(require,module,exports){
 'use strict';
 
 var Const = require('../const.js');
@@ -1365,6 +1556,7 @@ var Light = require('../interactions/light.js');
 
 var Bonnie = require('../animatronics/bonnie.js');
 var Chica = require('../animatronics/chica.js');
+var Freddy = require('../animatronics/freddy.js');
 
 var Battery = require('../Battery.js');
 var Night = require('../nights.js');
@@ -1465,15 +1657,16 @@ var GameScene =
 
         //===================================================ANIMATRONICS=================================================================
 
+        //Fredyy
+        this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
+                                this.game.add.sprite(0, 0, 'darkFreddy'),
+                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'));
+                                
         //Bonnie
-        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), 0);
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'));
          
         //Chica
-        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), 0);
-
-        //Draw animatronics
-        this.freddy = this.game.add.sprite(Rooms.cameraPositions.ShowStage.x + 390, 280, 'freddy');
-        this.freddy.scale.setTo(1.5, 1.5);
+        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'));
 
         //===================================================OFFICE 2.0=================================================================
 
@@ -1484,13 +1677,6 @@ var GameScene =
         this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
         this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
 
-        //===================================================SCREAMERS=================================================================
-
-        //Bonnie
-        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
-        //Chica
-        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
-
         //===============================================STATIC EFFECT MONITOR=============================================================
 
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
@@ -1499,11 +1685,69 @@ var GameScene =
 
         this.staticEffect.fixedToCamera = true;
 
+        //===============================================DRAKNESS EFFECT=============================================================
+
+        this.darkness = this.game.add.sprite(0, 0, 'darkness');
+        this.darkness.alpha = 0;
+
+        this.darkness.fixedToCamera = true;
+
+        //===================================================SCREAMERS=================================================================
+
+        //Bonnie
+        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerBonnie'));
+
+        //Chica
+        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerChica'));
+
+        //Freddy
+        this.freddy.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerFreddy'));
+
+        //===============================================OFFICE EFFECT=============================================================
+
+        this.officeEffect = this.game.add.sprite(0, 0, 'officeEffect');
+        this.officeEffect.alpha = 0.5;
+
+        this.officeEffect.fixedToCamera = true;
+
+        //==========================================================NIGHTS========================================================================
+
+        //Noches
+        this.nigthsText = this.game.add.sprite(this.var._nigthsTextPosX, this.var._nigthsTextPosY, 'manyTexts', 4);
+        this.nigthsText.scale.setTo(this.var._nigthsTextScale,this.var._nigthsTextScale)
+        this.nigthsText.fixedToCamera = true;
+
+        //Horas
+        this.hourText = this.game.add.sprite(this.var._hourTextPosX, this.var._hourTextPosY, 'manyTexts', 3);
+        this.hourText.fixedToCamera = true;
+
+        this.night = new Night(this.game, this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),
+                                                    this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),
+                                                    this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
+
         //===================================================ANIMATRONICS MOVE===========================================================
 
-        this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
+        //Bonnie
+        this.bonnie.preChangeNight(this.night.getNight());
+        this.game.time.events.add(this.bonnie.getHour() * this.var._timeForHour, function()
+        {
+            this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft, this.freddy)
+        }, this);
 
-        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);
+        //Chica
+        this.chica.preChangeNight(this.night.getNight());
+        this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
+        {
+            this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight, this.freddy)
+        }, this);
+
+        //Freddy
+        this.freddy.changeNight(this.night.getNight());
+        
+        this.game.time.events.add(this.freddy.getHour() * this.var._timeForHour, function()
+        {
+            this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
+        }, this);
 
         //=====================================================MONITOR=====================================================================
 
@@ -1557,21 +1801,6 @@ var GameScene =
 
         this.usageText.fixedToCamera = true;
 
-        //==========================================================NIGHTS========================================================================
-
-        //Noches
-        this.nigthsText = this.game.add.sprite(this.var._nigthsTextPosX, this.var._nigthsTextPosY, 'manyTexts', 4);
-        this.nigthsText.scale.setTo(this.var._nigthsTextScale,this.var._nigthsTextScale)
-        this.nigthsText.fixedToCamera = true;
-
-        //Horas
-        this.hourText = this.game.add.sprite(this.var._hourTextPosX, this.var._hourTextPosY, 'manyTexts', 3);
-        this.hourText.fixedToCamera = true;
-
-        this.night = new Night(this.game, this.game.add.sprite(this.var._nightNumber1PosX, this.var._nightNumber1PosY, 'numbers'),
-                                                    this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),
-                                                    this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
-
         //=================================================CHANGE MONITOR/CAMERA=============================================================
         
         this.changeView = this.game.add.button(this.var._changeViewPosX, this.var._changeViewPosY, 'buttonMonitor', function () 
@@ -1580,6 +1809,7 @@ var GameScene =
             if (this.inOffice) 
             {
                 this.game.camera.x = this.monitor.LastPos();
+                this.officeEffect.alpha = 0;
 
                 this.mapEdge.alpha = 1;
                 this.staticEffect.alpha = 0.1;
@@ -1596,7 +1826,6 @@ var GameScene =
                     
                 this.monitor.Input();
 
-
                 this.moveRight.inputEnabled = false;
                 this.moveLeft.inputEnabled = false;
 
@@ -1605,6 +1834,7 @@ var GameScene =
             else 
             {
                 this.game.camera.x = this.lastPosOffice;
+                this.officeEffect.alpha = 0.5;
 
                 this.mapEdge.alpha = 0;
                 this.staticEffect.alpha = 0;
@@ -1623,31 +1853,6 @@ var GameScene =
                     this.game.time.events.add(this.var._timeForReset, function()
                     {
                         this.game.state.start('death');
-                        //------------------DESTRUIR
-                        /*this.bonnie.alphaScreamer(0);
-                        delete this.bonnie;
-                        delete this.chica;
-                        //------------------Resetear objetos
-                        this.night.reset(this.doorRight, this.doorLeft, this.lightRight, this.lightLeft, this.battery);
-                        this.monitor.reset(Rooms);
-                        //Bonnie
-                        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.night.getNight() - 1);
-                        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
-                        //Chica
-                        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.night.getNight() - 1);
-                        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
-
-                        //-----------------Resetear variables
-                        this.changeView.alpha = this.var._changeViewAlpha;
-                        this.changeView.inputEnabled = true;
-                        this.moveRight.inputEnabled = true;
-                        this.moveLeft.inputEnabled = true;
-                        this.game.camera.x = this.var._iniCamPos;
-
-                        //------------------Mover animatronicos de nuevo
-                        this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
-                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);*/
-
                     }, this)
                 }
                 else if (this.chica.isInOffice())
@@ -1659,31 +1864,17 @@ var GameScene =
                     this.game.time.events.add(this.var._timeForReset, function()
                     { 
                         this.game.state.start('death');
-                        //------------------DESTRUIR
-                        /*this.chica.alphaScreamer(0);
-                        delete this.bonnie;
-                        delete this.chica;
-                        //------------------Resetear objetos
-                        this.night.reset(this.doorRight, this.doorLeft, this.lightRight, this.lightLeft, this.battery);
-                        this.monitor.reset(Rooms);
-                        //Bonnie
-                        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'), this.night.getNight() - 1);
-                        this.bonnie.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerBonnie'));
-                        //Chica
-                        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'), this.night.getNight() - 1);
-                        this.chica.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosY, 'screamerChica'));
+                    }, this)
+                }
+                else if(this.freddy.attack() && this.freddy.returnLookingAway() && !this.doorRight.getActive())
+                {
+                    this.freddy.alphaScreamer(1);
+                    this.changeView.alpha = 0;
+                    this.changeView.inputEnabled = false;
 
-                        //-----------------Resetear variables
-                        this.changeView.alpha = this.var._changeViewAlpha;
-                        this.changeView.inputEnabled = true;
-                        this.moveRight.inputEnabled = true;
-                        this.moveLeft.inputEnabled = true;
-                        this.game.camera.x = this.var._iniCamPos;
-
-                        //------------------Mover animatronicos de nuevo
-                        this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft);
-                        this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight);*/
-
+                    this.game.time.events.add(this.var._timeForReset, function()
+                    { 
+                        this.game.state.start('death');
                     }, this)
                 }
                 else
@@ -1714,6 +1905,8 @@ var GameScene =
 
         this.moveRight.inputEnabled = true;
         this.moveLeft.inputEnabled = true;
+
+        this.attackForDark = false;
     },
 
     update: function () 
@@ -1788,6 +1981,48 @@ var GameScene =
             this.battery.decreaseBattery();
         }
 
+        //-----------------------------------------------------------------ATAQUE DE BATERIA-----------------------------------------------------------------------------------------------
+        if (this.battery.emptyBattery() && !this.attackForDark)
+        {
+            this.attackForDark = true;
+
+            this.darkness.alpha = 0.5; //cambiar
+            this.officeEffect.alpha = 0.6;
+
+            this.changeView.inputEnabled = false;
+            this.changeView.alpha = 0;
+            this.doorLeft.enabledInput(false);
+            this.doorLeft.reset();
+            this.doorRight.enabledInput(false);
+            this.doorRight.reset();
+            this.lightLeft.enabledInput(false);
+            this.lightLeft.reset();
+            this.lightRight.enabledInput(false);
+            this.lightRight.reset();
+
+            if (!this.inOffice)
+            {
+                this.inOffice = !this.inOffice;
+
+                //Desactivar todo
+                this.game.camera.x = this.lastPosOffice;
+                this.officeEffect.alpha = 0.5;
+                this.mapEdge.alpha = 0;
+                this.staticEffect.alpha = 0;
+                this.REC.alpha = 0;
+                this.RECPoint.alpha = 0;
+                this.map.alpha = 0;
+                this.camerasTexts.alpha = 0;
+                this.monitor.notInput();
+
+                //Activar desplazamiento por la oficina
+                this.moveRight.inputEnabled = true;
+                this.moveLeft.inputEnabled = true;
+            }
+            this.freddy.attackBattery(this.game, this.darkness, this.moveLeft, this.moveRight);
+
+        }
+
         //------------------------------------------------------------------------------------------------------------------------------------------------------------------
         
         //Horas de la noche
@@ -1795,6 +2030,19 @@ var GameScene =
         {
             this.night.changeHour(this.battery); //cuando hagamos la escena de win de la noche posiblemente lo quitemos
             this.realTimeToChange = this.var._timeForHour + this.game.time.now;
+        }
+
+        //==========================Freddy===================
+        if(!this.inOffice)
+        {
+            if(!this.freddy.attack() && this.freddy.startToMove())
+                this.freddy.spotted(this.game, this.bonnie, this.chica, this.staticEffect);
+
+            if(this.freddy.attack() && !this.doorRight.getActive())
+            {
+                if(this.game.camera.x != this.var._eHallCornerPosX)
+                    this.freddy.lookingAway();
+            }
         }
     }
 
@@ -1811,7 +2059,7 @@ function addCamera(camera, camTamX, camTamY, camTam)
 
 
 module.exports = GameScene;
-},{"../Battery.js":1,"../InsideMonitor.js":2,"../animatronics/bonnie.js":4,"../animatronics/chica.js":6,"../const.js":8,"../interactions/door.js":10,"../interactions/light.js":11,"../nights.js":13}],16:[function(require,module,exports){
+},{"../Battery.js":1,"../InsideMonitor.js":2,"../animatronics/bonnie.js":4,"../animatronics/chica.js":6,"../animatronics/freddy.js":7,"../const.js":9,"../interactions/door.js":11,"../interactions/light.js":12,"../nights.js":14}],17:[function(require,module,exports){
 'use strict';
 var Const = require ('../const.js');
 
@@ -1827,17 +2075,16 @@ var Menu =
         
 
         //---------------------------------------------------TITLE--------------------------------------------------------
-        this.title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
+        var title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
 
         //---------------------------------------------------NEW GAME-----------------------------------------------------
         var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ localStorage.removeItem('numNight'); this.game.state.start('game'); }, this, 1, 0, 1);
-        //Cambiar sprite
-        var buttonContinue = this.game.add.button(this.var._nGPosX, this.var._nGPosY +100, 'newGameText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
 
         //---------------------------------------------------CONTINUE-----------------------------------------------------
+        var buttonContinue = this.game.add.button(this.var._contPosX, this.var._contPosY, 'continueText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
 
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
-
+        var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');
 
         //----------------------------------------------------STATIC EFFECT-----------------------------------------------
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
@@ -1849,7 +2096,7 @@ var Menu =
 };
 
 module.exports = Menu;
-},{"../const.js":8}],17:[function(require,module,exports){
+},{"../const.js":9}],18:[function(require,module,exports){
 'use strict';
 var Const = require ('../const.js');
 
@@ -1862,28 +2109,33 @@ var WinScene =
 
     create: function()
     {
+        //--------------------------------------------------HORA-----------------------------------------------
+        this.hourText = this.game.add.sprite(this.var._winTextX, this.var._winTextY, 'win');
+        this.hourText.scale.setTo(0.5,0.5);
+        this.hourText.animations.add('hola');
+        this.hourText.animations.play('hola', 1, false);
+
         
 
-        //---------------------------------------------------TITLE--------------------------------------------------------
-        //Cambiar imagenes
-        //this.title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
+        //---------------------------------------------------CHANGE SCENE-----------------------------------------------------
+        this.game.time.events.add(3000, function()
+        {
+            /*this._night = JSON.parse(localStorage.getItem('numNight'));
+            if(this._night == 6)
+            {
+                this.winText = this.game.add.sprite(this.var._winTextX, this.var._winTextY, 'end');
 
-        //---------------------------------------------------NEW GAME-----------------------------------------------------
-        //Cambiar imagenes
-        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
-        //---------------------------------------------------CONTINUE-----------------------------------------------------
-
-        //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
-
-
-        //----------------------------------------------------STATIC EFFECT-----------------------------------------------
-        this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
-        this.staticEffect.animations.add('startEffect');
-        this.staticEffect.animations.play('startEffect', 5, true);
-        this.staticEffect.alpha = 0.4;
+                this.game.time.events.add(3000, function()
+                {
+                    this.game.state.start('menu');
+                },this);
+            }
+            else*/
+                this.game.state.start('game');
+        },this);
     }
     
 };
 
 module.exports = WinScene;
-},{"../const.js":8}]},{},[12]);
+},{"../const.js":9}]},{},[13]);
