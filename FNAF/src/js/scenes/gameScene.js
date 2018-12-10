@@ -108,16 +108,16 @@ var GameScene =
 
         //===================================================ANIMATRONICS=================================================================
 
+        //Fredyy
+        this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
+                                this.game.add.sprite(0, 0, 'darkFreddy'),
+                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'));
+                                
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'));
          
         //Chica
         this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'));
-
-        //Fredyy
-        this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
-                                this.game.add.sprite(0, 0, 'darkFreddy'),
-                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'));
 
         //===================================================OFFICE 2.0=================================================================
 

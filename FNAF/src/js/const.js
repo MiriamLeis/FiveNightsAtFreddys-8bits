@@ -251,13 +251,13 @@ function Const()
     this._chicaRoom3Y = 200;
 
     this._chicaRoom4X = (this._tamX * 6) + 375;
-    this._chicaRoom4Y = 594 + 66;
+    this._chicaRoom4Y = this._tamY + 66;
 
     this._chicaRoom5X = (this._tamX * 7) + 365;
     this._chicaRoom5Y = 280;
 
     this._chicaRoom6X = (this._tamX * 9) + 350;
-    this._chicaRoom6Y = 300;
+    this._chicaRoom6Y = 330;
 
     //Attack
     this._spriteChicaAttackPosX = this._tamX * 2 - 144;
@@ -269,19 +269,19 @@ function Const()
     this._freddyRoom1Y = 280;
 
     this._freddyRoom2X = (this._tamX * 3) + 375;
-    this._freddyRoom2Y = 340;
+    this._freddyRoom2Y = 220;
 
-    this._freddyRoom3X = (this._tamX * 5) + 400;
-    this._freddyRoom3Y = 200;
+    this._freddyRoom3X = (this._tamX * 5) + 310;
+    this._freddyRoom3Y = 420;
 
     this._freddyRoom4X = (this._tamX * 6) + 375;
-    this._freddyRoom4Y = 594 + 66;
+    this._freddyRoom4Y = this._tamY + 66;
 
-    this._freddyRoom5X = (this._tamX * 7) + 365;
-    this._freddyRoom5Y = 280;
+    this._freddyRoom5X = (this._tamX * 7) + 385;
+    this._freddyRoom5Y = 400;
 
-    this._freddyRoom6X = (this._tamX * 9) + 350;
-    this._freddyRoom6Y = 300;
+    this._freddyRoom6X = (this._tamX * 9) + 360;
+    this._freddyRoom6Y = 280;
 
     //Attack
     this._spriteFreddyAttackPosX = 220;
