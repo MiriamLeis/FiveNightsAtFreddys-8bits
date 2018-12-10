@@ -8,7 +8,7 @@ var Room = require('./room.js');
 function Freddy(sprite, darkFreddy, attack)
 {
     this.var = new Const();
-
+    
     this.darkFreddy = darkFreddy
     this.darkFreddy.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
     this.darkFreddy.alpha = 0;
@@ -36,11 +36,40 @@ Freddy.prototype.constructor = Freddy;
 
 Freddy.prototype.move = function(game, bonnie, chica)
 {
-    var timeToMove = Math.floor(Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min);
-    var move = game.time.events.add (timeToMove, function()
+    var timeToMove = Math.floor(Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000;
+    this.movement = game.time.events.add (timeToMove, function()
     {
+        this._sprite.frame = 0;
+
+        this._pos = this._path[this._pos._room1];
+
+        this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+        this.darkFreddy.x = this._pos._x;    this.darkFreddy.y = this._pos._y;
+
+        if(this._pos._name == bonnie._pos._name || this._pos._name == chica._pos._name)
+            this.showDarkSprite();
         
+        this.move(game, bonnie, chica);
     }, this);
+};
+Freddy.prototype.spotted = function(game, bonnie, chica)
+{
+    if(game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+    {
+        game.time.events.remove(this.movement);
+        this.move(game, bonnie, chica);
+    }
+
+};
+Freddy.prototype.showDarkSprite = function()
+{
+    this.darkFreddy.alpha = 1;
+    this._sprite.frame = 0;
+};
+Freddy.prototype.hideDarkSprite = function()
+{
+    this.darkFreddy.alpha = 0;
+    this._sprite.frame = 1;
 };
 Freddy.prototype.attack = function()
 {
@@ -82,8 +111,11 @@ Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, move
         game.time.events.add(time, function()
         {
             this.alphaScreamer(1);
+            this._screamer.animations.add ('screamer');
+            this._screamer.animations.play ('screamer', 10, false);
+            
             //En un futuro hacer la animacion
-            game.time.events.add(1500, function(){ game.state.start('death'); }, this);
+            game.time.events.add(1000, function(){ game.state.start('death'); }, this);
         }, this);
     }
     else

@@ -28,7 +28,7 @@ BonnieChica.prototype.dinningRoomFalse = function()
 {
     this.dinningRoom = false;
 }
-BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door, light)
+BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door, light, freddy)
 {
     if(!this.inOffice)
     {
@@ -61,6 +61,11 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room2];
                                 this.dinningRoomFalse();
                             }
+                            //FreddyOscuro
+                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                                this.freddy.hideDarkSprite();
+                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                                this.freddy.showDarkSprite();
                         }
                         else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                         {
@@ -72,6 +77,12 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room1];
                             this.dinningRoomFalse();
                         }
+
+                        //FreddyOscuro
+                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                            this.freddy.hideDarkSprite();
+                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                            this.freddy.showDarkSprite();
                     }
                     else
                     {
@@ -80,6 +91,12 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this.attack(game, door, light);    
                         else
                             this._pos = this._path[this._pos._room1];
+
+                        //FreddyOscuro
+                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                            this.freddy.hideDarkSprite();
+                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                            this.freddy.showDarkSprite();
                     }
                 }
                 else if (this._pos._number == 3)
@@ -101,6 +118,11 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room3];
                                 this.dinningRoomFalse();
                             }
+                            //FreddyOscuro
+                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                                this.freddy.hideDarkSprite();
+                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                                this.freddy.showDarkSprite();
                         }
                         else if (percentage > this.var._3roomsPercentage2)
                         {
@@ -114,6 +136,11 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room2];
                                 this.dinningRoomFalse();
                             }
+                            //FreddyOscuro
+                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                                this.freddy.hideDarkSprite();
+                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                                this.freddy.showDarkSprite();
                         }
                         else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                         {
@@ -125,6 +152,11 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room1];
                             this.dinningRoomFalse();
                         }
+                        //FreddyOscuro
+                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                            this.freddy.hideDarkSprite();
+                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                            this.freddy.showDarkSprite();
                     }
                     else
                     {
@@ -134,6 +166,12 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room2];
                         else
                             this._pos = this._path[this._pos._room1];
+
+                        //FreddyOscuro
+                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                            this.freddy.hideDarkSprite();
+                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                            this.freddy.showDarkSprite();
                     }
                 }
                 else
@@ -150,6 +188,12 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                         this.dinningRoomFalse();
                     }
 
+                    //FreddyOscuro
+                    if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
+                        this.freddy.hideDarkSprite();
+                    else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
+                        this.freddy.showDarkSprite();
+
                 }
                 //Controlar que el efecto de static effect aparezca cuando miras donde estan o donde se van a mover
                 if (this._antPos != this._pos)
@@ -159,7 +203,7 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                 this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
                 if(!this.inOffice)
-                this.move(game, otherAnimatronic, staticEffect, door, light);
+                this.move(game, otherAnimatronic, staticEffect, door, light, freddy);
             }
         }, this);
     }

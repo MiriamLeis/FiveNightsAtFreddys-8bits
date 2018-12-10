@@ -212,8 +212,8 @@ function Const()
         this._screamerChicaPosX = -25;
         this._screamerChicaPosY = 0;
     //Freddy
-        this._screamerFreddyPosX = -200;
-        this._screamerFreddyPosY = -50;
+        this._screamerFreddyPosX = 0;
+        this._screamerFreddyPosY = 0;
 
     //===========================================================BONNIE/CHICA===============================================
 

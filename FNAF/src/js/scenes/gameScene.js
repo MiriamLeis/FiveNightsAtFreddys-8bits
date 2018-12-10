@@ -182,15 +182,19 @@ var GameScene =
         this.bonnie.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.bonnie.getHour() * this.var._timeForHour, function()
         {
-            this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft)
+            this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft, this.freddy)
         }, this);
 
         //Chica
         this.chica.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
         {
-            this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight)
+            this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRightm, this.freddy)
         }, this);
+
+        //Freddy
+        this.freddy.changeNight(this.night.getNight());
+        this.freddy.move(this.game, this.bonnie, this.chica);
 
         //=====================================================MONITOR=====================================================================
 
@@ -463,6 +467,10 @@ var GameScene =
             this.night.changeHour(this.battery); //cuando hagamos la escena de win de la noche posiblemente lo quitemos
             this.realTimeToChange = this.var._timeForHour + this.game.time.now;
         }
+
+        //==========================Freddy===================
+        if(!this.inOffice)
+            this.freddy.spotted(this.game, this.bonnie, this.chica);
     }
 
 }
