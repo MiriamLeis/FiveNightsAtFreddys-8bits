@@ -194,7 +194,7 @@ var GameScene =
 
         //Freddy
         this.freddy.changeNight(this.night.getNight());
-        this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect, this.doorRight);
+        this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
 
         //=====================================================MONITOR=====================================================================
 
@@ -313,6 +313,17 @@ var GameScene =
                         this.game.state.start('death');
                     }, this)
                 }
+                else if(this.freddy.attack() && this.freddy.returnLookingAway() && !this.doorRight.getActive())
+                {
+                    this.freddy.alphaScreamer(1);
+                    this.changeView.alpha = 0;
+                    this.changeView.inputEnabled = false;
+
+                    this.game.time.events.add(this.var._timeForReset, function()
+                    { 
+                        this.game.state.start('death');
+                    }, this)
+                }
                 else
                 {
                     this.moveRight.inputEnabled = true;
@@ -417,7 +428,7 @@ var GameScene =
             this.battery.decreaseBattery();
         }
 
-        //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------ATAQUE DE BATERIA-----------------------------------------------------------------------------------------------
         if (this.battery.emptyBattery() && !this.attackForDark)
         {
             this.attackForDark = true;
@@ -470,7 +481,15 @@ var GameScene =
 
         //==========================Freddy===================
         if(!this.inOffice)
-            this.freddy.spotted(this.game, this.bonnie, this.chica, this.staticEffect);
+        {
+            if(!this.freddy.attack())
+                this.freddy.spotted(this.game, this.bonnie, this.chica, this.staticEffect);
+            if(this.freddy.attack() && !this.doorRight.getActive())
+            {
+                if(this.game.camera.x != this.var._eHallCornerPosX)
+                    this.freddy.lookingAway();
+            }
+        }
     }
 
 }
