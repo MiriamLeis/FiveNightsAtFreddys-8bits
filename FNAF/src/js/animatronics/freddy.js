@@ -18,6 +18,7 @@ function Freddy(sprite, darkFreddy, attack)
     this.attackDarkAnim = this.attackSprite.animations.add('start');
 
     this.lookAway = false;
+    this.startedMoving = false;
 
     Animatronics.apply(this,[sprite,  
                             //ruta
@@ -37,6 +38,8 @@ Freddy.prototype.constructor = Freddy;
 
 Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
 {
+    this.startedMoving = true;
+
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);
     
     this.movement = game.time.events.add (timeToMove, function()
@@ -94,6 +97,10 @@ Freddy.prototype.lookingAway = function()
 Freddy.prototype.returnLookingAway = function()
 {
     return this.lookAway;
+};
+Freddy.prototype.startToMove = function()
+{
+    return this.startedMoving;
 };
 Freddy.prototype.attackBattery = function(game, darkness, moveLeft, moveRight)
 {

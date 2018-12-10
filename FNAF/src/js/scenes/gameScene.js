@@ -194,7 +194,11 @@ var GameScene =
 
         //Freddy
         this.freddy.changeNight(this.night.getNight());
-        this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
+        
+        this.game.time.events.add(this.freddy.getHour() * this.var._timeForHour, function()
+        {
+            this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
+        }, this);
 
         //=====================================================MONITOR=====================================================================
 
@@ -482,8 +486,9 @@ var GameScene =
         //==========================Freddy===================
         if(!this.inOffice)
         {
-            if(!this.freddy.attack())
+            if(!this.freddy.attack() && this.freddy.startToMove())
                 this.freddy.spotted(this.game, this.bonnie, this.chica, this.staticEffect);
+
             if(this.freddy.attack() && !this.doorRight.getActive())
             {
                 if(this.game.camera.x != this.var._eHallCornerPosX)

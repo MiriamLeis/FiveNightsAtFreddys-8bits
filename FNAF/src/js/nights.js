@@ -51,6 +51,7 @@ Night.prototype.startNight = function()
 }
 Night.prototype.finishNight = function()
 {
+    
     this._night++;
     localStorage.setItem("numNight", JSON.stringify(this._night));
     this.game.state.start('win');

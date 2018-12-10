@@ -292,8 +292,8 @@ function Const()
     this._gOTextPosY = this._tamY - 70;
 
     //====================================================WIN SCENE============================================
-    this._winTextX = 410;
-    this._winTextY = 250;
+    this._winTextX = this._tamX / 2 - 403 / 2 + 90;
+    this._winTextY = this._tamX/2 - 186 / 2 - 60;
 
     this._winNumberX = 370;
     this._winNumberY = 254;
