@@ -8,7 +8,6 @@ function Animatronics(sprite, path, hours, actTime, Var)
 
     this._sprite = sprite;
     this._sprite.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
-    this._sprite.frame = 2;
 
     this._path = path; //Array de functions
     this._pos = this._path[0];

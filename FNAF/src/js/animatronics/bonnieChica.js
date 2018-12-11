@@ -6,6 +6,8 @@ var Animatronics = require('./Animatronics.js');
 function BonnieChica(sprite, path, hour, actTime, attackTime, Var)
 {
     Animatronics.apply(this,[sprite, path, hour, actTime, Var]);
+    
+    this._sprite.frame = 2;
     this.dinningRoom = false;
     this.inOffice = false;
     this.attacking = false;

@@ -8,6 +8,7 @@ var Light = require('../interactions/light.js');
 var Bonnie = require('../animatronics/bonnie.js');
 var Chica = require('../animatronics/chica.js');
 var Freddy = require('../animatronics/freddy.js');
+var Foxy = require('../animatronics/foxy.js');
 
 var Battery = require('../Battery.js');
 var Night = require('../nights.js');
@@ -119,6 +120,13 @@ var GameScene =
         //Chica
         this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'));
 
+        //Foxy
+        this.foxy = new Foxy (this.game, this.game.add.sprite(0, 0, 'pirateCov1'),
+                                this.game.add.sprite(0, 0, 'pirateCov2'),
+                                this.game.add.sprite(0, 0, 'pirateCov3'),
+                                this.game.add.sprite(0, 0, 'foxy'),
+                                this.game.add.sprite(0, 0, 'foxyRun'));
+
         //===================================================OFFICE 2.0=================================================================
 
         //Lights
@@ -198,6 +206,14 @@ var GameScene =
         this.game.time.events.add(this.freddy.getHour() * this.var._timeForHour, function()
         {
             this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
+        }, this);
+
+        //Foxy
+        this.foxy.changeNight(this.night.getNight());
+        
+        this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
+        {
+            this.foxy.move(this.staticEffect);
         }, this);
 
         //=====================================================MONITOR=====================================================================

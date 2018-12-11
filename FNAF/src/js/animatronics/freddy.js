@@ -32,6 +32,8 @@ function Freddy(sprite, darkFreddy, attack)
                             [{min: 6, max: 6}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
                             [{min: 20, max: 50}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+                            
+    this._sprite.frame = 2;
 };
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
@@ -60,7 +62,7 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
         if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y && antPos != this._pos)
             this.moveEffect(game, staticEffect);
 
-        if(!this._pos.attack)
+        if(!this._pos._attack)
             this.move(game, bonnie, chica, staticEffect);
     }, this);
 };
@@ -71,7 +73,6 @@ Freddy.prototype.spotted = function(game, bonnie, chica, staticEffect)
         game.time.events.remove(this.movement);
         this.move(game, bonnie, chica, staticEffect);
     }
-
 };
 Freddy.prototype.showDarkSprite = function()
 {
