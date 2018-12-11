@@ -74,7 +74,7 @@ var PreloaderScene =
     this.game.load.image('sideEdge', './images/items/sideEdge.png');
     this.game.load.spritesheet('buttonMonitor', './images/items/monitorButton.png', 396, 66, 2);
     this.game.load.image('leftLight', './images/items/LeftLight.png');
-    this.game.load.image('rightLight', './images/items/RightLight.png');
+    this.game.load.image('rightLight', './images/items/rightLight.png');
     this.game.load.spritesheet('battery', './images/items/battery.png', 143, 66, 4);
 
     //Effects
