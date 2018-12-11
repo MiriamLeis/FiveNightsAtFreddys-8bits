@@ -122,7 +122,7 @@ Battery.prototype.reset = function()
 }
 
 module.exports = Battery;
-},{"./const.js":9}],2:[function(require,module,exports){
+},{"./const.js":10}],2:[function(require,module,exports){
 'use strict';
 
 var Const = require('./const.js');
@@ -241,7 +241,7 @@ InsideMonitor.prototype.LastPos = function()
 }
 
 module.exports = InsideMonitor;
-},{"./const.js":9}],3:[function(require,module,exports){
+},{"./const.js":10}],3:[function(require,module,exports){
 
 //--------------------Clase Animatronicos
 function Animatronics(sprite, path, hours, actTime, Var)
@@ -252,7 +252,6 @@ function Animatronics(sprite, path, hours, actTime, Var)
 
     this._sprite = sprite;
     this._sprite.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
-    this._sprite.frame = 2;
 
     this._path = path; //Array de functions
     this._pos = this._path[0];
@@ -363,7 +362,7 @@ Bonnie.prototype = Object.create(BonnieChica.prototype);
 Bonnie.prototype.constructor = Bonnie;
 
 module.exports = Bonnie;
-},{"../const.js":9,"./bonnieChica.js":5,"./room.js":8}],5:[function(require,module,exports){
+},{"../const.js":10,"./bonnieChica.js":5,"./room.js":9}],5:[function(require,module,exports){
 //--------------------Clase Animatronicos
 var Animatronics = require('./Animatronics.js'); 
  
@@ -372,6 +371,8 @@ var Animatronics = require('./Animatronics.js');
 function BonnieChica(sprite, path, hour, actTime, attackTime, Var)
 {
     Animatronics.apply(this,[sprite, path, hour, actTime, Var]);
+    
+    this._sprite.frame = 2;
     this.dinningRoom = false;
     this.inOffice = false;
     this.attacking = false;
@@ -651,7 +652,94 @@ Chica.prototype = Object.create(BonnieChica.prototype);
 Chica.prototype.constructor = Chica;
 
 module.exports = Chica;
-},{"../const.js":9,"./bonnieChica.js":5,"./room.js":8}],7:[function(require,module,exports){
+},{"../const.js":10,"./bonnieChica.js":5,"./room.js":9}],7:[function(require,module,exports){
+//--------------------Clases
+var Animatronics = require('./Animatronics.js'); 
+var Const = require('../const.js');
+
+
+//---------------------Foxy-------------------------//
+function Foxy (game, room1, room2, room3, sprite, runSprite)
+{
+    this.var = new Const();
+    this.game = game;
+    
+    this.runSprite = runSprite;
+    this.runSprite.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
+    this.runSprite.alpha = 0;
+
+    this.lookAway = false;
+    this.startedMoving = false;
+
+    Animatronics.apply(this,[sprite,  
+                            //ruta
+                            [new RoomStates(0, 0, room1, this.var, 1, false),
+                            new RoomStates(this.var._foxyRoom2X, this.var._foxyRoom2Y, room2, this.var, 2, false),
+                            new RoomStates(this.var._foxyRoom3X, this.var._foxyRoom3Y, room3, this.var, 3, false),
+                            new RoomStates(this.var._foxyRoom4X, this.var._foxyRoom4Y, room3, this.var, 0, true)],
+                            //rango de horas de activacion
+                            [{min: 0, max: 0}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
+                            //rango de segundos de movimiento
+                            [{min: 8, max: 20}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+}
+Foxy.prototype = Object.create(Animatronics.prototype);
+Foxy.prototype.constructor = Foxy;
+
+Foxy.prototype.move = function(staticEffect)
+{
+    this.startedMoving = true;
+
+    var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);
+
+    this.movement = this.game.time.events.add (timeToMove, function()
+    {
+        var antPos = this._pos;
+        if(!this._pos._attack)
+        {
+            this._pos = this._path[this._pos._connect];
+            antPos._image.alpha = 0;
+            this._pos._image.alpha = 1;
+        }
+
+        this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+
+        if (this.game.camera.x == this._pos._pos.x && game.camera.y == this._pos._pos.y && antPos != this._pos)
+            this.moveEffect(this.game, staticEffect);
+
+        if(!this._pos._attack)
+            this.move(this.game, staticEffect);
+    }, this);
+};
+Foxy.prototype.spotted = function(game, bonnie, chica, staticEffect)
+{
+    if(game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y && !this._pos._attack)
+    {
+        game.time.events.remove(this.movement);
+        this.move(game, bonnie, chica, staticEffect);
+    }
+};
+Foxy.prototype.attack = function()
+{
+
+};
+
+
+function RoomStates (posFoxyX, posFoxyY, imageState, Var, connection, attack)
+{
+    this._pos = { _x: posFoxyX, _y: posFoxyY };
+
+    this._image = imageState;
+    this._image.scale.setTo(Var._camTam, Var._camTam);
+    this._image.x = Var._pirateCovePosX + (Var._tamX - imageState.width) / 2;
+    this._image.y = Var._pirateCovePosY + (Var._tamY - imageState.height) / 2;
+    this._image.alpha = 0;
+
+    this._connect = connection;
+    this._attack = attack;
+}
+
+module.exports = Foxy;
+},{"../const.js":10,"./Animatronics.js":3}],8:[function(require,module,exports){
 //--------------------Clases
 var Animatronics = require('./Animatronics.js'); 
 var Const = require('../const.js');
@@ -686,6 +774,8 @@ function Freddy(sprite, darkFreddy, attack)
                             [{min: 6, max: 6}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
                             [{min: 20, max: 50}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+                            
+    this._sprite.frame = 2;
 };
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
@@ -714,7 +804,7 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
         if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y && antPos != this._pos)
             this.moveEffect(game, staticEffect);
 
-        if(!this._pos.attack)
+        if(!this._pos._attack)
             this.move(game, bonnie, chica, staticEffect);
     }, this);
 };
@@ -725,7 +815,6 @@ Freddy.prototype.spotted = function(game, bonnie, chica, staticEffect)
         game.time.events.remove(this.movement);
         this.move(game, bonnie, chica, staticEffect);
     }
-
 };
 Freddy.prototype.showDarkSprite = function()
 {
@@ -804,7 +893,7 @@ Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, move
 }
 
 module.exports = Freddy;
-},{"../const.js":9,"./Animatronics.js":3,"./room.js":8}],8:[function(require,module,exports){
+},{"../const.js":10,"./Animatronics.js":3,"./room.js":9}],9:[function(require,module,exports){
 
 //CREACION RUTAS
 function Room(x, y, posX, posY, name, room1, room2, room3, attack = false)
@@ -839,7 +928,7 @@ function Room(x, y, posX, posY, name, room1, room2, room3, attack = false)
 }
 
 module.exports = Room;
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 
 function Const()
 {
@@ -1031,7 +1120,7 @@ function Const()
     this._cam5PosX = -16.4;
     this._cam5PosY = -13;
 
-    this._cam6PosX = -21.2;
+    this._cam6PosX = -21.8;
     this._cam6PosY = -15.5;
 
     this._cam7PosX = -21.8;
@@ -1129,6 +1218,31 @@ function Const()
     this._spriteFreddyAttackPosX = 220;
     this._spriteFreddyAttackPosY = 150;
 
+     //======================================================FOXY=============================================
+
+    this._foxyRoom1X = (this._tamX * 2) + 390;
+    this._foxyRoom1Y = 280;
+
+    this._foxyRoom2X = (this._tamX * 3) + 375;
+    this._foxyRoom2Y = 220;
+
+    this._foxyRoom3X = (this._tamX * 5) + 310;
+    this._foxyRoom3Y = 420;
+
+    this._foxyRoom4X = (this._tamX * 6) + 375;
+    this._foxyRoom4Y = this._tamY + 66;
+
+    this._foxyRoom5X = (this._tamX * 7) + 385;
+    this._foxyRoom5Y = 400;
+
+    //Run
+    this._spriteFoxyRunPosX = 34;
+    this._spriteFoxyRunPosY = 132;
+
+    //Attack
+    this._spriteFoxyAttackPosX = 34;
+    this._spriteFoxyAttackPosY = 132;
+
     //=====================================================DEATHSCENE=============================================
     this._gOTextPosX = 50; 
     this._gOTextPosY = this._tamY - 70;
@@ -1143,7 +1257,7 @@ function Const()
 
 
 module.exports = Const;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 function Interact () 
@@ -1155,7 +1269,7 @@ Interact.prototype.getActive = function(){ return this._active; }
 Interact.prototype.changeActive = function(){ this._active = !this._active; }
 
 module.exports = Interact;
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var Interact = require('./Interactions.js');
@@ -1211,7 +1325,7 @@ Door.prototype.enabledInput = function(b)
 }
 
 module.exports = Door;
-},{"./Interactions.js":10}],12:[function(require,module,exports){
+},{"./Interactions.js":11}],13:[function(require,module,exports){
 'use strict';
 
 var Interact = require('./Interactions.js');
@@ -1267,7 +1381,7 @@ Light.prototype.enabledInput = function(b)
 }
 module.exports = Light;
 
-},{"../const.js":9,"./Interactions.js":10}],13:[function(require,module,exports){
+},{"../const.js":10,"./Interactions.js":11}],14:[function(require,module,exports){
 'use strict';
 
 var Const = require('./const.js')
@@ -1344,7 +1458,7 @@ var PreloaderScene =
     this.game.load.image('sideEdge', './images/items/sideEdge.png');
     this.game.load.spritesheet('buttonMonitor', './images/items/monitorButton.png', 396, 66, 2);
     this.game.load.image('leftLight', './images/items/LeftLight.png');
-    this.game.load.image('rightLight', './images/items/RightLight.png');
+    this.game.load.image('rightLight', './images/items/rightLight.png');
     this.game.load.spritesheet('battery', './images/items/battery.png', 143, 66, 4);
 
     //Effects
@@ -1387,7 +1501,7 @@ window.onload = function ()
 
   game.state.start('boot');
 };
-},{"./const.js":9,"./scenes/deathScene.js":15,"./scenes/gameScene.js":16,"./scenes/menuScene.js":17,"./scenes/winScene.js":18}],14:[function(require,module,exports){
+},{"./const.js":10,"./scenes/deathScene.js":16,"./scenes/gameScene.js":17,"./scenes/menuScene.js":18,"./scenes/winScene.js":19}],15:[function(require,module,exports){
 'use strict';
 
 var Const = require('./const.js');
@@ -1511,7 +1625,7 @@ module.exports = Night;
     this.actTime.push({min: 5, max: 10});
     this.actTime.push({min: 5, max: 10});
     this.actTime.push({min: 5, max: 10});*/
-},{"./const.js":9}],15:[function(require,module,exports){
+},{"./const.js":10}],16:[function(require,module,exports){
 'use strict';
 var Const = require ('../const.js');
 
@@ -1544,7 +1658,7 @@ var DeathScene =
 };
 
 module.exports = DeathScene;
-},{"../const.js":9}],16:[function(require,module,exports){
+},{"../const.js":10}],17:[function(require,module,exports){
 'use strict';
 
 var Const = require('../const.js');
@@ -1555,6 +1669,7 @@ var Light = require('../interactions/light.js');
 var Bonnie = require('../animatronics/bonnie.js');
 var Chica = require('../animatronics/chica.js');
 var Freddy = require('../animatronics/freddy.js');
+var Foxy = require('../animatronics/foxy.js');
 
 var Battery = require('../Battery.js');
 var Night = require('../nights.js');
@@ -1666,6 +1781,13 @@ var GameScene =
         //Chica
         this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'));
 
+        //Foxy
+        this.foxy = new Foxy (this.game, this.game.add.sprite(0, 0, 'pirateCov1'),
+                                this.game.add.sprite(0, 0, 'pirateCov2'),
+                                this.game.add.sprite(0, 0, 'pirateCov3'),
+                                this.game.add.sprite(0, 0, 'foxy'),
+                                this.game.add.sprite(0, 0, 'foxyRun'));
+
         //===================================================OFFICE 2.0=================================================================
 
         //Lights
@@ -1745,6 +1867,14 @@ var GameScene =
         this.game.time.events.add(this.freddy.getHour() * this.var._timeForHour, function()
         {
             this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
+        }, this);
+
+        //Foxy
+        this.foxy.changeNight(this.night.getNight());
+        
+        this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
+        {
+            this.foxy.move(this.staticEffect);
         }, this);
 
         //=====================================================MONITOR=====================================================================
@@ -2057,7 +2187,7 @@ function addCamera(camera, camTamX, camTamY, camTam)
 
 
 module.exports = GameScene;
-},{"../Battery.js":1,"../InsideMonitor.js":2,"../animatronics/bonnie.js":4,"../animatronics/chica.js":6,"../animatronics/freddy.js":7,"../const.js":9,"../interactions/door.js":11,"../interactions/light.js":12,"../nights.js":14}],17:[function(require,module,exports){
+},{"../Battery.js":1,"../InsideMonitor.js":2,"../animatronics/bonnie.js":4,"../animatronics/chica.js":6,"../animatronics/foxy.js":7,"../animatronics/freddy.js":8,"../const.js":10,"../interactions/door.js":12,"../interactions/light.js":13,"../nights.js":15}],18:[function(require,module,exports){
 'use strict';
 var Const = require ('../const.js');
 
@@ -2094,7 +2224,7 @@ var Menu =
 };
 
 module.exports = Menu;
-},{"../const.js":9}],18:[function(require,module,exports){
+},{"../const.js":10}],19:[function(require,module,exports){
 'use strict';
 var Const = require ('../const.js');
 
@@ -2136,4 +2266,4 @@ var WinScene =
 };
 
 module.exports = WinScene;
-},{"../const.js":9}]},{},[13]);
+},{"../const.js":10}]},{},[14]);
