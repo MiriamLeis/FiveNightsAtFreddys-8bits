@@ -5,7 +5,7 @@ var Room = require('./room.js');
 
 
 //---------------------Freddy-------------------------//
-function Freddy(sprite, darkFreddy, attack)
+function Freddy(sprite, darkFreddy, attack, song)
 {
     this.var = new Const();
     
@@ -34,6 +34,10 @@ function Freddy(sprite, darkFreddy, attack)
                             [{min: 8, max: 10}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
                             
     this._sprite.frame = 2;
+
+    //Sonidos
+        //musiquita
+        this._song = song;
 };
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
@@ -109,8 +113,8 @@ Freddy.prototype.attackBattery = function(game, darkness, moveLeft, moveRight)
     {
         this.attackSprite.alpha = 1;
         this.attackDarkAnim.play(1, true);
-       //suena musiquita
-       posCamera = game.camera.x;
+        this._song.play();
+        posCamera = game.camera.x;
 
         game.time.events.add(6000, function()
         {
@@ -123,6 +127,7 @@ Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, move
 {
     if (game.camera.x != posCamera || cont >= 21000)
     {
+        this._song.stop();
         this.attackSprite.alpha = 0;
         this.attackDarkAnim.stop('start');
 

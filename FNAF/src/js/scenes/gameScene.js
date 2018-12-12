@@ -50,15 +50,18 @@ var GameScene =
 
         //=====================================================SOUND========================================================================
         //Office ambient
-        var ambient = this.game.add.audio('ambient1');
-        ambient.loop = true;
-        ambient.volume = 0.5;
-        ambient.play();
+        this.soundAmbient = this.game.add.audio('ambient1');
+        this.soundAmbient.loop = true;
+        this.soundAmbient.volume = 0.5;
+        this.soundAmbient.play();
 
-        var light_fan = this.game.add.audio('light_fan');
-        light_fan.loop = true;
-        light_fan.volume = 0.1;
-        light_fan.play();
+        this.soundLight_fan = this.game.add.audio('light_fan');
+        this.soundLight_fan.loop = true;
+        this.soundLight_fan.volume = 0.1;
+        this.soundLight_fan.play();
+
+        //Battery out
+        this.soundOutBattery = this.game.add.audio('outBattery');
 
         //=====================================================OFFICE========================================================================
 
@@ -124,7 +127,8 @@ var GameScene =
         //Fredyy
         this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
                                 this.game.add.sprite(0, 0, 'darkFreddy'),
-                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'));
+                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'),
+                                this.game.audio.add('freddySong'));
                                 
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'));
@@ -484,6 +488,8 @@ var GameScene =
             this.lightLeft.reset();
             this.lightRight.enabledInput(false);
             this.lightRight.reset();
+
+            this.soundOutBattery.play();
 
             if (!this.inOffice)
             {
