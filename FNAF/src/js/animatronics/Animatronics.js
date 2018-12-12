@@ -1,6 +1,6 @@
 
 //--------------------Clase Animatronicos
-function Animatronics(sprite, path, hours, actTime, Var)
+function Animatronics(sprite, attackSound, path, hours, actTime, Var)
 {
     this.var = Var;
     //Phaser.Sprite.apply(this,game,sprite)
@@ -8,6 +8,8 @@ function Animatronics(sprite, path, hours, actTime, Var)
 
     this._sprite = sprite;
     this._sprite.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
+
+    this._attackSound = attackSound;
 
     this._path = path; //Array de functions
     this._pos = this._path[0];
@@ -44,6 +46,7 @@ Animatronics.prototype.activateAnim = function()
 };
 Animatronics.prototype.alphaScreamer = function(n)
 {
+    this._attackSound.play();
     this._screamer.alpha = n;
     this._screamerAnim.play(8, false);
 };

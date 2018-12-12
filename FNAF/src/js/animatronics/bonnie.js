@@ -3,12 +3,12 @@ var BonnieChica = require('./bonnieChica.js');
 var Const = require('../const.js');
 
 //---------------------Bonnie-------------------------//
-function Bonnie(sprite)
+function Bonnie(sprite, attackSound)
 {
     this.var = new Const();
     this.visible = true;
 
-    BonnieChica.apply(this,[sprite,
+    BonnieChica.apply(this,[sprite, attackSound,
                         //ruta
                         [new Room (this.var._bonnieRoom1X, this.var._bonnieRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                         new Room (this.var._bonnieRoom2X, this.var._bonnieRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, 3, null), 

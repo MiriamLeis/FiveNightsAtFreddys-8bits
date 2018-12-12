@@ -128,19 +128,24 @@ var GameScene =
         this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
                                 this.game.add.sprite(0, 0, 'darkFreddy'),
                                 this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'),
-                                this.game.add.audio('freddySong'));
+                                this.game.add.audio('animAttack'),
+                                this.game.add.audio('freddySong'),
+                                this.game.add.audio('freddyEndSong'));
                                 
         //Bonnie
-        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'));
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'),
+                                this.game.add.audio('animAttack'),);
          
         //Chica
-        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'));
+        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'),
+                                this.game.add.audio('animAttack'),);
 
         //Foxy
         this.foxy = new Foxy (this.game, this.game.add.sprite(0, 0, 'pirateCov1'),
                                 this.game.add.sprite(0, 0, 'pirateCov2'),
                                 this.game.add.sprite(0, 0, 'pirateCov3'),
                                 this.game.add.sprite(0, 0, 'foxy'),
+                                this.game.add.audio('animAttack'),
                                 this.game.add.sprite(0, 0, 'foxyRun'));
 
         //===================================================OFFICE 2.0=================================================================

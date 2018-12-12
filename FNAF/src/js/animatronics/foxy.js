@@ -4,7 +4,7 @@ var Const = require('../const.js');
 
 
 //---------------------Foxy-------------------------//
-function Foxy (game, room1, room2, room3, sprite, runSprite)
+function Foxy (game, room1, room2, room3, sprite, attackSound, runSprite)
 {
     this.var = new Const();
     this.game = game;
@@ -19,7 +19,7 @@ function Foxy (game, room1, room2, room3, sprite, runSprite)
     this.isAttacking = false;
     this.isOfficiallyAttacking = false;
 
-    Animatronics.apply(this,[sprite,  
+    Animatronics.apply(this,[sprite, attackSound,
                             //ruta
                             [new RoomStates(this.var._foxyRoom1X, this.var._foxyRoom1Y, room1, this.var, 1, false),
                             new RoomStates(this.var._foxyRoom2X, this.var._foxyRoom2Y, room2, this.var, 2, false),

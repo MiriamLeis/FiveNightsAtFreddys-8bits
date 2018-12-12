@@ -5,7 +5,7 @@ var Room = require('./room.js');
 
 
 //---------------------Freddy-------------------------//
-function Freddy(sprite, darkFreddy, attack, song)
+function Freddy(sprite, darkFreddy, attack, attackSound, song, endSong)
 {
     this.var = new Const();
     
@@ -20,7 +20,7 @@ function Freddy(sprite, darkFreddy, attack, song)
     this.lookAway = false;
     this.startedMoving = false;
 
-    Animatronics.apply(this,[sprite,  
+    Animatronics.apply(this,[sprite, attackSound,
                             //ruta
                             [new Room (this.var._freddyRoom1X, this.var._freddyRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                             new Room (this.var._freddyRoom2X, this.var._freddyRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, null,null), 
@@ -38,6 +38,8 @@ function Freddy(sprite, darkFreddy, attack, song)
     //Sonidos
         //musiquita
         this._song = song;
+        //final de musiquita
+        this._endSong = endSong;
 };
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
@@ -128,13 +130,13 @@ Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, move
     if (game.camera.x != posCamera || cont >= 21000)
     {
         this._song.stop();
+        this._endSong.play();
+
         this.attackSprite.alpha = 0;
         this.attackDarkAnim.stop('start');
 
         moveLeft.inputEnabled = false;
         moveRight.inputEnabled = false;
-
-        //parar musiquita
         darkness.alpha = 0.9; //cambiar
 
         if (game.camera.x != posCamera)
@@ -144,7 +146,7 @@ Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, move
         game.time.events.add(time, function()
         {
             this.alphaScreamer(1);
-            game.time.events.add(1000, function(){ game.state.start('death'); }, this);
+            game.time.events.add(this.var._timeForReset, function(){ game.state.start('death'); }, this);
         }, this);
     }
     else
