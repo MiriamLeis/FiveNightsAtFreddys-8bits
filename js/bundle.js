@@ -244,7 +244,7 @@ module.exports = InsideMonitor;
 },{"./const.js":10}],3:[function(require,module,exports){
 
 //--------------------Clase Animatronicos
-function Animatronics(sprite, path, hours, actTime, Var)
+function Animatronics(sprite, attackSound, moveSound, path, hours, actTime, Var)
 {
     this.var = Var;
     //Phaser.Sprite.apply(this,game,sprite)
@@ -252,6 +252,10 @@ function Animatronics(sprite, path, hours, actTime, Var)
 
     this._sprite = sprite;
     this._sprite.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
+
+    this._attackSound = attackSound;
+
+    this._moveSound = moveSound;
 
     this._path = path; //Array de functions
     this._pos = this._path[0];
@@ -288,6 +292,7 @@ Animatronics.prototype.activateAnim = function()
 };
 Animatronics.prototype.alphaScreamer = function(n)
 {
+    this._attackSound.play();
     this._screamer.alpha = n;
     this._screamerAnim.play(8, false);
 };
@@ -340,12 +345,12 @@ var BonnieChica = require('./bonnieChica.js');
 var Const = require('../const.js');
 
 //---------------------Bonnie-------------------------//
-function Bonnie(sprite)
+function Bonnie(sprite, attackSound, moveSound)
 {
     this.var = new Const();
     this.visible = true;
 
-    BonnieChica.apply(this,[sprite,
+    BonnieChica.apply(this,[sprite, attackSound, moveSound,
                         //ruta
                         [new Room (this.var._bonnieRoom1X, this.var._bonnieRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                         new Room (this.var._bonnieRoom2X, this.var._bonnieRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, 3, null), 
@@ -364,7 +369,7 @@ function Bonnie(sprite)
 Bonnie.prototype = Object.create(BonnieChica.prototype);
 Bonnie.prototype.constructor = Bonnie;
 
-Bonnie.prototype.foxyAndMe = function(foxy)
+Bonnie.prototype.foxyAndMe = function(foxy, game, staticEffect)
 {
     if(this._pos._name == 'westHall' && foxy._pos._x == this.var._foxyRoom4X && this.visible)
     {   
@@ -373,11 +378,15 @@ Bonnie.prototype.foxyAndMe = function(foxy)
     }
     else if(foxy._pos._x != this.var._foxyRoom4X && !this.isAttacking() && !this.visible)
     {
+        if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+            this.moveEffect(game, staticEffect);
         this.alphaSprite(1);
         this.visible = true;
     }
     else if(this._pos._name != 'westHall' && !this.isAttacking()&& !this.visible)
     {
+        if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+            this.moveEffect(game, staticEffect);
         this.alphaSprite(1);
         this.visible = true;
     }
@@ -390,9 +399,9 @@ var Animatronics = require('./Animatronics.js');
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, path, hour, actTime, attackTime, Var)
+function BonnieChica(sprite, attackSound, moveSound,path, hour, actTime, attackTime, Var)
 {
-    Animatronics.apply(this,[sprite, path, hour, actTime, Var]);
+    Animatronics.apply(this,[sprite, attackSound, moveSound, path, hour, actTime, Var]);
     
     this._sprite.frame = 2;
     this.dinningRoom = false;
@@ -450,11 +459,6 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room2];
                                 this.dinningRoomFalse();
                             }
-                            //FreddyOscuro
-                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                                freddy.hideDarkSprite();
-                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                                freddy.showDarkSprite();
                         }
                         else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                         {
@@ -466,26 +470,14 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room1];
                             this.dinningRoomFalse();
                         }
-
-                        //FreddyOscuro
-                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                            freddy.hideDarkSprite();
-                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                            freddy.showDarkSprite();
                     }
                     else
                     {
                         
                         if (!light.getActive() && percentage > this.var._2roomsPercentage1)
-                            this.attack(game, door, light);    
+                            this.attack(game ,door, light, staticEffect, freddy);   
                         else
                             this._pos = this._path[this._pos._room1];
-
-                        //FreddyOscuro
-                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                            freddy.hideDarkSprite();
-                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                            freddy.showDarkSprite();
                     }
                 }
                 else if (this._pos._number == 3)
@@ -507,11 +499,6 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room3];
                                 this.dinningRoomFalse();
                             }
-                            //FreddyOscuro
-                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                                freddy.hideDarkSprite();
-                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                                freddy.showDarkSprite();
                         }
                         else if (percentage > this.var._3roomsPercentage2)
                         {
@@ -525,11 +512,6 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room2];
                                 this.dinningRoomFalse();
                             }
-                            //FreddyOscuro
-                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                                freddy.hideDarkSprite();
-                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                                freddy.showDarkSprite();
                         }
                         else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                         {
@@ -541,26 +523,15 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room1];
                             this.dinningRoomFalse();
                         }
-                        //FreddyOscuro
-                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                            freddy.hideDarkSprite();
-                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                            freddy.showDarkSprite();
                     }
                     else
                     {
                         if (!light.getActive() && percentage > this.var._3roomsPercentage1)
-                            this.attack(game ,door, light);
+                            this.attack(game ,door, light, staticEffect, freddy);
                         else if (percentage > this.var._3roomsPercentage2)
                             this._pos = this._path[this._pos._room2];
                         else
                             this._pos = this._path[this._pos._room1];
-
-                        //FreddyOscuro
-                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                            freddy.hideDarkSprite();
-                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                            freddy.showDarkSprite();
                     }
                 }
                 else
@@ -576,18 +547,19 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                         this._pos = this._path[this._pos._room1];
                         this.dinningRoomFalse();
                     }
-
-                    //FreddyOscuro
-                    if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                        freddy.hideDarkSprite();
-                    else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                        freddy.showDarkSprite();
-
                 }
-                //Controlar que el efecto de static effect aparezca cuando miras donde estan o donde se van a mover
+
+                //FreddyOscuro
                 if (this._antPos != this._pos)
+                {
+                    if(this._antPos._name == freddy._pos._name)
+                        freddy.hideDarkSprite();
+                    else if(this._pos._name == freddy._pos._name)
+                        freddy.showDarkSprite();
+                //Controlar que el efecto de static effect aparezca cuando miras donde estan o donde se van a mover
                     if ((game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y) || (game.camera.x == this._antPos._posCam.x && game.camera.y == this._antPos._posCam.y)) //HACER SI ESTA EN MONITOR
                         this.moveEffect(game, staticEffect);
+                }
 
                 this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
@@ -606,10 +578,16 @@ BonnieChica.prototype.isAttacking = function()
 {
     return this.attacking;
 }
-BonnieChica.prototype.attack = function(game, door, light)
+BonnieChica.prototype.attack = function(game, door, light, staticEffect, freddy)
 {
     if(!this.inOffice)
     {
+        if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+            this.moveEffect(game, staticEffect);
+
+        if (freddy._pos._name == this._pos._name)
+            freddy.hideDarkSprite();
+            
         this.alphaSprite(0);
         this.attacking = true;
         var timeToMove = Math.floor(((Math.random() * (this.attackTimeIni.max - this.attackTimeIni.min)) + this.attackTimeIni.min) * 1000);//Cambiar por tiempos de ataque
@@ -627,15 +605,21 @@ BonnieChica.prototype.attack = function(game, door, light)
                     light.enabledInput(false);
                     door.enabledInput(false);
                 }
-                else if(this._pos._number == 3)
-                {
-                    this._pos = this._path[this._pos._room2];
-                    this.alphaSprite(1);
-                }
                 else
                 {
-                    this._pos = this._path[this._pos._room1];
+                    if(this._pos._number == 3)
+                        this._pos = this._path[this._pos._room2];
+                    else
+                        this._pos = this._path[this._pos._room1];
+                    
+                    this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
                     this.alphaSprite(1);
+
+                    if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+                        this.moveEffect(game, staticEffect);
+
+                    if (freddy._pos._name == this._pos._name)
+                        freddy.showDarkSprite();
                 }
                 this.attacking = false;
             }
@@ -651,10 +635,10 @@ var BonnieChica = require('./bonnieChica.js');
 var Const = require('../const.js');
 
 //---------------------Chica-------------------------//
-function Chica(sprite)
+function Chica(sprite, attackSound, moveSound)
 {
     this.var = new Const();
-    BonnieChica.apply(this,[sprite,
+    BonnieChica.apply(this,[sprite, attackSound, moveSound,
                         //ruta
                         [new Room (this.var._chicaRoom1X, this.var._chicaRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                         new Room (this.var._chicaRoom2X, this.var._chicaRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, 3, 4), 
@@ -681,7 +665,7 @@ var Const = require('../const.js');
 
 
 //---------------------Foxy-------------------------//
-function Foxy (game, room1, room2, room3, sprite, runSprite)
+function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSprite)
 {
     this.var = new Const();
     this.game = game;
@@ -696,7 +680,7 @@ function Foxy (game, room1, room2, room3, sprite, runSprite)
     this.isAttacking = false;
     this.isOfficiallyAttacking = false;
 
-    Animatronics.apply(this,[sprite,  
+    Animatronics.apply(this,[sprite, attackSound, moveSound,
                             //ruta
                             [new RoomStates(this.var._foxyRoom1X, this.var._foxyRoom1Y, room1, this.var, 1, false),
                             new RoomStates(this.var._foxyRoom2X, this.var._foxyRoom2Y, room2, this.var, 2, false),
@@ -711,7 +695,7 @@ function Foxy (game, room1, room2, room3, sprite, runSprite)
 Foxy.prototype = Object.create(Animatronics.prototype);
 Foxy.prototype.constructor = Foxy;
 
-Foxy.prototype.move = function(door)
+Foxy.prototype.move = function(door, battery)
 {
     this.startedMoving = true;
 
@@ -739,9 +723,9 @@ Foxy.prototype.move = function(door)
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
 
         if(!this._pos._attack)
-            this.move(door);
+            this.move(door, battery);
         else 
-            this.attack(door);
+            this.attack(door, battery);
     }, this);
 };
 Foxy.prototype.spotted = function(Var, door)
@@ -759,14 +743,14 @@ Foxy.prototype.spotted = function(Var, door)
         this.attackSpotted(door);
     }
 };
-Foxy.prototype.attack = function(door)
+Foxy.prototype.attack = function(door, battery)
 {
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);//Cambiar tiempos
     this.runSprite.alpha = 1;
 
     this.attacking = this.game.time.events.add (timeToMove, function()
     {  
-        this.realAttack(door);
+        this.realAttack(door, battery);
     }, this);
 };
 Foxy.prototype.attackSpotted = function(door)
@@ -779,12 +763,12 @@ Foxy.prototype.attackSpotted = function(door)
     this.runAnim(door);
 
 };
-Foxy.prototype.realAttack = function(door)
+Foxy.prototype.realAttack = function(door, battery)
 {
     //Mirar si cambiamos el tiempo
  
     this.runSprite.alpha = 0;
-    if(!door.getActive())
+    if(!door.getActive() && !battery.emptyBattery())
     {
         this.isAttacking = true;
         this.alphaScreamer(1);
@@ -860,7 +844,7 @@ var Room = require('./room.js');
 
 
 //---------------------Freddy-------------------------//
-function Freddy(sprite, darkFreddy, attack)
+function Freddy(sprite, darkFreddy, attack, attackSound, move, song, endSong)
 {
     this.var = new Const();
     
@@ -875,7 +859,7 @@ function Freddy(sprite, darkFreddy, attack)
     this.lookAway = false;
     this.startedMoving = false;
 
-    Animatronics.apply(this,[sprite,  
+    Animatronics.apply(this,[sprite, attackSound, move,
                             //ruta
                             [new Room (this.var._freddyRoom1X, this.var._freddyRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                             new Room (this.var._freddyRoom2X, this.var._freddyRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, null,null), 
@@ -889,6 +873,13 @@ function Freddy(sprite, darkFreddy, attack)
                             [{min: 8, max: 10}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
                             
     this._sprite.frame = 2;
+
+    //Sonidos
+        //musiquita
+        this._song = song;
+        //final de musiquita
+        this._endSong = endSong;
+
 };
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
@@ -901,6 +892,10 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
     
     this.movement = game.time.events.add (timeToMove, function()
     {
+        if(timeToMove > 50)
+        {
+            this._moveSound.play();
+        }
         this._sprite.frame = 0;
         var antPos = this._pos;
         if(!this._pos._attack)
@@ -909,7 +904,7 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
         this.darkFreddy.x = this._pos._x;    this.darkFreddy.y = this._pos._y;
 
-        if(this._pos._name == bonnie._pos._name || this._pos._name == chica._pos._name)
+        if(this._pos._name == bonnie._pos._name || (this._pos._name == chica._pos._name && !chica.isInOffice()))
             this.showDarkSprite();
         else
             this.hideDarkSprite();
@@ -964,8 +959,8 @@ Freddy.prototype.attackBattery = function(game, darkness, moveLeft, moveRight)
     {
         this.attackSprite.alpha = 1;
         this.attackDarkAnim.play(1, true);
-       //suena musiquita
-       posCamera = game.camera.x;
+        this._song.play();
+        posCamera = game.camera.x;
 
         game.time.events.add(6000, function()
         {
@@ -978,23 +973,24 @@ Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, move
 {
     if (game.camera.x != posCamera || cont >= 21000)
     {
+        this._song.stop();
+        this._endSong.play();
+
         this.attackSprite.alpha = 0;
         this.attackDarkAnim.stop('start');
 
         moveLeft.inputEnabled = false;
         moveRight.inputEnabled = false;
-
-        //parar musiquita
         darkness.alpha = 0.9; //cambiar
 
         if (game.camera.x != posCamera)
-            var time = 2000;
+            var time = 2500;
         else
             var time = 9000;
         game.time.events.add(time, function()
         {
             this.alphaScreamer(1);
-            game.time.events.add(1000, function(){ game.state.start('death'); }, this);
+            game.time.events.add(this.var._timeForReset, function(){ game.state.start('death'); }, this);
         }, this);
     }
     else
@@ -1065,7 +1061,7 @@ function Const()
     this._iniCamPos = 396;
     this._timeForHour = 90000;
 
-    this._timeForReset = 1200;
+    this._timeForReset = 1000;
 
     //Luces
     this._lightButtonIzqPosX = 157;
@@ -1370,9 +1366,10 @@ module.exports = Const;
 },{}],11:[function(require,module,exports){
 'use strict';
 
-function Interact () 
+function Interact (sound) 
 {
     this._active = false;
+    this._sound = sound;
 };
 Interact.prototype.resetInteract = function(){ this._active = false; }
 Interact.prototype.getActive = function(){ return this._active; }
@@ -1384,9 +1381,9 @@ module.exports = Interact;
 
 var Interact = require('./Interactions.js');
 
-function Door(game, posXButton, posYButton, posXDoor, posYDoor)
+function Door(game, posXButton, posYButton, posXDoor, posYDoor, sound)
 {
-    Interact.apply(this);
+    Interact.apply(this, [sound]);
     
     this.doorOpen = game.add.sprite(posXDoor, posYDoor, 'doorOpen', 2);
     this.doorOpenAnim = this.doorOpen.animations.add('open');
@@ -1404,6 +1401,7 @@ Door.prototype.reset = function()
 {
     if (this._active)
     {
+        this._sound.play();
         this.resetInteract();
         this.button.frame = 0;
         this.doorCloseAnim.frame = 0;
@@ -1413,6 +1411,7 @@ Door.prototype.reset = function()
 }
 Door.prototype.actionOnClick = function() 
 {
+    this._sound.play();
     this.changeActive();
     if (this._active)
     {
@@ -1441,10 +1440,11 @@ module.exports = Door;
 var Interact = require('./Interactions.js');
 var Const = require('../const.js');
 
-function Light(game, posXButton, posYButton, sprite, animSprite, anim)
+function Light(game, posXButton, posYButton, sprite, animSprite, anim, sound)
 {
     this.var = new Const();
-    Interact.apply(this);
+    Interact.apply(this, [sound]);
+    this._sound.loop = true;
 
     this.light = sprite;
     this.light.visible = false;
@@ -1472,6 +1472,7 @@ Light.prototype.turnOff = function()
     this.changeActive();
     if(this._active)
     {
+        this._sound.play();
         this.button.frame = 1;
         this.light.visible = true;
         
@@ -1480,6 +1481,7 @@ Light.prototype.turnOff = function()
     }
     else
     {
+        this._sound.stop();
         this.button.frame = 0;
         this.light.visible = false;
         this.animSprite.alpha = 0;
@@ -1524,6 +1526,38 @@ var PreloaderScene =
     this.load.setPreloadSprite(this.loadingBar);
 
     // TODO: load here the assets for the game
+  
+  //------------------------------------------------------AUDIOS------------------------------------------
+    //Office
+      //Ambient
+      this.game.load.audio('ambient1', ['./audios/ambient/Ambient1.wav', './audios/ambient/Ambient1.mp3', './audios/ambient/Ambient1.ogg']);
+      this.game.load.audio('ambient2', ['./audios/ambient/Ambient2.wav', './audios/ambient/Ambient2.mp3', './audios/ambient/Ambient2.ogg']);
+      this.game.load.audio('ambient3', ['./audios/ambient/Ambient3.wav', './audios/ambient/Ambient3.mp3', './audios/ambient/Ambient3.ogg']);
+      this.game.load.audio('ambient4', ['./audios/ambient/Ambient4.wav', './audios/ambient/Ambient4.mp3', './audios/ambient/Ambient4.ogg']);
+      this.game.load.audio('light_fan', ['./audios/ambient/Light_Fan.wav', './audios/ambient/Light_Fan.mp3', './audios/ambient/Light_Fan.ogg']);
+
+  //Interactions
+      this.game.load.audio('interactError', ['./audios/interactions/Error.wav', './audios/interactions/Error.mp3', './audios/interactions/Error.ogg']);
+
+      //Doors
+      this.game.load.audio('doorTurnOnOff', ['./audios/interactions/doors/Turn_on_off.wav', './audios/interactions/doors/Turn_on_off.mp3', './audios/interactions/doors/Turn_on_off.ogg']);
+
+      //Lights
+      this.game.load.audio('lightTurnOn', ['./audios/interactions/lights/Turn_on.wav', './audios/interactions/lights/Turn_on.mp3', './audios/interactions/lights/Turn_on.ogg']);
+      this.game.load.audio('lightJumpscare', ['./audios/interactions/lights/Windowscare.wav', './audios/interactions/lights/Windowscare.mp3', './audios/interactions/lights/Windowscare.ogg']);
+
+  //Battery
+      this.game.load.audio('outBattery', ['./audios/battery/Power_down.wav', './audios/battery/Power_down.mp3', './audios/battery/Power_down.ogg']);
+  
+  //Animatronics
+      this.game.load.audio('animAttack', ['./audios/animatronics/Scream.wav', './audios/animatronics/Scream.mp3', './audios/animatronics/Scream.ogg']);
+      this.game.load.audio('deepSteps', ['./audios/animatronics/Deep_steps.wav', './audios/animatronics/Deep_steps.mp3', './audios/animatronics/Deep_steps.ogg']);
+
+    //Freddy
+      this.game.load.audio('freddySong', ['./audios/animatronics/freddy/power out/Music_box.wav', './audios/animatronics/freddy/power out/Music_box.mp3', './audios/animatronics/freddy/power out/Music_box.ogg']);
+      this.game.load.audio('freddyEndSong', ['./audios/animatronics/freddy/power out/End_song.wav', './audios/animatronics/freddy/power out/End_song.mp3', './audios/animatronics/freddy/power out/End_song.ogg']);
+
+  //----------------------------------------------IMAGES AND SPRITESHEETS---------------------------------  
     //Rooms
     this.game.load.image('showStage','./images/rooms/ShowStage.png');
     this.game.load.image('dinningRoom','./images/rooms/DinningRoom.png');
@@ -1744,11 +1778,14 @@ var DeathScene =
     preload: function()
     {
         this.var = new Const();
+        this.game.sound.stopAll();
     },
 
     create: function()
     {
+        //---------------------------------------------------SOUND--------------------------------------------------------
 
+        
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
         var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');
         
@@ -1790,6 +1827,7 @@ var GameScene =
     preload: function () 
     {
         this.var = new Const();
+        this.game.sound.stopAll();
     },
 
     create: function () 
@@ -1818,6 +1856,20 @@ var GameScene =
         this.lightRCount = false;
         this.lightLCount = false;
 
+        //=====================================================SOUND========================================================================
+        //Office ambient
+        this.soundAmbient = this.game.add.audio('ambient1');
+        this.soundAmbient.loop = true;
+        this.soundAmbient.volume = 0.5;
+        this.soundAmbient.play();
+
+        this.soundLight_fan = this.game.add.audio('light_fan');
+        this.soundLight_fan.loop = true;
+        this.soundLight_fan.volume = 0.1;
+        this.soundLight_fan.play();
+
+        //Battery out
+        this.soundOutBattery = this.game.add.audio('outBattery');
 
         //=====================================================OFFICE========================================================================
 
@@ -1883,29 +1935,40 @@ var GameScene =
         //Fredyy
         this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
                                 this.game.add.sprite(0, 0, 'darkFreddy'),
-                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'));
+                                this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'),
+                                this.game.add.audio('animAttack'),
+                                this.game.add.audio('deepSteps'),
+                                this.game.add.audio('freddySong'),
+                                this.game.add.audio('freddyEndSong'));
                                 
         //Bonnie
-        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'));
+        this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'),
+                                this.game.add.audio('animAttack'),
+                                this.game.add.audio(),);
          
         //Chica
-        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'));
+        this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'),
+                                this.game.add.audio('animAttack'),
+                                this.game.add.audio(),);
 
         //Foxy
         this.foxy = new Foxy (this.game, this.game.add.sprite(0, 0, 'pirateCov1'),
                                 this.game.add.sprite(0, 0, 'pirateCov2'),
                                 this.game.add.sprite(0, 0, 'pirateCov3'),
                                 this.game.add.sprite(0, 0, 'foxy'),
+                                this.game.add.audio('animAttack'),
+                                this.game.add.audio(),
                                 this.game.add.sprite(0, 0, 'foxyRun'));
 
         //===================================================OFFICE 2.0=================================================================
 
         //Lights
-        this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.game.add.sprite(this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight'), this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'), this.bonnie);
-        this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.game.add.sprite(this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight'), this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'), this.chica);
+        this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.game.add.sprite(this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight'), this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'), this.bonnie, this.game.add.audio('lightTurnOn'));
+        this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.game.add.sprite(this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight'), this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'), this.chica, this.game.add.audio('lightTurnOn'));
+        
         //Doors
-        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY);
-        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY);
+        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY, this.game.add.audio('doorTurnOnOff'));
+        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY, this.game.add.audio('doorTurnOnOff'));
 
         //===============================================STATIC EFFECT MONITOR=============================================================
 
@@ -1987,7 +2050,7 @@ var GameScene =
         
         this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
         {
-            this.foxy.move(this.doorLeft);
+            this.foxy.move(this.doorLeft, this.battery);
         }, this);
 
         //=====================================================MONITOR=====================================================================
@@ -2226,6 +2289,7 @@ var GameScene =
         //-----------------------------------------------------------------ATAQUE DE BATERIA-----------------------------------------------------------------------------------------------
         if (this.battery.emptyBattery() && !this.attackForDark)
         {
+            this.game.sound.stopAll();
             this.attackForDark = true;
 
             this.darkness.alpha = 0.5; //cambiar
@@ -2241,6 +2305,8 @@ var GameScene =
             this.lightLeft.reset();
             this.lightRight.enabledInput(false);
             this.lightRight.reset();
+
+            this.soundOutBattery.play();
 
             if (!this.inOffice)
             {
@@ -2320,7 +2386,7 @@ var GameScene =
             this.alreadyChanged = true;
         }
         //======================Bonnie=========
-        this.bonnie.foxyAndMe(this.foxy);
+        this.bonnie.foxyAndMe(this.foxy, this.game, this.staticEffect);
     }
 
 }
@@ -2345,12 +2411,14 @@ var Menu =
     preload: function()
     {
         this.var = new Const();
+        this.game.sound.stopAll();
     },
 
     create: function()
     {
-        
+        //---------------------------------------------------SOUND--------------------------------------------------------
 
+        
         //---------------------------------------------------TITLE--------------------------------------------------------
         var title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
 
@@ -2382,17 +2450,19 @@ var WinScene =
     preload: function()
     {
         this.var = new Const();
+        this.game.sound.stopAll();
     },
 
     create: function()
     {
+        //---------------------------------------------------SOUND--------------------------------------------------------
+
+        
         //--------------------------------------------------HORA-----------------------------------------------
         this.hourText = this.game.add.sprite(this.var._winTextX, this.var._winTextY, 'win');
         this.hourText.scale.setTo(0.5,0.5);
         this.hourText.animations.add('hola');
         this.hourText.animations.play('hola', 1, false);
-
-        
 
         //---------------------------------------------------CHANGE SCENE-----------------------------------------------------
         this.game.time.events.add(9000, function()
