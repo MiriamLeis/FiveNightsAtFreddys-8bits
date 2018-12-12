@@ -140,7 +140,7 @@ Freddy.prototype.dontMoveAttack = function(game, posCamera, cont, darkness, move
         darkness.alpha = 0.9; //cambiar
 
         if (game.camera.x != posCamera)
-            var time = 2000;
+            var time = 2500;
         else
             var time = 9000;
         game.time.events.add(time, function()

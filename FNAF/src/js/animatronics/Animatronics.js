@@ -1,6 +1,6 @@
 
 //--------------------Clase Animatronicos
-function Animatronics(sprite, attackSound, path, hours, actTime, Var)
+function Animatronics(sprite, attackSound, moveSound, path, hours, actTime, Var)
 {
     this.var = Var;
     //Phaser.Sprite.apply(this,game,sprite)
@@ -10,6 +10,8 @@ function Animatronics(sprite, attackSound, path, hours, actTime, Var)
     this._sprite.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
 
     this._attackSound = attackSound;
+
+    this._moveSound = moveSound;
 
     this._path = path; //Array de functions
     this._pos = this._path[0];
