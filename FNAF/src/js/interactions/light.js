@@ -3,10 +3,11 @@
 var Interact = require('./Interactions.js');
 var Const = require('../const.js');
 
-function Light(game, posXButton, posYButton, sprite, animSprite, anim)
+function Light(game, posXButton, posYButton, sprite, animSprite, anim, sound)
 {
     this.var = new Const();
-    Interact.apply(this);
+    Interact.apply(this, [sound]);
+    this._sound.loop = true;
 
     this.light = sprite;
     this.light.visible = false;
@@ -34,6 +35,7 @@ Light.prototype.turnOff = function()
     this.changeActive();
     if(this._active)
     {
+        this._sound.play();
         this.button.frame = 1;
         this.light.visible = true;
         
@@ -42,6 +44,7 @@ Light.prototype.turnOff = function()
     }
     else
     {
+        this._sound.stop();
         this.button.frame = 0;
         this.light.visible = false;
         this.animSprite.alpha = 0;

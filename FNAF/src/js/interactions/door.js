@@ -2,9 +2,9 @@
 
 var Interact = require('./Interactions.js');
 
-function Door(game, posXButton, posYButton, posXDoor, posYDoor)
+function Door(game, posXButton, posYButton, posXDoor, posYDoor, sound)
 {
-    Interact.apply(this);
+    Interact.apply(this, [sound]);
     
     this.doorOpen = game.add.sprite(posXDoor, posYDoor, 'doorOpen', 2);
     this.doorOpenAnim = this.doorOpen.animations.add('open');
@@ -31,6 +31,7 @@ Door.prototype.reset = function()
 }
 Door.prototype.actionOnClick = function() 
 {
+    this._sound.play();
     this.changeActive();
     if (this._active)
     {
