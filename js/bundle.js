@@ -289,7 +289,7 @@ Animatronics.prototype.activateAnim = function()
 Animatronics.prototype.alphaScreamer = function(n)
 {
     this._screamer.alpha = n;
-    this._screamerAnim.play(6, false);
+    this._screamerAnim.play(8, false);
 };
 Animatronics.prototype.alphaSprite = function(n)
 {
@@ -343,6 +343,8 @@ var Const = require('../const.js');
 function Bonnie(sprite)
 {
     this.var = new Const();
+    this.visible = true;
+
     BonnieChica.apply(this,[sprite,
                         //ruta
                         [new Room (this.var._bonnieRoom1X, this.var._bonnieRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
@@ -352,14 +354,31 @@ function Bonnie(sprite)
                         new Room (this.var._bonnieRoom5X, this.var._bonnieRoom5Y, this.var._supplyClosetPosX, this.var._supplyClosetPosY, 'supplyCloset', 3, 5, null), 
                         new Room (this.var._bonnieRoom6X, this.var._bonnieRoom6Y, this.var._wHallCornerPosX, this.var._wHallCornerPosY, 'wHallCorner', 3, 4, null, true)],
                         //rango de horas de activacion
-                        [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
+                        [{min: 0, max: 0}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 15, max: 30}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
+                        [{min: 5, max: 10}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
                         //rango de segundos de ataque
-                        [{min: 10, max: 15}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
+                        [{min: 5, max: 10}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
 }
 Bonnie.prototype = Object.create(BonnieChica.prototype);
 Bonnie.prototype.constructor = Bonnie;
+
+Bonnie.prototype.foxyAndMe = function(foxy)
+{
+    if(this._pos._name == 'westHall')
+    {
+        if(foxy._pos._x == this.var._foxyRoom4X)
+        {
+            this.alphaSprite(0);
+            this.visible = false;
+        }
+    }
+    else if(!this.isAttacking() && !this.visible)
+    {
+        this.alphaSprite(1);
+        this.visible = true;
+    }
+};
 
 module.exports = Bonnie;
 },{"../const.js":10,"./bonnieChica.js":5,"./room.js":9}],5:[function(require,module,exports){
@@ -641,11 +660,11 @@ function Chica(sprite)
                         new Room (this.var._chicaRoom5X, this.var._chicaRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 1, 5, null), 
                         new Room (this.var._chicaRoom6X, this.var._chicaRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', 4, null, null, true)],
                         //rango de horas de activacion
-                        [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
+                        [{min: 0, max: 0}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 20, max: 35}, {min: 15, max: 30}, {min: 5, max: 10}, {min: 15, max: 20}, {min: 7, max: 10}, {min: 5, max: 8}],
+                        [{min: 5, max: 10}, {min: 15, max: 30}, {min: 5, max: 10}, {min: 15, max: 20}, {min: 7, max: 10}, {min: 5, max: 8}],
                         //rango de segundos de ataque
-                        [{min: 10, max: 15}, {min: 8, max: 12}, {min: 7, max: 11}, {min: 6, max: 9}, {min: 3, max: 5}, {min: 3.5, max: 4.5}], this.var]);
+                        [{min: 5, max: 10}, {min: 8, max: 12}, {min: 7, max: 11}, {min: 6, max: 9}, {min: 3, max: 5}, {min: 3.5, max: 4.5}], this.var]);
 
 }
 Chica.prototype = Object.create(BonnieChica.prototype);
@@ -667,25 +686,29 @@ function Foxy (game, room1, room2, room3, sprite, runSprite)
     this.runSprite = runSprite;
     this.runSprite.scale.setTo(this.var._spriteAnimScale, this.var._spriteAnimScale);
     this.runSprite.alpha = 0;
+    this.runSprite.x = this.var._foxyRoom4X;
+    this.runSprite.y = this.var._foxyRoom4Y;
 
-    this.lookAway = false;
     this.startedMoving = false;
+    this.isAttacking = false;
+    this.isOfficiallyAttacking = false;
 
     Animatronics.apply(this,[sprite,  
                             //ruta
-                            [new RoomStates(0, 0, room1, this.var, 1, false),
+                            [new RoomStates(this.var._foxyRoom1X, this.var._foxyRoom1Y, room1, this.var, 1, false),
                             new RoomStates(this.var._foxyRoom2X, this.var._foxyRoom2Y, room2, this.var, 2, false),
                             new RoomStates(this.var._foxyRoom3X, this.var._foxyRoom3Y, room3, this.var, 3, false),
                             new RoomStates(this.var._foxyRoom4X, this.var._foxyRoom4Y, room3, this.var, 0, true)],
                             //rango de horas de activacion
                             [{min: 0, max: 0}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 8, max: 20}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+                            [{min: 10, max: 12}, {min: 8, max: 10}, {min: 6, max: 8}, {min: 5, max: 7}, {min: 5, max: 6}, {min: 4, max: 6}], this.var]);
+    this._sprite.visible = false;
 }
 Foxy.prototype = Object.create(Animatronics.prototype);
 Foxy.prototype.constructor = Foxy;
 
-Foxy.prototype.move = function(staticEffect)
+Foxy.prototype.move = function(door)
 {
     this.startedMoving = true;
 
@@ -696,37 +719,124 @@ Foxy.prototype.move = function(staticEffect)
         var antPos = this._pos;
         if(!this._pos._attack)
         {
-            this._pos = this._path[this._pos._connect];
-            antPos._image.alpha = 0;
-            this._pos._image.alpha = 1;
+            if(this._pos._connect == 3 && this.game.camera.x == this.var._westHallPosX){}        
+            else
+            {
+                this._pos = this._path[this._pos._connect];
+                antPos._image.alpha = 0;
+                this._pos._image.alpha = 1;
+
+                if(this._pos == this._path[0] || this._pos == this._path[3])
+                    this._sprite.visible = false;
+                else
+                    this._sprite.visible = true;
+            }
         }
 
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
 
-        if (this.game.camera.x == this._pos._pos.x && game.camera.y == this._pos._pos.y && antPos != this._pos)
-            this.moveEffect(this.game, staticEffect);
-
         if(!this._pos._attack)
-            this.move(this.game, staticEffect);
+            this.move(door);
+        else 
+            this.attack(door);
     }, this);
 };
-Foxy.prototype.spotted = function(game, bonnie, chica, staticEffect)
-{
-    if(game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y && !this._pos._attack)
-    {
-        game.time.events.remove(this.movement);
-        this.move(game, bonnie, chica, staticEffect);
-    }
-};
-Foxy.prototype.attack = function()
+Foxy.prototype.spotted = function(Var, door)
 {
 
+    if(this.game.camera.x == Var._pirateCovePosX  && !this._pos._attack)
+    {
+        this.game.time.events.remove(this.movement);
+        this.move(door);
+    }
+    else if(this.game.camera.x == this.var._westHallPosX && this._pos._attack && !this.isOfficiallyAttacking)
+    {
+        this.isOfficiallyAttacking = true;
+        this.game.time.events.remove(this.attacking);
+        this.attackSpotted(door);
+    }
+};
+Foxy.prototype.attack = function(door)
+{
+    var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);//Cambiar tiempos
+    this.runSprite.alpha = 1;
+
+    this.attacking = this.game.time.events.add (timeToMove, function()
+    {  
+        this.realAttack(door);
+    }, this);
+};
+Foxy.prototype.attackSpotted = function(door)
+{
+    this.runSprite.x = this.var._foxyRoom4X;
+    this.runSprite.y = this.var._foxyRoom4Y;
+    this.runSprite.animations.add('run');
+    this.runSprite.animations.play('run', 5, true);
+
+    this.runAnim(door);
+
+};
+Foxy.prototype.realAttack = function(door)
+{
+    //Mirar si cambiamos el tiempo
+ 
+    this.runSprite.alpha = 0;
+    if(!door.getActive())
+    {
+        this.isAttacking = true;
+        this.alphaScreamer(1);
+    
+        this.game.time.events.add(this.var._timeForReset, function()
+        {
+            this.game.state.start('death');
+        }, this)
+    }
+    else
+    {
+        this._path[3]._image.alpha = 0;
+        this._pos = this._path[this._pos._connect];
+        this._pos._image.alpha = 1;
+        this._sprite.visible = false;
+        this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+
+        this.isOfficiallyAttacking = false;
+    }
+        
+};
+Foxy.prototype.runAnim = function(door)
+{
+    this.game.time.events.add (200, function()
+    {
+        this.runSprite.y = this.runSprite.y + 20;
+
+        if(this.runSprite.y <= 430)
+            this.runAnim(door);
+        else
+        {
+            this.runSprite.alpha = 0;
+            this.runSprite.animations.stop('run');
+
+            this.attackingSpotted = this.game.time.events.add (2500, function()
+            {  
+                this.realAttack(door);
+            }, this);
+        }
+    }, this);
+};
+Foxy.prototype.startToMove = function()
+{
+    return this.startedMoving;
+};
+Foxy.prototype.returnIsAttacking = function()
+{
+    return this.isAttacking;
 };
 
 
 function RoomStates (posFoxyX, posFoxyY, imageState, Var, connection, attack)
 {
-    this._pos = { _x: posFoxyX, _y: posFoxyY };
+    this._x = posFoxyX;
+    this._y = posFoxyY;
 
     this._image = imageState;
     this._image.scale.setTo(Var._camTam, Var._camTam);
@@ -771,9 +881,9 @@ function Freddy(sprite, darkFreddy, attack)
                             new Room (this.var._freddyRoom5X, this.var._freddyRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 5, null, null), 
                             new Room (this.var._freddyRoom6X, this.var._freddyRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', null, null, null, true)],
                             //rango de horas de activacion
-                            [{min: 6, max: 6}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
+                            [{min: 0, max: 0}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 20, max: 50}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+                            [{min: 8, max: 10}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
                             
     this._sprite.frame = 2;
 };
@@ -831,7 +941,7 @@ Freddy.prototype.hideDarkSprite = function()
 };
 Freddy.prototype.attack = function()
 {
-    return this._pos.attack;
+    return this._pos._attack;
 };
 Freddy.prototype.lookingAway = function()
 {
@@ -952,7 +1062,7 @@ function Const()
     this._iniCamPos = 396;
     this._timeForHour = 90000;
 
-    this._timeForReset = 2000;
+    this._timeForReset = 1200;
 
     //Luces
     this._lightButtonIzqPosX = 157;
@@ -1220,20 +1330,17 @@ function Const()
 
      //======================================================FOXY=============================================
 
-    this._foxyRoom1X = (this._tamX * 2) + 390;
-    this._foxyRoom1Y = 280;
+    this._foxyRoom1X = this._pirateCovePosX + 370;
+    this._foxyRoom1Y = 250;
 
-    this._foxyRoom2X = (this._tamX * 3) + 375;
-    this._foxyRoom2Y = 220;
+    this._foxyRoom2X = this._pirateCovePosX + 370;
+    this._foxyRoom2Y = 250;
 
-    this._foxyRoom3X = (this._tamX * 5) + 310;
-    this._foxyRoom3Y = 420;
+    this._foxyRoom3X = this._pirateCovePosX + 310;
+    this._foxyRoom3Y = 300;
 
-    this._foxyRoom4X = (this._tamX * 6) + 375;
-    this._foxyRoom4Y = this._tamY + 66;
-
-    this._foxyRoom5X = (this._tamX * 7) + 385;
-    this._foxyRoom5Y = 400;
+    this._foxyRoom4X = this._westHallPosX + 375;
+    this._foxyRoom4Y = 230;
 
     //Run
     this._spriteFoxyRunPosX = 34;
@@ -1444,7 +1551,7 @@ var PreloaderScene =
     this.game.load.spritesheet('freddyAttack', './images/animatronics/FreddyAttack.png', 198, 198, 2);
     this.game.load.image('foxy','./images/animatronics/Foxy.png');
     this.game.load.spritesheet('foxyRun','./images/animatronics/FoxyRun.png', 33, 66, 2);
-    this.game.load.image('screamerFoxy', './images/animatronics/screamerFoxy.png');
+    this.game.load.spritesheet('screamerFoxy', './images/animatronics/screamerFoxy.png', 800, 600, 6);
 
     //Objects
     this.game.load.spritesheet('buttonsCameras', './images/items/buttonsCameras.png', 33, 33, 22);
@@ -1823,6 +1930,9 @@ var GameScene =
         //Freddy
         this.freddy.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerFreddy'));
 
+        //Foxy
+        this.foxy.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerFoxy'));
+
         //===============================================OFFICE EFFECT=============================================================
 
         this.officeEffect = this.game.add.sprite(0, 0, 'officeEffect');
@@ -1874,7 +1984,7 @@ var GameScene =
         
         this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
         {
-            this.foxy.move(this.staticEffect);
+            this.foxy.move(this.doorLeft);
         }, this);
 
         //=====================================================MONITOR=====================================================================
@@ -2035,6 +2145,7 @@ var GameScene =
         this.moveLeft.inputEnabled = true;
 
         this.attackForDark = false;
+        this.alreadyChanged = false;
     },
 
     update: function () 
@@ -2172,6 +2283,39 @@ var GameScene =
                     this.freddy.lookingAway();
             }
         }
+         //==========================Foxy===================
+         if(!this.inOffice)
+         {
+            if(this.foxy.startToMove())
+            {
+                this.foxy.spotted(this.var, this.doorLeft);
+            }
+         }
+         if(this.foxy.returnIsAttacking() && !this.alreadyChanged)
+         {
+            if(!this.inOffice)
+            {
+                this.game.camera.x = this.lastPosOffice;
+                this.officeEffect.alpha = 0.5;
+
+                this.mapEdge.alpha = 0;
+                this.staticEffect.alpha = 0;
+                this.REC.alpha = 0;
+                this.RECPoint.alpha = 0;
+                this.map.alpha = 0;
+                this.camerasTexts.alpha = 0;
+                this.monitor.notInput();
+            }
+
+            this.changeView.alpha = 0;
+            this.changeView.inputEnabled = false;
+
+            this.moveRight.inputEnabled = false;
+            this.moveLeft.inputEnabled = false;
+
+
+            this.alreadyChanged = true;
+         }
     }
 
 }
