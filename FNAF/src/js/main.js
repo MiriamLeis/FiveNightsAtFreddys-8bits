@@ -30,6 +30,27 @@ var PreloaderScene =
     this.load.setPreloadSprite(this.loadingBar);
 
     // TODO: load here the assets for the game
+  
+  //------------------------------------------------------AUDIOS------------------------------------------
+    //Office
+      //Ambient
+      this.game.load.audio('ambient1', ['./audios/ambient/Ambient1.wav', './audios/ambient/Ambient1.mp3', './audios/ambient/Ambient1.ogg']);
+      this.game.load.audio('ambient2', ['./audios/ambient/Ambient2.wav', './audios/ambient/Ambient2.mp3', './audios/ambient/Ambient2.ogg']);
+      this.game.load.audio('ambient3', ['./audios/ambient/Ambient3.wav', './audios/ambient/Ambient3.mp3', './audios/ambient/Ambient3.ogg']);
+      this.game.load.audio('ambient4', ['./audios/ambient/Ambient4.wav', './audios/ambient/Ambient4.mp3', './audios/ambient/Ambient4.ogg']);
+      this.game.load.audio('light_fan', ['./audios/ambient/Light_Fan.wav', './audios/ambient/Light_Fan.mp3', './audios/ambient/Light_Fan.ogg']);
+
+  //Interactions
+      this.game.load.audio('interactError', ['./audios/interactions/Error.wav', './audios/interactions/Error.mp3', './audios/interactions/Error.ogg']);
+
+      //Doors
+      this.game.load.audio('doorTurnOnOff', ['./audios/interactions/doors/Turn_on_off.wav', './audios/interactions/doors/Turn_on_off.mp3', './audios/interactions/doors/Turn_on_off.ogg']);
+
+      //Lights
+      this.game.load.audio('lightTurnOn', ['./audios/interactions/lights/Turn_on.wav', './audios/interactions/lights/Turn_on.mp3', './audios/interactions/lights/Turn_on.ogg']);
+      this.game.load.audio('lightJumpscare', ['./audios/interactions/lights/Windowscare.wav', './audios/interactions/lights/Windowscare.mp3', './audios/interactions/lights/Windowscare.ogg']);
+
+  //----------------------------------------------IMAGES AND SPRITESHEETS---------------------------------  
     //Rooms
     this.game.load.image('showStage','./images/rooms/ShowStage.png');
     this.game.load.image('dinningRoom','./images/rooms/DinningRoom.png');

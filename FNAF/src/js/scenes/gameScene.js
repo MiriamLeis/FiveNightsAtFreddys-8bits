@@ -47,6 +47,17 @@ var GameScene =
         this.lightRCount = false;
         this.lightLCount = false;
 
+        //=====================================================SOUND========================================================================
+
+        //Office ambient
+        var ambient = this.game.add.audio('ambient1');
+        ambient.loop = true;
+        ambient.play();
+
+        var light_fan = this.game.add.audio('light_fan');
+        light_fan.loop = true;
+        light_fan.volume = 0.2;
+        light_fan.play();
 
         //=====================================================OFFICE========================================================================
 
