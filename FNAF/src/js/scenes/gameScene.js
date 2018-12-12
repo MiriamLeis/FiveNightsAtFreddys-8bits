@@ -128,7 +128,7 @@ var GameScene =
         this.freddy = new Freddy(this.game.add.sprite(0, 0, 'freddy'),
                                 this.game.add.sprite(0, 0, 'darkFreddy'),
                                 this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'),
-                                this.game.audio.add('freddySong'));
+                                this.game.add.audio('freddySong'));
                                 
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'));
