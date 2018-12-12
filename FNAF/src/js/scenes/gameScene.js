@@ -193,14 +193,14 @@ var GameScene =
         this.bonnie.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.bonnie.getHour() * this.var._timeForHour, function()
         {
-            //this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft, this.freddy)
+            this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft, this.freddy)
         }, this);
 
         //Chica
         this.chica.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
         {
-           //this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight, this.freddy)
+           this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight, this.freddy)
         }, this);
 
         //Freddy
@@ -208,7 +208,7 @@ var GameScene =
         
         this.game.time.events.add(this.freddy.getHour() * this.var._timeForHour, function()
         {
-            //this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
+            this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
         }, this);
 
         //Foxy
