@@ -233,7 +233,7 @@ var GameScene =
         
         this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
         {
-            this.foxy.move(this.doorLeft);
+            this.foxy.move(this.doorLeft, this.battery);
         }, this);
 
         //=====================================================MONITOR=====================================================================

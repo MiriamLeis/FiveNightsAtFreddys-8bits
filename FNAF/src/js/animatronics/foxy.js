@@ -34,7 +34,7 @@ function Foxy (game, room1, room2, room3, sprite, runSprite)
 Foxy.prototype = Object.create(Animatronics.prototype);
 Foxy.prototype.constructor = Foxy;
 
-Foxy.prototype.move = function(door)
+Foxy.prototype.move = function(door, battery)
 {
     this.startedMoving = true;
 
@@ -62,9 +62,9 @@ Foxy.prototype.move = function(door)
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
 
         if(!this._pos._attack)
-            this.move(door);
+            this.move(door, battery);
         else 
-            this.attack(door);
+            this.attack(door, battery);
     }, this);
 };
 Foxy.prototype.spotted = function(Var, door)
@@ -82,14 +82,14 @@ Foxy.prototype.spotted = function(Var, door)
         this.attackSpotted(door);
     }
 };
-Foxy.prototype.attack = function(door)
+Foxy.prototype.attack = function(door, battery)
 {
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);//Cambiar tiempos
     this.runSprite.alpha = 1;
 
     this.attacking = this.game.time.events.add (timeToMove, function()
     {  
-        this.realAttack(door);
+        this.realAttack(door, battery);
     }, this);
 };
 Foxy.prototype.attackSpotted = function(door)
@@ -102,12 +102,12 @@ Foxy.prototype.attackSpotted = function(door)
     this.runAnim(door);
 
 };
-Foxy.prototype.realAttack = function(door)
+Foxy.prototype.realAttack = function(door, battery)
 {
     //Mirar si cambiamos el tiempo
  
     this.runSprite.alpha = 0;
-    if(!door.getActive())
+    if(!door.getActive() && !battery.emptyBattery())
     {
         this.isAttacking = true;
         this.alphaScreamer(1);
