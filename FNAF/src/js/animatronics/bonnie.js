@@ -22,22 +22,30 @@ function Bonnie(sprite)
                         [{min: 5, max: 10}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
                         //rango de segundos de ataque
                         [{min: 5, max: 10}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
+
+                        this._pos = this._path[3];
+                        this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 }
 Bonnie.prototype = Object.create(BonnieChica.prototype);
 Bonnie.prototype.constructor = Bonnie;
 
 Bonnie.prototype.foxyAndMe = function(foxy)
 {
-    if(this._pos._name == 'westHall')
-    {
-        if(foxy._pos._x == this.var._foxyRoom4X)
-        {
-            this.alphaSprite(0);
-            this.visible = false;
-        }
+    if(this._pos._name == 'westHall' && foxy._pos._x == this.var._foxyRoom4X && this.visible)
+    {   
+        console.log("yepe")
+        this.alphaSprite(0);
+        this.visible = false;
     }
-    else if(!this.isAttacking() && !this.visible)
+    else if(foxy._pos._x != this.var._foxyRoom4X && !this.isAttacking() && !this.visible)
     {
+        console.log("nope");
+        this.alphaSprite(1);
+        this.visible = true;
+    }
+    else if(this._pos._name != 'westHall' && !this.isAttacking()&& !this.visible)
+    {
+        console.log("nope");
         this.alphaSprite(1);
         this.visible = true;
     }
