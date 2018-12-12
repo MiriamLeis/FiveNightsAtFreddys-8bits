@@ -360,8 +360,6 @@ function Bonnie(sprite)
                         //rango de segundos de ataque
                         [{min: 5, max: 10}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
 
-                        this._pos = this._path[3];
-                        this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 }
 Bonnie.prototype = Object.create(BonnieChica.prototype);
 Bonnie.prototype.constructor = Bonnie;
@@ -370,19 +368,16 @@ Bonnie.prototype.foxyAndMe = function(foxy)
 {
     if(this._pos._name == 'westHall' && foxy._pos._x == this.var._foxyRoom4X && this.visible)
     {   
-        console.log("yepe")
         this.alphaSprite(0);
         this.visible = false;
     }
     else if(foxy._pos._x != this.var._foxyRoom4X && !this.isAttacking() && !this.visible)
     {
-        console.log("nope");
         this.alphaSprite(1);
         this.visible = true;
     }
     else if(this._pos._name != 'westHall' && !this.isAttacking()&& !this.visible)
     {
-        console.log("nope");
         this.alphaSprite(1);
         this.visible = true;
     }
@@ -1969,14 +1964,14 @@ var GameScene =
         this.bonnie.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.bonnie.getHour() * this.var._timeForHour, function()
         {
-            //this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft, this.freddy)
+            this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft, this.freddy)
         }, this);
 
         //Chica
         this.chica.preChangeNight(this.night.getNight());
         this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
         {
-           //this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight, this.freddy)
+           this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight, this.freddy)
         }, this);
 
         //Freddy
@@ -1984,7 +1979,7 @@ var GameScene =
         
         this.game.time.events.add(this.freddy.getHour() * this.var._timeForHour, function()
         {
-            //this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
+            this.freddy.move(this.game, this.bonnie, this.chica, this.staticEffect);
         }, this);
 
         //Foxy
