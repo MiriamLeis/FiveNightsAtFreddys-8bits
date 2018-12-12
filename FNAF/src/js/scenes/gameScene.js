@@ -129,7 +129,7 @@ var GameScene =
                                 this.game.add.sprite(0, 0, 'darkFreddy'),
                                 this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'),
                                 this.game.add.audio('animAttack'),
-                                this.game.add.audio(),
+                                this.game.add.audio('deepSteps'),
                                 this.game.add.audio('freddySong'),
                                 this.game.add.audio('freddyEndSong'));
                                 

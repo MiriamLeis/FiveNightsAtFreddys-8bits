@@ -5,7 +5,7 @@ var Room = require('./room.js');
 
 
 //---------------------Freddy-------------------------//
-function Freddy(sprite, darkFreddy, attack, attackSound, song, endSong)
+function Freddy(sprite, darkFreddy, attack, attackSound, move, song, endSong)
 {
     this.var = new Const();
     
@@ -20,7 +20,7 @@ function Freddy(sprite, darkFreddy, attack, attackSound, song, endSong)
     this.lookAway = false;
     this.startedMoving = false;
 
-    Animatronics.apply(this,[sprite, attackSound,
+    Animatronics.apply(this,[sprite, attackSound, move,
                             //ruta
                             [new Room (this.var._freddyRoom1X, this.var._freddyRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                             new Room (this.var._freddyRoom2X, this.var._freddyRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, null,null), 
@@ -40,6 +40,7 @@ function Freddy(sprite, darkFreddy, attack, attackSound, song, endSong)
         this._song = song;
         //final de musiquita
         this._endSong = endSong;
+
 };
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
@@ -52,6 +53,10 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
     
     this.movement = game.time.events.add (timeToMove, function()
     {
+        if(timeToMove > 50)
+        {
+            this._moveSound.play();
+        }
         this._sprite.frame = 0;
         var antPos = this._pos;
         if(!this._pos._attack)
