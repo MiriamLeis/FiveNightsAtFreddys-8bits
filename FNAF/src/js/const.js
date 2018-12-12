@@ -21,7 +21,7 @@ function Const()
     this._iniCamPos = 396;
     this._timeForHour = 90000;
 
-    this._timeForReset = 2000;
+    this._timeForReset = 1200;
 
     //Luces
     this._lightButtonIzqPosX = 157;
@@ -289,20 +289,17 @@ function Const()
 
      //======================================================FOXY=============================================
 
-    this._foxyRoom1X = (this._tamX * 2) + 390;
-    this._foxyRoom1Y = 280;
+    this._foxyRoom1X = this._pirateCovePosX + 370;
+    this._foxyRoom1Y = 250;
 
-    this._foxyRoom2X = (this._tamX * 3) + 375;
-    this._foxyRoom2Y = 220;
+    this._foxyRoom2X = this._pirateCovePosX + 370;
+    this._foxyRoom2Y = 250;
 
-    this._foxyRoom3X = (this._tamX * 5) + 310;
-    this._foxyRoom3Y = 420;
+    this._foxyRoom3X = this._pirateCovePosX + 310;
+    this._foxyRoom3Y = 300;
 
-    this._foxyRoom4X = (this._tamX * 6) + 375;
-    this._foxyRoom4Y = this._tamY + 66;
-
-    this._foxyRoom5X = (this._tamX * 7) + 385;
-    this._foxyRoom5Y = 400;
+    this._foxyRoom4X = this._westHallPosX + 375;
+    this._foxyRoom4Y = 230;
 
     //Run
     this._spriteFoxyRunPosX = 34;

@@ -45,7 +45,7 @@ Animatronics.prototype.activateAnim = function()
 Animatronics.prototype.alphaScreamer = function(n)
 {
     this._screamer.alpha = n;
-    this._screamerAnim.play(6, false);
+    this._screamerAnim.play(8, false);
 };
 Animatronics.prototype.alphaSprite = function(n)
 {

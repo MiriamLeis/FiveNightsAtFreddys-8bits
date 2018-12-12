@@ -6,6 +6,8 @@ var Const = require('../const.js');
 function Bonnie(sprite)
 {
     this.var = new Const();
+    this.visible = true;
+
     BonnieChica.apply(this,[sprite,
                         //ruta
                         [new Room (this.var._bonnieRoom1X, this.var._bonnieRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
@@ -15,13 +17,30 @@ function Bonnie(sprite)
                         new Room (this.var._bonnieRoom5X, this.var._bonnieRoom5Y, this.var._supplyClosetPosX, this.var._supplyClosetPosY, 'supplyCloset', 3, 5, null), 
                         new Room (this.var._bonnieRoom6X, this.var._bonnieRoom6Y, this.var._wHallCornerPosX, this.var._wHallCornerPosY, 'wHallCorner', 3, 4, null, true)],
                         //rango de horas de activacion
-                        [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
+                        [{min: 0, max: 0}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 15, max: 30}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
+                        [{min: 5, max: 10}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
                         //rango de segundos de ataque
-                        [{min: 10, max: 15}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
+                        [{min: 5, max: 10}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
 }
 Bonnie.prototype = Object.create(BonnieChica.prototype);
 Bonnie.prototype.constructor = Bonnie;
+
+Bonnie.prototype.foxyAndMe = function(foxy)
+{
+    if(this._pos._name == 'westHall')
+    {
+        if(foxy._pos._x == this.var._foxyRoom4X)
+        {
+            this.alphaSprite(0);
+            this.visible = false;
+        }
+    }
+    else if(!this.isAttacking() && !this.visible)
+    {
+        this.alphaSprite(1);
+        this.visible = true;
+    }
+};
 
 module.exports = Bonnie;

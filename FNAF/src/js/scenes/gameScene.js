@@ -162,6 +162,9 @@ var GameScene =
         //Freddy
         this.freddy.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerFreddy'));
 
+        //Foxy
+        this.foxy.createScreamer(this.game.add.sprite(this.var._screamerPosX , this.var._screamerPosX, 'screamerFoxy'));
+
         //===============================================OFFICE EFFECT=============================================================
 
         this.officeEffect = this.game.add.sprite(0, 0, 'officeEffect');
@@ -213,7 +216,7 @@ var GameScene =
         
         this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
         {
-            this.foxy.move(this.staticEffect);
+            this.foxy.move(this.doorLeft);
         }, this);
 
         //=====================================================MONITOR=====================================================================
@@ -374,6 +377,7 @@ var GameScene =
         this.moveLeft.inputEnabled = true;
 
         this.attackForDark = false;
+        this.alreadyChanged = false;
     },
 
     update: function () 
@@ -511,6 +515,39 @@ var GameScene =
                     this.freddy.lookingAway();
             }
         }
+         //==========================Foxy===================
+         if(!this.inOffice)
+         {
+            if(this.foxy.startToMove())
+            {
+                this.foxy.spotted(this.var, this.doorLeft);
+            }
+         }
+         if(this.foxy.returnIsAttacking() && !this.alreadyChanged)
+         {
+            if(!this.inOffice)
+            {
+                this.game.camera.x = this.lastPosOffice;
+                this.officeEffect.alpha = 0.5;
+
+                this.mapEdge.alpha = 0;
+                this.staticEffect.alpha = 0;
+                this.REC.alpha = 0;
+                this.RECPoint.alpha = 0;
+                this.map.alpha = 0;
+                this.camerasTexts.alpha = 0;
+                this.monitor.notInput();
+            }
+
+            this.changeView.alpha = 0;
+            this.changeView.inputEnabled = false;
+
+            this.moveRight.inputEnabled = false;
+            this.moveLeft.inputEnabled = false;
+
+
+            this.alreadyChanged = true;
+         }
     }
 
 }

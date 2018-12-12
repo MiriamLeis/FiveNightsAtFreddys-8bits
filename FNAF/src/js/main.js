@@ -60,7 +60,7 @@ var PreloaderScene =
     this.game.load.spritesheet('freddyAttack', './images/animatronics/FreddyAttack.png', 198, 198, 2);
     this.game.load.image('foxy','./images/animatronics/Foxy.png');
     this.game.load.spritesheet('foxyRun','./images/animatronics/FoxyRun.png', 33, 66, 2);
-    this.game.load.image('screamerFoxy', './images/animatronics/screamerFoxy.png');
+    this.game.load.spritesheet('screamerFoxy', './images/animatronics/screamerFoxy.png', 800, 600, 6);
 
     //Objects
     this.game.load.spritesheet('buttonsCameras', './images/items/buttonsCameras.png', 33, 33, 22);
