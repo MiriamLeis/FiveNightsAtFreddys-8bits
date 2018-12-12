@@ -6,6 +6,7 @@ var Menu =
     preload: function()
     {
         this.var = new Const();
+        this.game.sound.stopAll();
     },
 
     create: function()

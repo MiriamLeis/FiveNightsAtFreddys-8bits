@@ -22,6 +22,7 @@ Door.prototype.reset = function()
 {
     if (this._active)
     {
+        this._sound.play();
         this.resetInteract();
         this.button.frame = 0;
         this.doorCloseAnim.frame = 0;

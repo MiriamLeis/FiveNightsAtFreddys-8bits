@@ -19,6 +19,7 @@ var GameScene =
     preload: function () 
     {
         this.var = new Const();
+        this.game.sound.stopAll();
     },
 
     create: function () 
@@ -467,6 +468,7 @@ var GameScene =
         //-----------------------------------------------------------------ATAQUE DE BATERIA-----------------------------------------------------------------------------------------------
         if (this.battery.emptyBattery() && !this.attackForDark)
         {
+            this.game.sound.stopAll();
             this.attackForDark = true;
 
             this.darkness.alpha = 0.5; //cambiar
@@ -561,7 +563,7 @@ var GameScene =
             this.alreadyChanged = true;
         }
         //======================Bonnie=========
-        this.bonnie.foxyAndMe(this.foxy);
+        this.bonnie.foxyAndMe(this.foxy, this.game, this.staticEffect);
     }
 
 }

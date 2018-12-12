@@ -6,11 +6,14 @@ var DeathScene =
     preload: function()
     {
         this.var = new Const();
+        this.game.sound.stopAll();
     },
 
     create: function()
     {
+        //---------------------------------------------------SOUND--------------------------------------------------------
 
+        
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
         var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');
         

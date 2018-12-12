@@ -54,7 +54,7 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
         this.darkFreddy.x = this._pos._x;    this.darkFreddy.y = this._pos._y;
 
-        if(this._pos._name == bonnie._pos._name || this._pos._name == chica._pos._name)
+        if(this._pos._name == bonnie._pos._name || (this._pos._name == chica._pos._name && !chica.isInOffice()))
             this.showDarkSprite();
         else
             this.hideDarkSprite();

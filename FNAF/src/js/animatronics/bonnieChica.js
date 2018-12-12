@@ -63,11 +63,6 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room2];
                                 this.dinningRoomFalse();
                             }
-                            //FreddyOscuro
-                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                                freddy.hideDarkSprite();
-                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                                freddy.showDarkSprite();
                         }
                         else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                         {
@@ -79,26 +74,14 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room1];
                             this.dinningRoomFalse();
                         }
-
-                        //FreddyOscuro
-                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                            freddy.hideDarkSprite();
-                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                            freddy.showDarkSprite();
                     }
                     else
                     {
                         
                         if (!light.getActive() && percentage > this.var._2roomsPercentage1)
-                            this.attack(game, door, light);    
+                            this.attack(game ,door, light, staticEffect, freddy);   
                         else
                             this._pos = this._path[this._pos._room1];
-
-                        //FreddyOscuro
-                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                            freddy.hideDarkSprite();
-                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                            freddy.showDarkSprite();
                     }
                 }
                 else if (this._pos._number == 3)
@@ -120,11 +103,6 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room3];
                                 this.dinningRoomFalse();
                             }
-                            //FreddyOscuro
-                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                                freddy.hideDarkSprite();
-                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                                freddy.showDarkSprite();
                         }
                         else if (percentage > this.var._3roomsPercentage2)
                         {
@@ -138,11 +116,6 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                                 this._pos = this._path[this._pos._room2];
                                 this.dinningRoomFalse();
                             }
-                            //FreddyOscuro
-                            if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                                freddy.hideDarkSprite();
-                            else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                                freddy.showDarkSprite();
                         }
                         else if (this._path[this._pos._room1]._name == "diningRoom" && !otherAnimatronic.dinningRoom)
                         {
@@ -154,26 +127,15 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                             this._pos = this._path[this._pos._room1];
                             this.dinningRoomFalse();
                         }
-                        //FreddyOscuro
-                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                            freddy.hideDarkSprite();
-                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                            freddy.showDarkSprite();
                     }
                     else
                     {
                         if (!light.getActive() && percentage > this.var._3roomsPercentage1)
-                            this.attack(game ,door, light);
+                            this.attack(game ,door, light, staticEffect, freddy);
                         else if (percentage > this.var._3roomsPercentage2)
                             this._pos = this._path[this._pos._room2];
                         else
                             this._pos = this._path[this._pos._room1];
-
-                        //FreddyOscuro
-                        if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                            freddy.hideDarkSprite();
-                        else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                            freddy.showDarkSprite();
                     }
                 }
                 else
@@ -189,18 +151,19 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                         this._pos = this._path[this._pos._room1];
                         this.dinningRoomFalse();
                     }
-
-                    //FreddyOscuro
-                    if(this._antPos != this._pos && this._antPos._name == freddy._pos._name)
-                        freddy.hideDarkSprite();
-                    else if(this._antPos != this._pos && this._pos._name == freddy._pos._name)
-                        freddy.showDarkSprite();
-
                 }
-                //Controlar que el efecto de static effect aparezca cuando miras donde estan o donde se van a mover
+
+                //FreddyOscuro
                 if (this._antPos != this._pos)
+                {
+                    if(this._antPos._name == freddy._pos._name)
+                        freddy.hideDarkSprite();
+                    else if(this._pos._name == freddy._pos._name)
+                        freddy.showDarkSprite();
+                //Controlar que el efecto de static effect aparezca cuando miras donde estan o donde se van a mover
                     if ((game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y) || (game.camera.x == this._antPos._posCam.x && game.camera.y == this._antPos._posCam.y)) //HACER SI ESTA EN MONITOR
                         this.moveEffect(game, staticEffect);
+                }
 
                 this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
 
@@ -219,10 +182,16 @@ BonnieChica.prototype.isAttacking = function()
 {
     return this.attacking;
 }
-BonnieChica.prototype.attack = function(game, door, light)
+BonnieChica.prototype.attack = function(game, door, light, staticEffect, freddy)
 {
     if(!this.inOffice)
     {
+        if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+            this.moveEffect(game, staticEffect);
+
+        if (freddy._pos._name == this._pos._name)
+            freddy.hideDarkSprite();
+            
         this.alphaSprite(0);
         this.attacking = true;
         var timeToMove = Math.floor(((Math.random() * (this.attackTimeIni.max - this.attackTimeIni.min)) + this.attackTimeIni.min) * 1000);//Cambiar por tiempos de ataque
@@ -240,15 +209,21 @@ BonnieChica.prototype.attack = function(game, door, light)
                     light.enabledInput(false);
                     door.enabledInput(false);
                 }
-                else if(this._pos._number == 3)
-                {
-                    this._pos = this._path[this._pos._room2];
-                    this.alphaSprite(1);
-                }
                 else
                 {
-                    this._pos = this._path[this._pos._room1];
+                    if(this._pos._number == 3)
+                        this._pos = this._path[this._pos._room2];
+                    else
+                        this._pos = this._path[this._pos._room1];
+                    
+                    this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
                     this.alphaSprite(1);
+
+                    if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+                        this.moveEffect(game, staticEffect);
+
+                    if (freddy._pos._name == this._pos._name)
+                        freddy.showDarkSprite();
                 }
                 this.attacking = false;
             }

@@ -27,7 +27,7 @@ function Bonnie(sprite)
 Bonnie.prototype = Object.create(BonnieChica.prototype);
 Bonnie.prototype.constructor = Bonnie;
 
-Bonnie.prototype.foxyAndMe = function(foxy)
+Bonnie.prototype.foxyAndMe = function(foxy, game, staticEffect)
 {
     if(this._pos._name == 'westHall' && foxy._pos._x == this.var._foxyRoom4X && this.visible)
     {   
@@ -36,11 +36,15 @@ Bonnie.prototype.foxyAndMe = function(foxy)
     }
     else if(foxy._pos._x != this.var._foxyRoom4X && !this.isAttacking() && !this.visible)
     {
+        if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+            this.moveEffect(game, staticEffect);
         this.alphaSprite(1);
         this.visible = true;
     }
     else if(this._pos._name != 'westHall' && !this.isAttacking()&& !this.visible)
     {
+        if (game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y)
+            this.moveEffect(game, staticEffect);
         this.alphaSprite(1);
         this.visible = true;
     }

@@ -25,7 +25,7 @@ function Battery(game, spriteBar, spriteCent, spriteDec, spriteU)
     this.spriteU.fixedToCamera = true;
 
     //Cosillas para el control del tiempo
-    this.restBattery = 100;
+    this.restBattery = 1;
     this.batteryUssage = 1; //De primeras
     this.timeToChange = this.var._timeToChange1 + game.time.now; //De primeras
     this.realTimeToChange = 0;
