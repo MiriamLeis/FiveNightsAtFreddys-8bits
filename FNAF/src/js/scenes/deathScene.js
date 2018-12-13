@@ -12,7 +12,7 @@ var DeathScene =
     create: function()
     {
         //---------------------------------------------------SOUND--------------------------------------------------------
-
+        
         
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
         var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');

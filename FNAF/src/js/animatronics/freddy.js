@@ -53,10 +53,10 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
     
     this.movement = game.time.events.add (timeToMove, function()
     {
-        if(timeToMove > 50)
-        {
+        var audioRandom = Math.random() * (1 - 0)
+        if(audioRandom > 0.5)
             this._moveSound.play();
-        }
+
         this._sprite.frame = 0;
         var antPos = this._pos;
         if(!this._pos._attack)

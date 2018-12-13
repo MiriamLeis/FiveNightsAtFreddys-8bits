@@ -12,16 +12,35 @@ var Menu =
     create: function()
     {
         //---------------------------------------------------SOUND--------------------------------------------------------
-
+        var song = this.game.add.audio('menuSound');
+        song.loop = true;
+        song.play();
+        
+        var click = this.game.add.audio('doorTurnOnOff');
         
         //---------------------------------------------------TITLE--------------------------------------------------------
         var title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
 
         //---------------------------------------------------NEW GAME-----------------------------------------------------
-        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ localStorage.removeItem('numNight'); this.game.state.start('game'); }, this, 1, 0, 1);
+        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function ()
+        { 
+            click.play();
+            localStorage.removeItem('numNight');
+            this.game.time.events.add(500, function()
+            {
+                this.game.state.start('game');
+            }, this);
+        }, this, 1, 0, 1);
 
         //---------------------------------------------------CONTINUE-----------------------------------------------------
-        var buttonContinue = this.game.add.button(this.var._contPosX, this.var._contPosY, 'continueText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
+        var buttonContinue = this.game.add.button(this.var._contPosX, this.var._contPosY, 'continueText', function ()
+        { 
+            click.play();
+            this.game.time.events.add(500, function()
+            {
+                this.game.state.start('game');
+            }, this);
+        }, this, 1, 0, 1);
 
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
         var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');

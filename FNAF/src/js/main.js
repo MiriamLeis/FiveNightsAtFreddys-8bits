@@ -32,12 +32,21 @@ var PreloaderScene =
     // TODO: load here the assets for the game
   
   //------------------------------------------------------AUDIOS------------------------------------------
-    //Office
+  //Menu
+      this.game.load.audio('menuSound', ['./audios/Menu_music.wav', './audios/Menu_music.mp3', './audios/Menu_music.ogg']);
+  
+  //Death
+      this.game.load.audio('deathSound', ['./audios/death.wav', './audios/death.mp3', './audios/death.ogg']);
+
+  //Win
+      this.game.load.audio('bellrings', ['./audios/win/Bellrings.wav', './audios/win/Bellrings.mp3', './audios/win/Bellrings.ogg']);
+      this.game.load.audio('kidsScream', ['./audios/win/Kids_Scream.wav', './audios/win/Kids_Scream.mp3', './audios/win/Kids_Scream.ogg']);
+    
+  //Office
       //Ambient
       this.game.load.audio('ambient1', ['./audios/ambient/Ambient1.wav', './audios/ambient/Ambient1.mp3', './audios/ambient/Ambient1.ogg']);
       this.game.load.audio('ambient2', ['./audios/ambient/Ambient2.wav', './audios/ambient/Ambient2.mp3', './audios/ambient/Ambient2.ogg']);
       this.game.load.audio('ambient3', ['./audios/ambient/Ambient3.wav', './audios/ambient/Ambient3.mp3', './audios/ambient/Ambient3.ogg']);
-      this.game.load.audio('ambient4', ['./audios/ambient/Ambient4.wav', './audios/ambient/Ambient4.mp3', './audios/ambient/Ambient4.ogg']);
       this.game.load.audio('light_fan', ['./audios/ambient/Light_Fan.wav', './audios/ambient/Light_Fan.mp3', './audios/ambient/Light_Fan.ogg']);
 
   //Interactions
