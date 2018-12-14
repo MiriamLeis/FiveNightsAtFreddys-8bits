@@ -4,7 +4,7 @@ var Const = require('../const.js');
 
 
 //---------------------Foxy-------------------------//
-function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSprite)
+function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSound, runSprite)
 {
     this.var = new Const();
     this.game = game;
@@ -31,11 +31,17 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSpr
                             //rango de segundos de movimiento
                             [{min: 3, max: 5}, {min: 8, max: 10}, {min: 6, max: 8}, {min: 5, max: 7}, {min: 5, max: 6}, {min: 4, max: 6}], this.var]);
     this._sprite.visible = false;
+
+    //Sonidos
+        //Run
+        this.runSound = runSound;
+        this.runSound.loop = true;
+
 }
 Foxy.prototype = Object.create(Animatronics.prototype);
 Foxy.prototype.constructor = Foxy;
 
-Foxy.prototype.move = function(door, battery)
+Foxy.prototype.move = function(door, battery, staticEffect)
 {
     this.startedMoving = true;
 
@@ -63,47 +69,48 @@ Foxy.prototype.move = function(door, battery)
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
 
         if(!this._pos._attack)
-            this.move(door, battery);
+            this.move(door, battery, staticEffect);
         else 
-            this.attack(door, battery);
+            this.attack(door, battery, staticEffect);
     }, this);
 };
-Foxy.prototype.spotted = function(Var, door, battery)
+Foxy.prototype.spotted = function(Var, door, battery, staticEffect)
 {
     if(this.game.camera.x == Var._pirateCovePosX  && !this._pos._attack)
     {
         this.game.time.events.remove(this.movement);
-        this.move(door, battery);
+        this.move(door, battery, staticEffect);
     }
     else if(this.game.camera.x == this.var._westHallPosX && this._pos._attack && !this.isOfficiallyAttacking)
     {
         this.isOfficiallyAttacking = true;
         this.game.time.events.remove(this.attacking);
-        this.attackSpotted(door, battery);
+        this.attackSpotted(door, battery, staticEffect);
     }
 };
-Foxy.prototype.attack = function(door, battery)
+Foxy.prototype.attack = function(door, battery, staticEffect)
 {
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);//Cambiar tiempos
     this.runSprite.alpha = 1;
 
     this.attacking = this.game.time.events.add (timeToMove, function()
     {  
-        this.realAttack(door, battery);
+        this.realAttack(door, battery, staticEffect);
     }, this);
 };
-Foxy.prototype.attackSpotted = function(door, battery)
+Foxy.prototype.attackSpotted = function(door, battery, staticEffect)
 {
     this.spottedMoving = true;
     this.runSprite.x = this.var._foxyRoom4X;
     this.runSprite.y = this.var._foxyRoom4Y;
     this.runSprite.animations.add('run');
     this.runSprite.animations.play('run', 5, true);
+    this.runSound.play();
 
-    this.runAnim(door, battery);
+    this.runAnim(door, battery, staticEffect);
 
 };
-Foxy.prototype.realAttack = function(door, battery)
+Foxy.prototype.realAttack = function(door, battery, staticEffect)
 {
     //Mirar si cambiamos el tiempo
  
@@ -120,17 +127,25 @@ Foxy.prototype.realAttack = function(door, battery)
     }
     else
     {
-        this._path[3]._image.alpha = 0;
-        this._pos = this._path[this._pos._connect];
-        this._pos._image.alpha = 1;
-        this._sprite.visible = false;
-        this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+        this._moveSound.play();
 
         this.isOfficiallyAttacking = false;
+
+        this._moveSound.onStop.addOnce(function() 
+        {  
+            this.moveEffect(this.game, staticEffect);
+            this._path[3]._image.alpha = 0;
+            this._pos = this._path[this._pos._connect];
+            this._pos._image.alpha = 1;
+            this._sprite.visible = false;
+            this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+
+            this.move(door, battery, staticEffect);
+        }, this);
     }
         
 };
-Foxy.prototype.runAnim = function(door, battery)
+Foxy.prototype.runAnim = function(door, battery, staticEffect)
 {
     this.game.time.events.add (200, function()
     {
@@ -139,10 +154,12 @@ Foxy.prototype.runAnim = function(door, battery)
         {
             this.runSprite.y = this.runSprite.y + 20;
 
-            this.runAnim(door, battery);
+            this.runAnim(door, battery, staticEffect);
         }
         else
         {
+            this.runSound.stop();
+            
             console.log("hola");
             this.spottedMoving = false;
             this.runSprite.alpha = 0;
@@ -150,7 +167,7 @@ Foxy.prototype.runAnim = function(door, battery)
 
             this.attackingSpotted = this.game.time.events.add (5000, function()
             {  
-                this.realAttack(door, battery);
+                this.realAttack(door, battery, staticEffect);
             }, this);
         }
     }, this);

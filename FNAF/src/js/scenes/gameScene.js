@@ -63,6 +63,10 @@ var GameScene =
         //Battery out
         this.soundOutBattery = this.game.add.audio('outBattery');
 
+        //Pirate song
+        this.pirateSong = this.game.add.audio('foxySong');
+        this.pirateSong.volume = 0.5;
+
         //=====================================================OFFICE========================================================================
 
 
@@ -150,6 +154,7 @@ var GameScene =
                                 this.game.add.sprite(0, 0, 'foxy'),
                                 this.game.add.audio('animAttack'),
                                 this.game.add.audio('foxyKnock'),
+                                this.game.add.audio('foxyRun'),
                                 this.game.add.sprite(0, 0, 'foxyRun'));
 
         //===================================================OFFICE 2.0=================================================================
@@ -242,7 +247,7 @@ var GameScene =
         
         this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
         {
-            this.foxy.move(this.doorLeft, this.battery);
+            this.foxy.move(this.doorLeft, this.battery, this.staticEffect);
         }, this);
 
         //=====================================================MONITOR=====================================================================
@@ -549,7 +554,7 @@ var GameScene =
         {
             if(this.foxy.startToMove())
             {
-                this.foxy.spotted(this.var, this.doorLeft, this.battery);
+                this.foxy.spotted(this.var, this.doorLeft, this.battery, this.staticEffect);
             }
         }
         if(this.foxy.returnIsAttacking() && !this.alreadyChanged)
@@ -577,6 +582,8 @@ var GameScene =
 
             this.alreadyChanged = true;
         }
+        if (this.game.camera.x == this.var._pirateCovePosX && this.foxy.getPos()._connect == 1){}
+            //this.pirateSong.play();
         //======================Bonnie=========
         this.bonnie.foxyAndMe(this.foxy, this.game, this.staticEffect);
     }

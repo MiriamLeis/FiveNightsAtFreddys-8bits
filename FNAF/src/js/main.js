@@ -73,6 +73,7 @@ var PreloaderScene =
     //Foxy
       this.game.load.audio('foxyKnock', ['./audios/animatronics/foxy/attack/Knock2.wav', './audios/animatronics/foxy/attack/Knock2.mp3', './audios/animatronics/foxy/attack/Knock2.ogg']);
       this.game.load.audio('foxyRun', ['./audios/animatronics/foxy/attack/Run.wav', './audios/animatronics/foxy/attack/Run.mp3', './audios/animatronics/foxy/attack/Run.ogg']);
+      this.game.load.audio('foxySong', ['./audios/animatronics/foxy/pirateCove/Pirate_song2.wav', './audios/animatronics/foxy/pirateCove/Pirate_song2.mp3', './audios/animatronics/foxy/pirateCove/Pirate_song2.ogg']);
 
   //----------------------------------------------IMAGES AND SPRITESHEETS---------------------------------  
     //Rooms

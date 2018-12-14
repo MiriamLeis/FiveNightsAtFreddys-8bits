@@ -36,6 +36,7 @@ function Freddy(sprite, darkFreddy, attack, attackSound, moveSound, song, endSon
     this._sprite.frame = 2;
 
     //Sonidos
+        this._moveSound.volume = 0,7;
         //musiquita
         this._song = song;
         //final de musiquita
