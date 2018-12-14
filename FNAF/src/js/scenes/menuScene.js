@@ -16,8 +16,7 @@ var Menu =
         song.loop = true;
         song.play();
         
-        var endMenu = this.game.add.audio('freddyEndSong');
-        var click = this.game.add.audio('doorTurnOnOff');
+        var click = this.game.add.audio('freddyEndSong');
         
         //---------------------------------------------------TITLE--------------------------------------------------------
         var title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
@@ -25,11 +24,10 @@ var Menu =
         //---------------------------------------------------NEW GAME-----------------------------------------------------
         var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function ()
         { 
-            endMenu.play();
+            click.play();
             localStorage.removeItem('numNight');
             this.game.time.events.add(500, function()
             {
-                endMenu.play();
                 this.game.state.start('game');
             }, this);
         }, this, 1, 0, 1);
