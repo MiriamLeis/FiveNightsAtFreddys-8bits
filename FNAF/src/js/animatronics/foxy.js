@@ -133,7 +133,9 @@ Foxy.prototype.realAttack = function(door, battery, staticEffect)
 
         this._moveSound.onStop.addOnce(function() 
         {  
-            this.moveEffect(this.game, staticEffect);
+            if(this.game.camera.x == Var._pirateCovePosX)
+                this.moveEffect(this.game, staticEffect);
+
             this._path[3]._image.alpha = 0;
             this._pos = this._path[this._pos._connect];
             this._pos._image.alpha = 1;

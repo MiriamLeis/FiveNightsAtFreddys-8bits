@@ -65,7 +65,7 @@ var GameScene =
 
         //Pirate song
         this.pirateSong = this.game.add.audio('foxySong');
-        this.pirateSong.volume = 0.5;
+        this.pirateSong.volume = 0.05;
 
         //=====================================================OFFICE========================================================================
 
@@ -306,11 +306,12 @@ var GameScene =
         
         this.changeView = this.game.add.button(this.var._changeViewPosX, this.var._changeViewPosY, 'buttonMonitor', function () 
         { 
-
             if (this.inOffice) 
             {
                 this.game.camera.x = this.monitor.LastPos();
                 this.officeEffect.alpha = 0;
+                this.soundAmbient.volume = 0.1;
+                this.soundLight_fan.volume = 0.05;
 
                 this.mapEdge.alpha = 1;
                 this.staticEffect.alpha = 0.1;
@@ -336,6 +337,8 @@ var GameScene =
             {
                 this.game.camera.x = this.lastPosOffice;
                 this.officeEffect.alpha = 0.5;
+                this.soundAmbient.volume = 0.5;
+                this.soundLight_fan.volume = 0.1;
 
                 this.mapEdge.alpha = 0;
                 this.staticEffect.alpha = 0;
@@ -409,7 +412,12 @@ var GameScene =
 
         this.attackForDark = false;
         this.alreadyChanged = false;
+
+        this.haveJustArrived = true;
     },
+
+// **************************************************************************************************************************************************** //
+// **************************************************************************************************************************************************** //
 
     update: function () 
     {
@@ -538,6 +546,7 @@ var GameScene =
         }
 
         //==========================Freddy===================
+
         if(!this.inOffice)
         {
             if(!this.freddy.attack() && this.freddy.startToMove())
@@ -549,7 +558,9 @@ var GameScene =
                     this.freddy.lookingAway();
             }
         }
+
         //==========================Foxy===================
+
         if(!this.inOffice)
         {
             if(this.foxy.startToMove())
@@ -557,6 +568,7 @@ var GameScene =
                 this.foxy.spotted(this.var, this.doorLeft, this.battery, this.staticEffect);
             }
         }
+
         if(this.foxy.returnIsAttacking() && !this.alreadyChanged)
         {
             if(!this.inOffice)
@@ -582,9 +594,24 @@ var GameScene =
 
             this.alreadyChanged = true;
         }
-        if (this.game.camera.x == this.var._pirateCovePosX && this.foxy.getPos()._connect == 1){}
-            //this.pirateSong.play();
+
+        if (this.game.camera.x == this.var._pirateCovePosX && this.foxy.getPos()._connect == 1 && !this.pirateSong.isPlaying && this.haveJustArrived)
+        {
+            this.haveJustArrived = false;
+            var rnd = Math.random() * (1 - 0);
+            if (rnd >= 0.8)
+                this.pirateSong.play();
+        }
+
+        if (this.game.camera.x != this.var._pirateCovePosX && !this.haveJustArrived)
+        {
+            if (this.pirateSong.isPlaying)
+                this.pirateSong.stop();
+            this.haveJustArrived = true;
+        }
+
         //======================Bonnie=========
+
         this.bonnie.foxyAndMe(this.foxy, this.game, this.staticEffect);
     }
 
