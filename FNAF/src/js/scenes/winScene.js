@@ -24,7 +24,7 @@ var WinScene =
         this.game.time.events.add(9000, function()
         {
             this._night = JSON.parse(localStorage.getItem('numNight'));
-            if(this._night == 6)
+            if(this._night == 7)
             {
                 this.winText = this.game.add.sprite(this.var._winTalX, this.var._winTalY, 'end');
 

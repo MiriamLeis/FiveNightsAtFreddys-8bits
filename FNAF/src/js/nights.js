@@ -51,7 +51,7 @@ Night.prototype.startNight = function()
 }
 Night.prototype.finishNight = function()
 {
-    if(this._night < 6)
+    if(this._night <= 6)
     {
         this._night++;
         localStorage.setItem("numNight", JSON.stringify(this._night));
