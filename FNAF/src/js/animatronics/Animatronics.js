@@ -12,6 +12,7 @@ function Animatronics(sprite, attackSound, moveSound, path, hours, actTime, Var)
     this._attackSound = attackSound;
 
     this._moveSound = moveSound;
+    this._moveSound.volume = 0.5;
 
     this._path = path; //Array de functions
     this._pos = this._path[0];

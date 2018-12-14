@@ -69,7 +69,11 @@ var PreloaderScene =
     //Freddy
       this.game.load.audio('freddySong', ['./audios/animatronics/freddy/power out/Music_box.wav', './audios/animatronics/freddy/power out/Music_box.mp3', './audios/animatronics/freddy/power out/Music_box.ogg']);
       this.game.load.audio('freddyEndSong', ['./audios/animatronics/freddy/power out/End_song.wav', './audios/animatronics/freddy/power out/End_song.mp3', './audios/animatronics/freddy/power out/End_song.ogg']);
-    
+      //Laugh
+      this.game.load.audio('freddyLaugh1', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.ogg']);
+      this.game.load.audio('freddyLaugh2', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.ogg']);
+      this.game.load.audio('freddyLaugh3', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.ogg']);
+
     //Foxy
       this.game.load.audio('foxyKnock', ['./audios/animatronics/foxy/attack/Knock2.wav', './audios/animatronics/foxy/attack/Knock2.mp3', './audios/animatronics/foxy/attack/Knock2.ogg']);
       this.game.load.audio('foxyRun', ['./audios/animatronics/foxy/attack/Run.wav', './audios/animatronics/foxy/attack/Run.mp3', './audios/animatronics/foxy/attack/Run.ogg']);

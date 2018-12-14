@@ -5,7 +5,7 @@ var Room = require('./room.js');
 
 
 //---------------------Freddy-------------------------//
-function Freddy(sprite, darkFreddy, attack, attackSound, moveSound, song, endSong)
+function Freddy(sprite, darkFreddy, attack, attackSound, moveSound, laughSounds, song, endSong)
 {
     this.var = new Const();
     
@@ -28,19 +28,23 @@ function Freddy(sprite, darkFreddy, attack, attackSound, moveSound, song, endSon
                             new Room (this.var._freddyRoom4X, this.var._freddyRoom4Y, this.var._kitchenPosX, this.var._kitchenPosY, 'kitchen', 4, null, null),
                             new Room (this.var._freddyRoom5X, this.var._freddyRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 5, null, null), 
                             new Room (this.var._freddyRoom6X, this.var._freddyRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', null, null, null, true)],
-                            //rango de horas de activacion
-                            [{min: 6, max: 6}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
+                            //rango de horas de activacion [{min: 6, max: 6}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
+                            [{min: 0, max: 0}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 20, max: 50}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+                            [{min: 2, max: 5}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
                             
     this._sprite.frame = 2;
 
     //Sonidos
-        this._moveSound.volume = 0,7;
         //musiquita
         this._song = song;
         //final de musiquita
         this._endSong = endSong;
+        //risas
+        this._laughSounds = laughSounds;
+        this._laughSounds[0].volume = 0.2;
+        this._laughSounds[1].volume = 0.2;
+        this._laughSounds[2].volume = 0.2;
 
 };
 Freddy.prototype = Object.create(Animatronics.prototype);
@@ -54,9 +58,15 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
     
     this.movement = game.time.events.add (timeToMove, function()
     {
-        var audioRandom = Math.random() * (1 - 0)
-        if(audioRandom > 0.5)
-            this._moveSound.play();
+        var rnd = Math.random() * (1 - 0);
+        if (rnd > 0.8)
+        {
+            var audio = Math.floor(Math.random() * (4 - 0));
+            if(audio == 3)
+                this._moveSound.play();
+            else
+                this._laughSounds[audio].play();
+        }
 
         this._sprite.frame = 0;
         var antPos = this._pos;

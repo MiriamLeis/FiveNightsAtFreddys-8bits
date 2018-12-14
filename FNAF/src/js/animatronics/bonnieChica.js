@@ -7,7 +7,6 @@ function BonnieChica(sprite, attackSound, moveSound,path, hour, actTime, attackT
 {
     Animatronics.apply(this,[sprite, attackSound, moveSound, path, hour, actTime, Var]);
     
-    this._moveSound.volume = 0,7;
     this._sprite.frame = 2;
     this.dinningRoom = false;
     this.inOffice = false;

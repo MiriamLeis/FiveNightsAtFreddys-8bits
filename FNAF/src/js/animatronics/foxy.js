@@ -33,6 +33,7 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSou
     this._sprite.visible = false;
 
     //Sonidos
+        this._moveSound.volume = 0.8;
         //Run
         this.runSound = runSound;
         this.runSound.loop = true;
@@ -133,7 +134,7 @@ Foxy.prototype.realAttack = function(door, battery, staticEffect)
 
         this._moveSound.onStop.addOnce(function() 
         {  
-            if(this.game.camera.x == Var._pirateCovePosX)
+            if(this.game.camera.x == this.var._pirateCovePosX)
                 this.moveEffect(this.game, staticEffect);
 
             this._path[3]._image.alpha = 0;

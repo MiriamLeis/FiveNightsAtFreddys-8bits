@@ -134,6 +134,7 @@ var GameScene =
                                 this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'),
                                 this.game.add.audio('animAttack'),
                                 this.game.add.audio('deepSteps'),
+                                [this.game.add.audio('freddyLaugh1'), this.game.add.audio('freddyLaugh2'), this.game.add.audio('freddyLaugh3')],
                                 this.game.add.audio('freddySong'),
                                 this.game.add.audio('freddyEndSong'));
                                 
@@ -599,7 +600,7 @@ var GameScene =
         {
             this.haveJustArrived = false;
             var rnd = Math.random() * (1 - 0);
-            if (rnd >= 0.8)
+            if (rnd >= 0.9)
                 this.pirateSong.play();
         }
 
