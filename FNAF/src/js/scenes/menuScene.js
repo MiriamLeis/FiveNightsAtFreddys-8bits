@@ -16,6 +16,7 @@ var Menu =
         song.loop = true;
         song.play();
         
+        var endMenu = this.game.add.audio('freddyEndSong');
         var click = this.game.add.audio('doorTurnOnOff');
         
         //---------------------------------------------------TITLE--------------------------------------------------------
@@ -28,6 +29,7 @@ var Menu =
             localStorage.removeItem('numNight');
             this.game.time.events.add(500, function()
             {
+                endMenu.play();
                 this.game.state.start('game');
             }, this);
         }, this, 1, 0, 1);

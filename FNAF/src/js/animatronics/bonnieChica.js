@@ -163,9 +163,13 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                 //Controlar que el efecto de static effect aparezca cuando miras donde estan o donde se van a mover
                     if ((game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y) || (game.camera.x == this._antPos._posCam.x && game.camera.y == this._antPos._posCam.y)) //HACER SI ESTA EN MONITOR
                         this.moveEffect(game, staticEffect);
-                }
+                    
+                    var audioRandom = Math.random() * (1 - 0)
+                    if(audioRandom > 0.5)
+                    this._moveSound.play();
 
-                this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
+                    this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
+                }
 
                 if(!this.inOffice)
                 this.move(game, otherAnimatronic, staticEffect, door, light, freddy);

@@ -136,12 +136,12 @@ var GameScene =
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'),
                                 this.game.add.audio('animAttack'),
-                                this.game.add.audio(),);
+                                this.game.add.audio('deepSteps'),);
          
         //Chica
         this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'),
                                 this.game.add.audio('animAttack'),
-                                this.game.add.audio(),);
+                                this.game.add.audio('deepSteps'),);
 
         //Foxy
         this.foxy = new Foxy (this.game, this.game.add.sprite(0, 0, 'pirateCov1'),
@@ -149,7 +149,7 @@ var GameScene =
                                 this.game.add.sprite(0, 0, 'pirateCov3'),
                                 this.game.add.sprite(0, 0, 'foxy'),
                                 this.game.add.audio('animAttack'),
-                                this.game.add.audio(),
+                                this.game.add.audio('foxyKnock'),
                                 this.game.add.sprite(0, 0, 'foxyRun'));
 
         //===================================================OFFICE 2.0=================================================================
@@ -549,7 +549,7 @@ var GameScene =
         {
             if(this.foxy.startToMove())
             {
-                this.foxy.spotted(this.var, this.doorLeft);
+                this.foxy.spotted(this.var, this.doorLeft, this.battery);
             }
         }
         if(this.foxy.returnIsAttacking() && !this.alreadyChanged)
