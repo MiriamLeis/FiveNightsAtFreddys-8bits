@@ -3,11 +3,10 @@
 var Interact = require('./Interactions.js');
 var Const = require('../const.js');
 
-function Light(game, posXButton, posYButton, sprite, animSprite, anim, sound)
+function Light(game, posXButton, posYButton, sprite, animSprite, anim, sound, errorSound, windowscare)
 {
     this.var = new Const();
-    Interact.apply(this, [sound]);
-    this._sound.loop = true;
+    Interact.apply(this, [sound, errorSound]);
 
     this.light = sprite;
     this.light.visible = false;
@@ -18,6 +17,12 @@ function Light(game, posXButton, posYButton, sprite, animSprite, anim, sound)
     this.animSprite.alpha = 0;
 
     this.anim = anim;
+
+    this.windowscareAlreadySound = false;
+
+    //Sounds
+    this._sound.loop = true;
+    this._windowscare = windowscare;
 };
 
 Light.prototype = Object.create(Interact.prototype);
@@ -32,26 +37,43 @@ Light.prototype.reset = function()
 }
 Light.prototype.turnOff = function() 
 {
-    this.changeActive();
-    if(this._active)
+    if (!this._block)
     {
-        this._sound.play();
-        this.button.frame = 1;
-        this.light.visible = true;
-        
-        if(this.anim.isAttacking())
-            this.animSprite.alpha = 1;
+        this.changeActive();
+        if(this._active)
+        {
+            this._sound.play();
+            this.button.frame = 1;
+            this.light.visible = true;
+            
+            if(this.anim.isAttacking())
+            {
+                this.animSprite.alpha = 1;
+                if (!this.windowscareAlreadySound)
+                {
+                    this._windowscare.play();
+                    this.windowscareAlreadySound = true;
+                }
+            }
+            else
+            {
+                if (this.windowscareAlreadySound)
+                    this.windowscareAlreadySound = false;
+            }
+        }
+        else
+        {
+            this._sound.stop();
+            this.button.frame = 0;
+            this.light.visible = false;
+            this.animSprite.alpha = 0;
+        }
     }
     else
-    {
-        this._sound.stop();
-        this.button.frame = 0;
-        this.light.visible = false;
-        this.animSprite.alpha = 0;
-    }
+        this._errorSound.play();
 }
 Light.prototype.enabledInput = function(b)
 {
-    this.button.inputEnabled = b;
+    this._block = !b;
 }
 module.exports = Light;

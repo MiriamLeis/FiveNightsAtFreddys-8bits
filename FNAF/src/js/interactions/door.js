@@ -2,9 +2,9 @@
 
 var Interact = require('./Interactions.js');
 
-function Door(game, posXButton, posYButton, posXDoor, posYDoor, sound)
+function Door(game, posXButton, posYButton, posXDoor, posYDoor, sound, errorSound)
 {
-    Interact.apply(this, [sound]);
+    Interact.apply(this, [sound, errorSound]);
     
     this.doorOpen = game.add.sprite(posXDoor, posYDoor, 'doorOpen', 2);
     this.doorOpenAnim = this.doorOpen.animations.add('open');
@@ -32,26 +32,31 @@ Door.prototype.reset = function()
 }
 Door.prototype.actionOnClick = function() 
 {
-    this._sound.play();
-    this.changeActive();
-    if (this._active)
+    if (!this._block)
     {
-        this.button.frame = 1;
-        this.doorOpenAnim.frame = 2;
-        this.doorCloseAnim.play(10, true);
-        this.doorCloseAnim.loop = false;
+        this._sound.play();
+        this.changeActive();
+        if (this._active)
+        {
+            this.button.frame = 1;
+            this.doorOpenAnim.frame = 2;
+            this.doorCloseAnim.play(10, true);
+            this.doorCloseAnim.loop = false;
+        }
+        else
+        {
+            this.button.frame = 0;
+            this.doorCloseAnim.frame = 0;
+            this.doorOpenAnim.play(10, true);
+            this.doorOpenAnim.loop = false;
+        }
     }
     else
-    {
-        this.button.frame = 0;
-        this.doorCloseAnim.frame = 0;
-        this.doorOpenAnim.play(10, true);
-        this.doorOpenAnim.loop = false;
-    }
+        this._errorSound.play();
 }
 Door.prototype.enabledInput = function(b)
 {
-    this.button.inputEnabled = b;
+    this._block = !b;
 }
 
 module.exports = Door;

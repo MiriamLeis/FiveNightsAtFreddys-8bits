@@ -1,8 +1,11 @@
 'use strict';
 
-function Interact (sound) 
+function Interact (sound, errorSound) 
 {
     this._active = false;
+    this._block = false;
+    this._errorSound = errorSound;
+    this._errorSound.volume = 0.2;
     this._sound = sound;
 };
 Interact.prototype.resetInteract = function(){ this._active = false; }
