@@ -68,7 +68,7 @@ var GameScene =
         this.pirateSong = this.game.add.audio('foxySong');
         this.pirateSong.volume = 0.05;
 
-        //cocina
+        //Kitchen
         this._kitchenSound = [this.game.add.audio('kitchen1'), this.game.add.audio('kitchen2'), this.game.add.audio('kitchen3'), this.game.add.audio('kitchen4')];
         this._kitchenSound[0].volume = 0.5;
         this._kitchenSound[0].loop = true;
@@ -79,8 +79,13 @@ var GameScene =
         this._kitchenSound[3].volume = 0.5;
         this._kitchenSound[3].loop = true;
 
-        //=====================================================OFFICE========================================================================
+        //Monitor
+        this.monitorUp = this.game.add.audio('monitorUp');
+        this.monitorUp.volume = 0.5;
+        this.monitorDown = this.game.add.audio('monitorDown');
+        this.monitorDown.volume = 0.5;
 
+        //=====================================================OFFICE========================================================================
 
         var office = this.game.add.sprite(0, 0, 'office');
 
@@ -328,6 +333,8 @@ var GameScene =
         { 
             if (this.inOffice) 
             {
+                this.monitorUp.play();
+
                 this.game.camera.x = this.monitor.LastPos();
                 this.officeEffect.alpha = 0;
                 this.soundAmbient.volume = 0.1;
@@ -355,6 +362,8 @@ var GameScene =
             }
             else 
             {
+                this.monitorDown.play();
+
                 this.game.camera.x = this.lastPosOffice;
                 this.officeEffect.alpha = 0.5;
                 this.soundAmbient.volume = 0.5;

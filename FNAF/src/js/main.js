@@ -59,6 +59,18 @@ var PreloaderScene =
       this.game.load.audio('lightTurnOn', ['./audios/interactions/lights/Turn_on.wav', './audios/interactions/lights/Turn_on.mp3', './audios/interactions/lights/Turn_on.ogg']);
       this.game.load.audio('lightJumpscare', ['./audios/interactions/lights/Windowscare.wav', './audios/interactions/lights/Windowscare.mp3', './audios/interactions/lights/Windowscare.ogg']);
 
+  //Monitor
+      //Interact
+      this.game.load.audio('monitorUp', ['./audios/monitor/Put_up.wav', './audios/monitor/Put_up.mp3', './audios/monitor/Put_up.ogg']);
+      this.game.load.audio('monitorDown', ['./audios/monitor/Put_down.wav', './audios/monitor/Put_down.mp3', './audios/monitor/Put_down.ogg']);
+      //Error
+      this.game.load.audio('error1', ['./audios/monitor/error/Garble1.wav', './audios/monitor/error/Garble1.mp3', './audios/monitor/error/Garble1.ogg']);
+      this.game.load.audio('error2', ['./audios/monitor/error/Garble2.wav', './audios/monitor/error/Garble2.mp3', './audios/monitor/error/Garble2.ogg']);
+      this.game.load.audio('error3', ['./audios/monitor/error/Garble3.wav', './audios/monitor/error/Garble3.mp3', './audios/monitor/error/Garble3.ogg']);
+      this.game.load.audio('error4', ['./audios/monitor/error/Garble4.wav', './audios/monitor/error/Garble4.mp3', './audios/monitor/error/Garble4.ogg']);
+      //Buttons
+      this.game.load.audio('changeCam', ['./audios/monitor/changeCam/change.wav', './audios/monitor/changeCam/change.mp3', './audios/monitor/changeCam/change.ogg']);
+  
   //Battery
       this.game.load.audio('outBattery', ['./audios/battery/Power_down.wav', './audios/battery/Power_down.mp3', './audios/battery/Power_down.ogg']);
   

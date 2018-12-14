@@ -5,6 +5,8 @@ var Const = require('./const.js');
 function InsideMonitor (game, Rooms, camerasTexts)
 {
     this.var = new Const();
+    this.changeCamSound = game.add.audio('changeCam');
+    this.changeCamSound.volume = 0.5;
     
     this.cam1A = this.addButton(game, camerasTexts, Rooms.cameraPositions.ShowStage, this.var._cam1APosX, this.var._cam1APosY, this, 0);
     this.cam1B = this.addButton(game, camerasTexts, Rooms.cameraPositions.DinningRoom, this.var._cam1BPosX, this.var._cam1BPosY, this, 1);
@@ -45,6 +47,7 @@ InsideMonitor.prototype.changeActive = function(button, game, roomName, roomCam,
 
     button.frame = numCam + 11;
     roomName.frame = roomCam.nameFrame;
+    this.changeCamSound.play();
 }
 InsideMonitor.prototype.addButton = function(game, roomName, roomCam, posX, posY, button, numCam)
 {
