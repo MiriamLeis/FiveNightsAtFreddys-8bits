@@ -25,7 +25,7 @@ var Menu =
         //---------------------------------------------------NEW GAME-----------------------------------------------------
         var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function ()
         { 
-            click.play();
+            endMenu.play();
             localStorage.removeItem('numNight');
             this.game.time.events.add(500, function()
             {
@@ -37,7 +37,7 @@ var Menu =
         //---------------------------------------------------CONTINUE-----------------------------------------------------
         var buttonContinue = this.game.add.button(this.var._contPosX, this.var._contPosY, 'continueText', function ()
         { 
-            click.play();
+            endMenu.play();
             this.game.time.events.add(500, function()
             {
                 this.game.state.start('game');
