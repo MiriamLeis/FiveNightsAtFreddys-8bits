@@ -62,6 +62,12 @@ var PreloaderScene =
   //Battery
       this.game.load.audio('outBattery', ['./audios/battery/Power_down.wav', './audios/battery/Power_down.mp3', './audios/battery/Power_down.ogg']);
   
+  //Kitchen
+      this.game.load.audio('kitchen1', ['./audios/kitchen/kitchen1.wav', './audios/kitchen/kitchen1.mp3', './audios/kitchen/kitchen1.ogg']);
+      this.game.load.audio('kitchen2', ['./audios/kitchen/kitchen2.wav', './audios/kitchen/kitchen2.mp3', './audios/kitchen/kitchen2.ogg']);
+      this.game.load.audio('kitchen3', ['./audios/kitchen/kitchen3.wav', './audios/kitchen/kitchen3.mp3', './audios/kitchen/kitchen3.ogg']);
+      this.game.load.audio('kitchen4', ['./audios/kitchen/kitchen4.wav', './audios/kitchen/kitchen4.mp3', './audios/kitchen/kitchen4.ogg']);
+
   //Animatronics
       this.game.load.audio('animAttack', ['./audios/animatronics/Scream.wav', './audios/animatronics/Scream.mp3', './audios/animatronics/Scream.ogg']);
       this.game.load.audio('deepSteps', ['./audios/animatronics/Deep_steps.wav', './audios/animatronics/Deep_steps.mp3', './audios/animatronics/Deep_steps.ogg']);
@@ -73,6 +79,8 @@ var PreloaderScene =
       this.game.load.audio('freddyLaugh1', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.ogg']);
       this.game.load.audio('freddyLaugh2', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.ogg']);
       this.game.load.audio('freddyLaugh3', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.ogg']);
+      //Footsteps
+      this.game.load.audio('freddyInOffice', ['./audios/animatronics/freddy/moves/footsteps/Running_fast.wav', './audios/animatronics/freddy/moves/footsteps/Running_fast.mp3', './audios/animatronics/freddy/moves/footsteps/Running_fast.ogg']);
 
     //Foxy
       this.game.load.audio('foxyKnock', ['./audios/animatronics/foxy/attack/Knock2.wav', './audios/animatronics/foxy/attack/Knock2.mp3', './audios/animatronics/foxy/attack/Knock2.ogg']);

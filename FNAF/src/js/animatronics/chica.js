@@ -14,7 +14,7 @@ function Chica(sprite, attackSound, moveSound)
                         new Room (this.var._chicaRoom4X, this.var._chicaRoom4Y, this.var._kitchenPosX, this.var._kitchenPosY, 'kitchen', 1, null, null),
                         new Room (this.var._chicaRoom5X, this.var._chicaRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 1, 5, null), 
                         new Room (this.var._chicaRoom6X, this.var._chicaRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', 4, null, null, true)],
-                        //rango de horas de activacion
+                        //rango de horas de activacion 
                         [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
                         [{min: 20, max: 35}, {min: 15, max: 30}, {min: 5, max: 10}, {min: 15, max: 20}, {min: 7, max: 10}, {min: 5, max: 8}],

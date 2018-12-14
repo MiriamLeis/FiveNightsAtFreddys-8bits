@@ -50,10 +50,11 @@ var GameScene =
 
         //=====================================================SOUND========================================================================
         //Office ambient
-        this.soundAmbient = this.game.add.audio('ambient1');
-        this.soundAmbient.loop = true;
-        this.soundAmbient.volume = 0.5;
-        this.soundAmbient.play();
+        this.soundAmbient = [this.game.add.audio('ambient1'), this.game.add.audio('ambient2'), this.game.add.audio('ambient3')];
+        var rnd = Math.floor(Math.random() * (3 - 0));
+        this.soundAmbient[rnd].loop = true;
+        this.soundAmbient[rnd].volume = 0.5;
+        this.soundAmbient[rnd].play();
 
         this.soundLight_fan = this.game.add.audio('light_fan');
         this.soundLight_fan.loop = true;
@@ -66,6 +67,17 @@ var GameScene =
         //Pirate song
         this.pirateSong = this.game.add.audio('foxySong');
         this.pirateSong.volume = 0.05;
+
+        //cocina
+        this._kitchenSound = [this.game.add.audio('kitchen1'), this.game.add.audio('kitchen2'), this.game.add.audio('kitchen3'), this.game.add.audio('kitchen4')];
+        this._kitchenSound[0].volume = 0.5;
+        this._kitchenSound[0].loop = true;
+        this._kitchenSound[1].volume = 0.5;
+        this._kitchenSound[1].loop = true;
+        this._kitchenSound[2].volume = 0.5;
+        this._kitchenSound[2].loop = true;
+        this._kitchenSound[3].volume = 0.5;
+        this._kitchenSound[3].loop = true;
 
         //=====================================================OFFICE========================================================================
 
@@ -135,6 +147,7 @@ var GameScene =
                                 this.game.add.audio('animAttack'),
                                 this.game.add.audio('deepSteps'),
                                 [this.game.add.audio('freddyLaugh1'), this.game.add.audio('freddyLaugh2'), this.game.add.audio('freddyLaugh3')],
+                                this.game.add.audio('freddyInOffice'),
                                 this.game.add.audio('freddySong'),
                                 this.game.add.audio('freddyEndSong'));
                                 
@@ -415,6 +428,7 @@ var GameScene =
         this.alreadyChanged = false;
 
         this.haveJustArrived = true;
+        this.watchingKitchen = false;
     },
 
 // **************************************************************************************************************************************************** //
@@ -422,6 +436,9 @@ var GameScene =
 
     update: function () 
     {
+        if (this.game.input.keyboard.addKey(Phaser.Keyboard.ESC).isDown)
+            this.game.state.start('menu');
+
         if (this.moveLeft.input.pointerOver())
         {
             this.lastPosOffice = this.game.camera.x = this.game.camera.x - this.var._camMovSpeed;
@@ -429,6 +446,7 @@ var GameScene =
                 this.lightRight.turnOff();
 
         }
+
         else if (this.moveRight.input.pointerOver() && this.game.camera.x < this.var._turnOffRightLightPos )
         {
             this.lastPosOffice = this.game.camera.x = this.game.camera.x + this.var._camMovSpeed;
@@ -558,6 +576,22 @@ var GameScene =
                 if(this.game.camera.x != this.var._eHallCornerPosX)
                     this.freddy.lookingAway();
             }
+        }
+
+        //======================Freddy and Chica===================
+
+        if (this.game.camera.x == this.var._kitchenPosX && (this.chica.getPos()._name == 'kitchen' || this.freddy.getPos()._name == 'kitchen') && !this.watchingKitchen)
+        {
+            this.watchingKitchen = true;
+            this.kitchenRnd = Math.floor(Math.random() * (5 - 0));
+            this._kitchenSound[this.kitchenRnd].play();
+        }
+
+        if (((this.game.camera.x == this.var._kitchenPosX && this.chica.getPos()._name != 'kitchen' && this.freddy.getPos()._name != 'kitchen') ||
+            (this.game.camera.x != this.var._kitchenPosX)) && this.watchingKitchen)
+        {
+            this.watchingKitchen = false;
+            this._kitchenSound[this.kitchenRnd].stop();
         }
 
         //==========================Foxy===================
