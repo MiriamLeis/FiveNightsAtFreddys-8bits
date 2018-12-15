@@ -41,7 +41,7 @@ var Menu =
                 this._night = JSON.parse(localStorage.getItem('numNight'));
                 if(this._night == 7)
                     localStorage.setItem("numNight", JSON.stringify(6));
-                    
+
                 this.game.state.start('game');
             }, this);
         }, this, 1, 0, 1);
