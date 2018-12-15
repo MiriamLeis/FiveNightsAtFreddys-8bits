@@ -29,7 +29,7 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSou
                             //rango de horas de activacion
                             [{min: 3, max: 6}, {min: 1, max: 5}, {min: 1, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 15, max: 20}, {min: 10, max: 12}, {min: 10, max: 12}, {min: 8, max: 10}, {min: 5, max: 8}, {min: 4, max: 6}], this.var]);
+                            [{min: 30, max: 40}, {min: 20, max: 32}, {min: 15, max: 25}, {min: 10, max: 15}, {min: 7, max: 12}, {min: 6, max: 10}], this.var]);
     this._sprite.visible = false;
 
     //Sonidos
@@ -132,7 +132,7 @@ Foxy.prototype.realAttack = function(door, battery, staticEffect)
 
         this.isOfficiallyAttacking = false;
 
-        this._moveSound.onStop.addOnce(function() 
+        this._moveSound.onStop.add(function() 
         {  
             if(this.game.camera.x == this.var._pirateCovePosX)
                 this.moveEffect(this.game, staticEffect);

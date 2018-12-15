@@ -197,6 +197,7 @@ var GameScene =
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
         this.staticEffect.animations.add('startEffect');
         this.staticEffect.animations.play('startEffect', 10, true);
+        this.staticEffect._audio = [this.game.add.audio('error1'), this.game.add.audio('error2'), this.game.add.audio('error3'), this.game.add.audio('error4')];
 
         this.staticEffect.fixedToCamera = true;
 
@@ -598,7 +599,7 @@ var GameScene =
         if (this.game.camera.x == this.var._kitchenPosX && (this.chica.getPos()._name == 'kitchen' || this.freddy.getPos()._name == 'kitchen') && !this.watchingKitchen)
         {
             this.watchingKitchen = true;
-            this.kitchenRnd = Math.floor(Math.random() * (5 - 0));
+            this.kitchenRnd = Math.floor(Math.random() * (4 - 0));
             this._kitchenSound[this.kitchenRnd].play();
         }
 

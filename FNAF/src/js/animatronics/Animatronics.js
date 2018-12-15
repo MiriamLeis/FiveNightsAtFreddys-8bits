@@ -65,14 +65,17 @@ Animatronics.prototype.changeInfo = function(night)
 };
 Animatronics.prototype.moveEffect = function(game, staticEffect)
 {  
+    var rnd = Math.floor(Math.random() * (4 - 0));
+    staticEffect._audio[rnd].play();
     staticEffect.alpha = 1;
-    game.time.events.add(3000, function()
+
+    staticEffect._audio[rnd].onStop.add(function()
     {
         if (game.camera.x < this.var._showStagePosX)
             staticEffect.alpha = 0;
         else
             staticEffect.alpha = 0.1;
-    }, this)
+    }, this);
 };
 Animatronics.prototype.changeNight = function(night)
 {

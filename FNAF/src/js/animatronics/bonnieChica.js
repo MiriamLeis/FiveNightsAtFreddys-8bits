@@ -165,8 +165,8 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                         this.moveEffect(game, staticEffect);
                     
                     var audioRandom = Math.random() * (1 - 0)
-                    if(audioRandom > 0.5)
-                    this._moveSound.play();
+                    if(audioRandom > 0.8)
+                        this._moveSound.play();
 
                     this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
                 }
