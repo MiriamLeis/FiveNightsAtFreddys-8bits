@@ -44,6 +44,7 @@ Foxy.prototype.constructor = Foxy;
 
 Foxy.prototype.move = function(door, battery, staticEffect)
 {
+    this.isOfficiallyAttacking = false;
     this.startedMoving = true;
 
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);
@@ -77,7 +78,7 @@ Foxy.prototype.move = function(door, battery, staticEffect)
 };
 Foxy.prototype.spotted = function(Var, door, battery, staticEffect)
 {
-    if(this.game.camera.x == Var._pirateCovePosX  && !this._pos._attack)
+    if(this.game.camera.x == Var._pirateCovePosX  && !this._pos._attack && !this.isOfficiallyAttacking)
     {
         this.game.time.events.remove(this.movement);
         this.move(door, battery, staticEffect);
@@ -130,8 +131,6 @@ Foxy.prototype.realAttack = function(door, battery, staticEffect)
     {
         this._moveSound.play();
 
-        this.isOfficiallyAttacking = false;
-
         this._moveSound.onStop.add(function() 
         {  
             if(this.game.camera.x == this.var._pirateCovePosX)
@@ -163,7 +162,6 @@ Foxy.prototype.runAnim = function(door, battery, staticEffect)
         {
             this.runSound.stop();
             
-            console.log("hola");
             this.spottedMoving = false;
             this.runSprite.alpha = 0;
             this.runSprite.animations.stop('run');

@@ -174,7 +174,8 @@ var GameScene =
                                 this.game.add.audio('animAttack'),
                                 this.game.add.audio('foxyKnock'),
                                 this.game.add.audio('foxyRun'),
-                                this.game.add.sprite(0, 0, 'foxyRun'));
+                                this.game.add.sprite(0, 0, 'foxyRun'),
+                                this.bonnie);
 
         //===================================================OFFICE 2.0=================================================================
 
@@ -334,6 +335,7 @@ var GameScene =
         { 
             if (this.inOffice) 
             {
+                this.monitorDown.stop();
                 this.monitorUp.play();
 
                 this.game.camera.x = this.monitor.LastPos();
@@ -363,6 +365,7 @@ var GameScene =
             }
             else 
             {
+                this.monitorUp.Down();
                 this.monitorDown.play();
 
                 this.game.camera.x = this.lastPosOffice;
@@ -371,6 +374,13 @@ var GameScene =
                 this.soundLight_fan.volume = 0.1;
 
                 this.mapEdge.alpha = 0;
+                if(this.staticEffect.alpha == 1)
+                {
+                    this.staticEffect._audio[0].stop();
+                    this.staticEffect._audio[1].stop();
+                    this.staticEffect._audio[2].stop();
+                    this.staticEffect._audio[3].stop();
+                }
                 this.staticEffect.alpha = 0;
                 this.REC.alpha = 0;
                 this.RECPoint.alpha = 0;
@@ -660,7 +670,6 @@ var GameScene =
                 this.pirateSong.stop();
             this.haveJustArrived = true;
         }
-
         //======================Bonnie=========
 
         this.bonnie.foxyAndMe(this.foxy, this.game, this.staticEffect);

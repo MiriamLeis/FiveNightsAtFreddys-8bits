@@ -69,8 +69,9 @@ Animatronics.prototype.moveEffect = function(game, staticEffect)
     staticEffect._audio[rnd].play();
     staticEffect.alpha = 1;
 
-    staticEffect._audio[rnd].onStop.add(function()
+    game.time.events.add(3000, function()
     {
+        staticEffect._audio[rnd].stop();
         if (game.camera.x < this.var._showStagePosX)
             staticEffect.alpha = 0;
         else
