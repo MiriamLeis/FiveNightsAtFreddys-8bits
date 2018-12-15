@@ -365,7 +365,7 @@ var GameScene =
             }
             else 
             {
-                this.monitorUp.Down();
+                this.monitorUp.stop();
                 this.monitorDown.play();
 
                 this.game.camera.x = this.lastPosOffice;

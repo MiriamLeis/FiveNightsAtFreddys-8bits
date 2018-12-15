@@ -19,7 +19,8 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSou
     this.isAttacking = false;
     this.isOfficiallyAttacking = false;
     this.spottedMoving = false;
-
+    this.alreadyAttacked = false;
+    this.realAttackStarted = false;
     Animatronics.apply(this,[sprite, attackSound, moveSound,
                             //ruta
                             [new RoomStates(this.var._foxyRoom1X, this.var._foxyRoom1Y, room1, this.var, 1, false),
@@ -27,9 +28,9 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSou
                             new RoomStates(this.var._foxyRoom3X, this.var._foxyRoom3Y, room3, this.var, 3, false),
                             new RoomStates(this.var._foxyRoom4X, this.var._foxyRoom4Y, room3, this.var, 0, true)],
                             //rango de horas de activacion
-                            [{min: 3, max: 6}, {min: 1, max: 5}, {min: 1, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 0}],
+                            [{min: 0, max: 0}, {min: 1, max: 5}, {min: 1, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 30, max: 40}, {min: 20, max: 32}, {min: 15, max: 25}, {min: 10, max: 15}, {min: 7, max: 12}, {min: 6, max: 10}], this.var]);
+                            [{min: 3, max: 5}, {min: 20, max: 32}, {min: 15, max: 25}, {min: 10, max: 15}, {min: 7, max: 12}, {min: 6, max: 10}], this.var]);
     this._sprite.visible = false;
 
     //Sonidos
@@ -44,7 +45,12 @@ Foxy.prototype.constructor = Foxy;
 
 Foxy.prototype.move = function(door, battery, staticEffect)
 {
-    this.isOfficiallyAttacking = false;
+    this.game.time.events.add (200, function()
+    {
+        this.isOfficiallyAttacking = false;
+        if(this.alreadyAttacked)
+            this.alreadyAttacked = false;
+    },this);
     this.startedMoving = true;
 
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);
@@ -83,7 +89,7 @@ Foxy.prototype.spotted = function(Var, door, battery, staticEffect)
         this.game.time.events.remove(this.movement);
         this.move(door, battery, staticEffect);
     }
-    else if(this.game.camera.x == this.var._westHallPosX && this._pos._attack && !this.isOfficiallyAttacking)
+    else if(this.game.camera.x == this.var._westHallPosX && this._pos._attack && !this.isOfficiallyAttacking && !this.realAttackStarted)
     {
         this.isOfficiallyAttacking = true;
         this.game.time.events.remove(this.attacking);
@@ -114,8 +120,7 @@ Foxy.prototype.attackSpotted = function(door, battery, staticEffect)
 };
 Foxy.prototype.realAttack = function(door, battery, staticEffect)
 {
-    //Mirar si cambiamos el tiempo
- 
+    this.realAttackStarted = true;
     this.runSprite.alpha = 0;
     if(!door.getActive() && !battery.emptyBattery())
     {
@@ -133,16 +138,21 @@ Foxy.prototype.realAttack = function(door, battery, staticEffect)
 
         this._moveSound.onStop.add(function() 
         {  
-            if(this.game.camera.x == this.var._pirateCovePosX)
-                this.moveEffect(this.game, staticEffect);
+            if(!this.alreadyAttacked )
+            {
+                this.alreadyAttacked = true;
+                if(this.game.camera.x == this.var._pirateCovePosX)
+                    this.moveEffect(this.game, staticEffect);
 
-            this._path[3]._image.alpha = 0;
-            this._pos = this._path[this._pos._connect];
-            this._pos._image.alpha = 1;
-            this._sprite.visible = false;
-            this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
-
-            this.move(door, battery, staticEffect);
+                this._path[3]._image.alpha = 0;
+                this._pos = this._path[this._pos._connect];
+                this._pos._image.alpha = 1;
+                this._sprite.visible = false;
+                this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+                
+                this.realAttackStarted = false;
+                this.move(door, battery, staticEffect);
+            }
         }, this);
     }
         
