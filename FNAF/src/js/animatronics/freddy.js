@@ -51,6 +51,17 @@ function Freddy(sprite, darkFreddy, attack, attackSound, moveSound, laughSounds,
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
 
+Freddy.prototype.randomAnim = function(game)
+{
+    if (this._sprite.visible || this._sprite.alpha == 1)
+    {
+        this._sprite.frame = 1
+        game.time.events.add(1000, function()
+        {
+            this._sprite.frame = 0;
+        }, this);
+    }
+}
 Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
 {
     this.startedMoving = true;

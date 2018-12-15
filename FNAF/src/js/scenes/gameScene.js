@@ -455,6 +455,13 @@ var GameScene =
 
         this.haveJustArrived = true;
         this.watchingKitchen = false;
+
+        this.bonnieEventInProcess = false;
+        this.bonnieAnimDone = false;
+        this.chicaEventInProcess = false;
+        this.chicaAnimDone = false;
+        this.freddyEventInProcess = false;
+        this.freddyAnimDone = false;
     },
 
 // **************************************************************************************************************************************************** //
@@ -673,6 +680,57 @@ var GameScene =
         //======================Bonnie=========
 
         this.bonnie.foxyAndMe(this.foxy, this.game, this.staticEffect);
+
+        //======================Animatronics=========
+
+        if (this.night.getNight() >= 4)
+        {
+            var rnd = Math.random();
+            if (rnd > 0.9)
+                if (this.game.camera.x == this.bonnie.getPos()._posCam.x && this.bonnie.getPos()._name != "showStage" && !this.bonnieAnimDone)
+                {
+                    this.bonnie.randomAnim(this.game);
+                    this.bonnieAnimDone = true;
+                }
+                else if (this.game.camera.x == this.chica.getPos()._posCam.x && this.chica.getPos()._name != "showStage" && !this.chicaAnimDone)
+                {
+                    this.chica.randomAnim(this.game);
+                    this.chicaAnimDone = true;
+                }
+                else if (this.game.camera.x == this.freddy.getPos()._posCam.x && this.freddy.getPos()._name != "showStage" && !this.freddyAnimDone)
+                {
+                    this.freddy.randomAnim(this.game);
+                    this.freddyAnimDone = true;
+                }
+        }
+
+        if (this.bonnieAnimDone && !this.bonnieEventInProcess)
+        {
+            this.bonnieEventInProcess = true;
+            this.game.time.events.add(10000, function()
+            {
+                this.bonnieAnimDone = false;
+                this.bonnieEventInProcess = false;
+            }, this);
+        }
+        else if (this.chicaAnimDone && !this.chicaEventInProcess)
+        {
+            this.chicaEventInProcess = true;
+            this.game.time.events.add(10000, function()
+            {
+                this.chicaAnimDone = false;
+                this.chicaEventInProcess = false;
+            }, this);
+        }
+        else if (this.freddyAnimDone && !this.freddyEventInProcess)
+        {
+            this.freddyEventInProcess = true;
+            this.game.time.events.add(10000, function()
+            {
+                this.freddyAnimDone = false;
+                this.freddyEventInProcess = false;
+            }, this);
+        }
     }
 
 }

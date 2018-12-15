@@ -3,7 +3,7 @@ var Animatronics = require('./Animatronics.js');
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, attackSound, moveSound,path, hour, actTime, attackTime, Var)
+function BonnieChica(sprite, attackSound, moveSound, path, hour, actTime, attackTime, Var)
 {
     Animatronics.apply(this,[sprite, attackSound, moveSound, path, hour, actTime, Var]);
     
@@ -17,6 +17,17 @@ function BonnieChica(sprite, attackSound, moveSound,path, hour, actTime, attackT
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
 
+BonnieChica.prototype.randomAnim = function(game)
+{
+    if (this._sprite.visible || this._sprite.alpha == 1)
+    {
+        this._sprite.frame = 1
+        game.time.events.add(1000, function()
+        {
+            this._sprite.frame = 0;
+        }, this);
+    }
+}
 BonnieChica.prototype.preChangeNight = function(night)
 {
     this.attackTimeIni = this.attackTime[night];
