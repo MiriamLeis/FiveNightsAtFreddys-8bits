@@ -6,10 +6,10 @@ function Const()
     this._titlePosY = 50;
 
     this._nGPosX = 50; 
-    this._nGPosY = 600 - 250;
+    this._nGPosY = 600 - 175;
 
     this._contPosX = 50; 
-    this._contPosY = 600 - 180;
+    this._contPosY = 600 - 100;
 
     this._freddyPosX = 800 - 350; 
     this._freddyPosY = 0;
