@@ -52,7 +52,7 @@ function Const()
     //Edges
     this._edgeIzqPosX = 0;
     this._edgeIzqPosY = 0;
-    this._edgeDerPosX = this._tamX - 45;
+    this._edgeDerPosX = this._tamX - 325;
     this._edgeDerPosY = 0;
 
     //Cameras
