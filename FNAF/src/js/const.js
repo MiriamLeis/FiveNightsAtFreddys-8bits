@@ -23,6 +23,12 @@ function Const()
 
     this._timeForReset = 1000;
 
+    //Mute Call
+    this._muteCallPosX = (this._tamX / 2) - 40;
+    this._muteCallPosY = 10;
+
+    this._muteCallScale = 0.5;
+
     //Luces
     this._lightButtonIzqPosX = 157;
     this._lightButtonIzqPosY = 274;

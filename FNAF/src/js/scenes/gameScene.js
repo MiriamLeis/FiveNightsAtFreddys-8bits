@@ -61,6 +61,14 @@ var GameScene =
         this.soundLight_fan.volume = 0.1;
         this.soundLight_fan.play();
 
+        //Phone Guy
+        this.phoneGuy = [this.game.add.audio('call1'), this.game.add.audio('call2'), this.game.add.audio('call3'), this.game.add.audio('call4'), this.game.add.audio('call5')];
+        this.phoneGuy[0].volume = 1.5;
+        this.phoneGuy[1].volume = 1.5;
+        this.phoneGuy[2].volume = 1.5;
+        this.phoneGuy[3].volume = 1.5;
+        this.phoneGuy[4].volume = 1.5;
+
         //Battery out
         this.soundOutBattery = this.game.add.audio('outBattery');
 
@@ -245,24 +253,45 @@ var GameScene =
                                                     this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),
                                                     this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
 
-        //===================================================ANIMATRONICS MOVE===========================================================
+        //=======================================================PHONE GUY===========================================================
+        this.actualNight = this.night.getNight();
+        if (this.actualNight <= 5)
+        {
+            this.phoneGuy[this.actualNight - 1].play();
+            
+            this.game.time.events.add(5000, function()
+            {
+                this.muteCall = this.game.add.button(this.var._muteCallPosX, this.var._muteCallPosY, 'muteCall', function()
+                {
+                    this.phoneGuy[this.actualNight - 1].stop();
+                    this.muteCall.inputEnabled = false;
+                    this.muteCall.visible = false;
+                }, this, 1, 0);
+
+                this.muteCall.scale.setTo(this.var._muteCallScale, this.var._muteCallScale);
+                this.muteCall.alpha = this.var._changeViewAlpha;
+                this.muteCall.fixedToCamera = true;
+            }, this);
+        }
+
+        //=======================================================ANIMATRONICS MOVE===========================================================
 
         //Bonnie
-        this.bonnie.preChangeNight(this.night.getNight());
+        this.bonnie.preChangeNight(this.actualNight);
         this.game.time.events.add(this.bonnie.getHour() * this.var._timeForHour, function()
         {
             this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft, this.freddy)
         }, this);
 
         //Chica
-        this.chica.preChangeNight(this.night.getNight());
+        this.chica.preChangeNight(this.actualNight);
         this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
         {
            this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight, this.freddy)
         }, this);
 
         //Freddy
-        this.freddy.changeNight(this.night.getNight());
+        this.freddy.changeNight(this.actualNight);
         
         this.game.time.events.add(this.freddy.getHour() * this.var._timeForHour, function()
         {
@@ -270,7 +299,7 @@ var GameScene =
         }, this);
 
         //Foxy
-        this.foxy.changeNight(this.night.getNight());
+        this.foxy.changeNight(this.actualNight);
         
         this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
         {
@@ -469,6 +498,16 @@ var GameScene =
 
     update: function () 
     {
+
+        //------Phone Guy-----
+        if (!this.phoneGuy[this.actualNight - 1].isPlaying && this.muteCall.visible)
+        {
+            this.muteCall.visible = false;
+            this.muteCall.inputEnabled = false;
+        }
+
+        //------General------
+
         if (this.game.input.keyboard.addKey(Phaser.Keyboard.ESC).isDown)
             this.game.state.start('menu');
 
@@ -683,7 +722,7 @@ var GameScene =
 
         //======================Animatronics=========
 
-        if (this.night.getNight() >= 4)
+        if (this.night.getNight() >= 4 && (!this.bonnieAnimDone || !this.chicaAnimDone || !this.freddyAnimDone))
         {
             var rnd = Math.random();
             if (rnd > 0.9)

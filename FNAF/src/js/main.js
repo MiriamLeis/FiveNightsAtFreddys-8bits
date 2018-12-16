@@ -43,6 +43,13 @@ var PreloaderScene =
       this.game.load.audio('kidsScream', ['./audios/win/Kids_Scream.wav', './audios/win/Kids_Scream.mp3', './audios/win/Kids_Scream.ogg']);
     
   //Office
+      //Phone Guy
+      this.game.load.audio('call1', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call2', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call3', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call4', ['./audios/phoneGuy/Audio4.wav', './audios/phoneGuy/Audio4.mp3', './audios/phoneGuy/Audio4.ogg']);
+      this.game.load.audio('call5', ['./audios/phoneGuy/Audio5.wav', './audios/phoneGuy/Audio5.mp3', './audios/phoneGuy/Audio5.ogg']);
+
       //Ambient
       this.game.load.audio('ambient1', ['./audios/ambient/Ambient1.wav', './audios/ambient/Ambient1.mp3', './audios/ambient/Ambient1.ogg']);
       this.game.load.audio('ambient2', ['./audios/ambient/Ambient2.wav', './audios/ambient/Ambient2.mp3', './audios/ambient/Ambient2.ogg']);
@@ -146,6 +153,7 @@ var PreloaderScene =
     this.game.load.image('leftLight', './images/items/LeftLight.png');
     this.game.load.image('rightLight', './images/items/rightLight.png');
     this.game.load.spritesheet('battery', './images/items/battery.png', 143, 66, 4);
+    this.game.load.spritesheet('muteCall', './images/items/MuteCall.png', 198, 66, 2);
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
