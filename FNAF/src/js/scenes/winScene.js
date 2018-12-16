@@ -23,6 +23,18 @@ var WinScene =
         bellrings.play();
         this.hourText.animations.play('6am', 0.9, false);
 
+        //---------------------------------------------------IMAGES--------------------------------------------------------
+        this.introNight = [this.game.add.sprite(0, 0, '2Night'),
+                            this.game.add.sprite(0, 0, '3Night'),
+                            this.game.add.sprite(0, 0, '4Night'),
+                            this.game.add.sprite(0, 0, '5Night'),
+                            this.game.add.sprite(0, 0, '6Night')]
+        this.introNight[0].alpha = 0;
+        this.introNight[1].alpha = 0;
+        this.introNight[2].alpha = 0;
+        this.introNight[3].alpha = 0;
+        this.introNight[4].alpha = 0;
+
         //---------------------------------------------------CHANGE SCENE-----------------------------------------------------
         this.game.time.events.add(9000, function()
         {
@@ -40,7 +52,14 @@ var WinScene =
                     },this);
                 }
                 else
-                    this.game.state.start('game');
+                {
+                    this.game.sound.stopAll();
+                    this.introNight[this._night - 2].alpha = 1;
+                    this.game.time.events.add(3000, function()
+                    {
+                        this.game.state.start('game');
+                    }, this);
+                }
             }, this);
         },this);
     }

@@ -19,11 +19,11 @@ var GameScene =
     preload: function () 
     {
         this.var = new Const();
-        this.game.sound.stopAll();
     },
 
     create: function () 
     {
+        //=====================================================SOUND========================================================================
         this.game.world.resize(this.var._tamX * 13, this.var._tamY);
         this.game.camera.x = this.var._iniCamPos;
         this.realTimeToChange = this.var._timeForHour + this.game.time.now;
@@ -500,11 +500,12 @@ var GameScene =
     {
 
         //------Phone Guy-----
-        if (!this.phoneGuy[this.actualNight - 1].isPlaying && this.muteCall.visible)
-        {
-            this.muteCall.visible = false;
-            this.muteCall.inputEnabled = false;
-        }
+        if (this.actualNight < 6)
+            if (!this.phoneGuy[this.actualNight - 1].isPlaying && this.muteCall.visible)
+            {
+                this.muteCall.visible = false;
+                this.muteCall.inputEnabled = false;
+            }
 
         //------General------
 

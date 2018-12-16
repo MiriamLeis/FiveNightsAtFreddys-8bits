@@ -172,6 +172,12 @@ var PreloaderScene =
     this.game.load.image('freddyMenu', './images/animatronics/FreddyMenu.png');
     this.game.load.spritesheet('win', './images/texts/WIN.png', 450, 186, 7);
     this.game.load.image('end', './images/texts/END.png');
+    this.game.load.image('1Night', './images/texts/1Night.png');
+    this.game.load.image('2Night', './images/texts/2Night.png');
+    this.game.load.image('3Night', './images/texts/3Night.png');
+    this.game.load.image('4Night', './images/texts/4Night.png');
+    this.game.load.image('5Night', './images/texts/5Night.png');
+    this.game.load.image('6Night', './images/texts/6Night.png');
   },
 
   create: function () 
