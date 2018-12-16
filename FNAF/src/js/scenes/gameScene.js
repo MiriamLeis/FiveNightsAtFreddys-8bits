@@ -491,6 +491,7 @@ var GameScene =
         this.chicaAnimDone = false;
         this.freddyEventInProcess = false;
         this.freddyAnimDone = false;
+        this.rndFail = false;
     },
 
 // **************************************************************************************************************************************************** //
@@ -726,7 +727,8 @@ var GameScene =
         if (this.night.getNight() >= 4 && (!this.bonnieAnimDone || !this.chicaAnimDone || !this.freddyAnimDone))
         {
             var rnd = Math.random();
-            if (rnd > 0.9)
+            if (rnd > 0.9 && !this.rndFail)
+            {
                 if (this.game.camera.x == this.bonnie.getPos()._posCam.x && this.bonnie.getPos()._name != "showStage" && !this.bonnieAnimDone)
                 {
                     this.bonnie.randomAnim(this.game);
@@ -742,6 +744,16 @@ var GameScene =
                     this.freddy.randomAnim(this.game);
                     this.freddyAnimDone = true;
                 }
+            }
+            else
+            {
+                this.rndFail = true;
+
+                this.game.time.events.add(1000, function()
+                {
+                    this.rndFail = false;
+                }, this);
+            }
         }
 
         if (this.bonnieAnimDone && !this.bonnieEventInProcess)
