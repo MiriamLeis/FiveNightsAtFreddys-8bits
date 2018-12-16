@@ -178,6 +178,7 @@ var PreloaderScene =
     this.game.load.image('4Night', './images/texts/4Night.png');
     this.game.load.image('5Night', './images/texts/5Night.png');
     this.game.load.image('6Night', './images/texts/6Night.png');
+    this.game.load.image('Newspaper', './images/texts/Newspaper.png');
   },
 
   create: function () 

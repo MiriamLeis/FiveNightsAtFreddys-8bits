@@ -25,8 +25,8 @@ var Menu =
         var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');
 
         //---------------------------------------------------IMAGES--------------------------------------------------------
-        //this.getJob = this.game.add.sprite(0, 0, '');
-        //this.getJob.alpha = 0;
+        this.getJob = this.game.add.sprite(0, 0, 'Newspaper');
+        this.getJob.alpha = 0;
         this.introNight = [this.game.add.sprite(0, 0, '1Night'),
                             this.game.add.sprite(0, 0, '2Night'),
                             this.game.add.sprite(0, 0, '3Night'),
@@ -54,15 +54,16 @@ var Menu =
 
                 this.staticEffect.alpha = 0;
                 this.game.sound.stopAll();
-                /*this.getJob.alpha = 1;
+                this.getJob.alpha = 1;
+
                 this.game.time.events.add(5000, function()
-                {*/
+                {
                     this.introNight[0].alpha = 1;
                     this.game.time.events.add(3000, function()
                     {
                         this.game.state.start('game');
                     }, this);
-                //}, this);
+                }, this);
             }, this);
         }, this, 1, 0, 1);
 
@@ -81,37 +82,20 @@ var Menu =
                 this.game.sound.stopAll();
 
                 this._night = JSON.parse(localStorage.getItem('numNight'));
-
-                //Show introduction
-                /*if (this._night == null)
+                if(this._night == 7)
                 {
-                    this.getJob.alpha = 1;
-                    this.game.time.events.add(5000, function()
-                    {
-                        this.game.sound.stopAll();
-                        this.introNight[0].alpha = 1;
-                        this.game.time.events.add(1000, function()
-                        {
-                            this.game.state.start('game');
-                        }, this);
-                    }, this);
+                    localStorage.setItem("numNight", JSON.stringify(6));
+                    this.introNight[5].alpha = 1;
                 }
+                else if (this._night == null)
+                    this.introNight[0].alpha = 1;
                 else
-                {*/
-                    this.game.sound.stopAll();
-                    if(this._night == 7)
-                    {
-                        localStorage.setItem("numNight", JSON.stringify(6));
-                        this.introNight[5].alpha = 1;
-                    }
-                    else
-                        this.introNight[this._night - 1].alpha = 1;
+                    this.introNight[this._night - 1].alpha = 1;
 
-                    this.game.time.events.add(3000, function()
-                    {
-                        this.game.state.start('game');
-                    }, this);
-                //}
+                this.game.time.events.add(3000, function()
+                {
+                    this.game.state.start('game');
+                }, this);
             }, this);
         }, this, 1, 0, 1);
 
