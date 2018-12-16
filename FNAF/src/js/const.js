@@ -19,7 +19,7 @@ function Const()
     this._tamY = 594;
 
     this._iniCamPos = 396;
-    this._timeForHour = 100;
+    this._timeForHour = 90000;
 
     this._timeForReset = 1000;
 
