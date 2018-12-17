@@ -130,6 +130,8 @@ var Const = require('./const.js');
 function InsideMonitor (game, Rooms, camerasTexts)
 {
     this.var = new Const();
+    this.changeCamSound = game.add.audio('changeCam');
+    this.changeCamSound.volume = 0.5;
     
     this.cam1A = this.addButton(game, camerasTexts, Rooms.cameraPositions.ShowStage, this.var._cam1APosX, this.var._cam1APosY, this, 0);
     this.cam1B = this.addButton(game, camerasTexts, Rooms.cameraPositions.DinningRoom, this.var._cam1BPosX, this.var._cam1BPosY, this, 1);
@@ -170,6 +172,7 @@ InsideMonitor.prototype.changeActive = function(button, game, roomName, roomCam,
 
     button.frame = numCam + 11;
     roomName.frame = roomCam.nameFrame;
+    this.changeCamSound.play();
 }
 InsideMonitor.prototype.addButton = function(game, roomName, roomCam, posX, posY, button, numCam)
 {
@@ -256,6 +259,7 @@ function Animatronics(sprite, attackSound, moveSound, path, hours, actTime, Var)
     this._attackSound = attackSound;
 
     this._moveSound = moveSound;
+    this._moveSound.volume = 0.5;
 
     this._path = path; //Array de functions
     this._pos = this._path[0];
@@ -308,14 +312,18 @@ Animatronics.prototype.changeInfo = function(night)
 };
 Animatronics.prototype.moveEffect = function(game, staticEffect)
 {  
+    var rnd = Math.floor(Math.random() * (4 - 0));
+    staticEffect._audio[rnd].play();
     staticEffect.alpha = 1;
+
     game.time.events.add(3000, function()
     {
+        staticEffect._audio[rnd].stop();
         if (game.camera.x < this.var._showStagePosX)
             staticEffect.alpha = 0;
         else
             staticEffect.alpha = 0.1;
-    }, this)
+    }, this);
 };
 Animatronics.prototype.changeNight = function(night)
 {
@@ -359,11 +367,11 @@ function Bonnie(sprite, attackSound, moveSound)
                         new Room (this.var._bonnieRoom5X, this.var._bonnieRoom5Y, this.var._supplyClosetPosX, this.var._supplyClosetPosY, 'supplyCloset', 3, 5, null), 
                         new Room (this.var._bonnieRoom6X, this.var._bonnieRoom6Y, this.var._wHallCornerPosX, this.var._wHallCornerPosY, 'wHallCorner', 3, 4, null, true)],
                         //rango de horas de activacion
-                        [{min: 0, max: 0}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
+                        [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 5, max: 10}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
+                        [{min: 15, max: 30}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
                         //rango de segundos de ataque
-                        [{min: 5, max: 10}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
+                        [{min: 10, max: 15}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
 
 }
 Bonnie.prototype = Object.create(BonnieChica.prototype);
@@ -399,7 +407,7 @@ var Animatronics = require('./Animatronics.js');
  
 
 //----------------BonnieChica
-function BonnieChica(sprite, attackSound, moveSound,path, hour, actTime, attackTime, Var)
+function BonnieChica(sprite, attackSound, moveSound, path, hour, actTime, attackTime, Var)
 {
     Animatronics.apply(this,[sprite, attackSound, moveSound, path, hour, actTime, Var]);
     
@@ -413,6 +421,17 @@ function BonnieChica(sprite, attackSound, moveSound,path, hour, actTime, attackT
 BonnieChica.prototype = Object.create(Animatronics.prototype);
 BonnieChica.prototype.constructor = BonnieChica;
 
+BonnieChica.prototype.randomAnim = function(game)
+{
+    if (this._sprite.visible || this._sprite.alpha == 1)
+    {
+        this._sprite.frame = 1
+        game.time.events.add(1000, function()
+        {
+            this._sprite.frame = 0;
+        }, this);
+    }
+}
 BonnieChica.prototype.preChangeNight = function(night)
 {
     this.attackTimeIni = this.attackTime[night];
@@ -559,9 +578,13 @@ BonnieChica.prototype.move = function(game, otherAnimatronic, staticEffect, door
                 //Controlar que el efecto de static effect aparezca cuando miras donde estan o donde se van a mover
                     if ((game.camera.x == this._pos._posCam.x && game.camera.y == this._pos._posCam.y) || (game.camera.x == this._antPos._posCam.x && game.camera.y == this._antPos._posCam.y)) //HACER SI ESTA EN MONITOR
                         this.moveEffect(game, staticEffect);
-                }
+                    
+                    var audioRandom = Math.random() * (1 - 0)
+                    if(audioRandom > 0.8)
+                        this._moveSound.play();
 
-                this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
+                    this._sprite.x = this._pos._x;    this._sprite.y = this._pos._y;
+                }
 
                 if(!this.inOffice)
                 this.move(game, otherAnimatronic, staticEffect, door, light, freddy);
@@ -646,12 +669,12 @@ function Chica(sprite, attackSound, moveSound)
                         new Room (this.var._chicaRoom4X, this.var._chicaRoom4Y, this.var._kitchenPosX, this.var._kitchenPosY, 'kitchen', 1, null, null),
                         new Room (this.var._chicaRoom5X, this.var._chicaRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 1, 5, null), 
                         new Room (this.var._chicaRoom6X, this.var._chicaRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', 4, null, null, true)],
-                        //rango de horas de activacion
-                        [{min: 0, max: 0}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
+                        //rango de horas de activacion 
+                        [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 5, max: 10}, {min: 15, max: 30}, {min: 5, max: 10}, {min: 15, max: 20}, {min: 7, max: 10}, {min: 5, max: 8}],
+                        [{min: 20, max: 35}, {min: 15, max: 30}, {min: 5, max: 10}, {min: 15, max: 20}, {min: 7, max: 10}, {min: 5, max: 8}],
                         //rango de segundos de ataque
-                        [{min: 5, max: 10}, {min: 8, max: 12}, {min: 7, max: 11}, {min: 6, max: 9}, {min: 3, max: 5}, {min: 3.5, max: 4.5}], this.var]);
+                        [{min: 10, max: 15}, {min: 8, max: 12}, {min: 7, max: 11}, {min: 6, max: 9}, {min: 3, max: 5}, {min: 3.5, max: 4.5}], this.var]);
 
 }
 Chica.prototype = Object.create(BonnieChica.prototype);
@@ -665,7 +688,7 @@ var Const = require('../const.js');
 
 
 //---------------------Foxy-------------------------//
-function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSprite)
+function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSound, runSprite)
 {
     this.var = new Const();
     this.game = game;
@@ -679,7 +702,9 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSpr
     this.startedMoving = false;
     this.isAttacking = false;
     this.isOfficiallyAttacking = false;
-
+    this.spottedMoving = false;
+    this.alreadyAttacked = false;
+    this.realAttackStarted = false;
     Animatronics.apply(this,[sprite, attackSound, moveSound,
                             //ruta
                             [new RoomStates(this.var._foxyRoom1X, this.var._foxyRoom1Y, room1, this.var, 1, false),
@@ -687,16 +712,29 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSpr
                             new RoomStates(this.var._foxyRoom3X, this.var._foxyRoom3Y, room3, this.var, 3, false),
                             new RoomStates(this.var._foxyRoom4X, this.var._foxyRoom4Y, room3, this.var, 0, true)],
                             //rango de horas de activacion
-                            [{min: 0, max: 0}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
+                            [{min: 3, max: 6}, {min: 1, max: 5}, {min: 1, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 10, max: 12}, {min: 8, max: 10}, {min: 6, max: 8}, {min: 5, max: 7}, {min: 5, max: 6}, {min: 4, max: 6}], this.var]);
+                            [{min: 30, max: 40}, {min: 20, max: 32}, {min: 15, max: 25}, {min: 10, max: 15}, {min: 7, max: 12}, {min: 6, max: 10}], this.var]);
     this._sprite.visible = false;
+
+    //Sonidos
+        this._moveSound.volume = 0.8;
+        //Run
+        this.runSound = runSound;
+        this.runSound.loop = true;
+
 }
 Foxy.prototype = Object.create(Animatronics.prototype);
 Foxy.prototype.constructor = Foxy;
 
-Foxy.prototype.move = function(door, battery)
+Foxy.prototype.move = function(door, battery, staticEffect)
 {
+    this.game.time.events.add (200, function()
+    {
+        this.isOfficiallyAttacking = false;
+        if(this.alreadyAttacked)
+            this.alreadyAttacked = false;
+    },this);
     this.startedMoving = true;
 
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);
@@ -723,50 +761,50 @@ Foxy.prototype.move = function(door, battery)
         this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
 
         if(!this._pos._attack)
-            this.move(door, battery);
+            this.move(door, battery, staticEffect);
         else 
-            this.attack(door, battery);
+            this.attack(door, battery, staticEffect);
     }, this);
 };
-Foxy.prototype.spotted = function(Var, door)
+Foxy.prototype.spotted = function(Var, door, battery, staticEffect)
 {
-
-    if(this.game.camera.x == Var._pirateCovePosX  && !this._pos._attack)
+    if(this.game.camera.x == Var._pirateCovePosX  && !this._pos._attack && !this.isOfficiallyAttacking)
     {
         this.game.time.events.remove(this.movement);
-        this.move(door);
+        this.move(door, battery, staticEffect);
     }
-    else if(this.game.camera.x == this.var._westHallPosX && this._pos._attack && !this.isOfficiallyAttacking)
+    else if(this.game.camera.x == this.var._westHallPosX && this._pos._attack && !this.isOfficiallyAttacking && !this.realAttackStarted)
     {
         this.isOfficiallyAttacking = true;
         this.game.time.events.remove(this.attacking);
-        this.attackSpotted(door);
+        this.attackSpotted(door, battery, staticEffect);
     }
 };
-Foxy.prototype.attack = function(door, battery)
+Foxy.prototype.attack = function(door, battery, staticEffect)
 {
     var timeToMove = Math.floor((Math.random() * (this._actualActTime.max - this._actualActTime.min) + this._actualActTime.min) * 1000);//Cambiar tiempos
     this.runSprite.alpha = 1;
 
     this.attacking = this.game.time.events.add (timeToMove, function()
     {  
-        this.realAttack(door, battery);
+        this.realAttack(door, battery, staticEffect);
     }, this);
 };
-Foxy.prototype.attackSpotted = function(door)
+Foxy.prototype.attackSpotted = function(door, battery, staticEffect)
 {
+    this.spottedMoving = true;
     this.runSprite.x = this.var._foxyRoom4X;
     this.runSprite.y = this.var._foxyRoom4Y;
     this.runSprite.animations.add('run');
     this.runSprite.animations.play('run', 5, true);
+    this.runSound.play();
 
-    this.runAnim(door);
+    this.runAnim(door, battery, staticEffect);
 
 };
-Foxy.prototype.realAttack = function(door, battery)
+Foxy.prototype.realAttack = function(door, battery, staticEffect)
 {
-    //Mirar si cambiamos el tiempo
- 
+    this.realAttackStarted = true;
     this.runSprite.alpha = 0;
     if(!door.getActive() && !battery.emptyBattery())
     {
@@ -780,35 +818,59 @@ Foxy.prototype.realAttack = function(door, battery)
     }
     else
     {
-        this._path[3]._image.alpha = 0;
-        this._pos = this._path[this._pos._connect];
-        this._pos._image.alpha = 1;
-        this._sprite.visible = false;
-        this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+        this._moveSound.play();
 
-        this.isOfficiallyAttacking = false;
+        this._moveSound.onStop.add(function() 
+        {  
+            if(!this.alreadyAttacked )
+            {
+                this.alreadyAttacked = true;
+                if(this.game.camera.x == this.var._pirateCovePosX)
+                    this.moveEffect(this.game, staticEffect);
+
+                this._path[3]._image.alpha = 0;
+                this._pos = this._path[this._pos._connect];
+                this._pos._image.alpha = 1;
+                this._sprite.visible = false;
+                this._sprite.x = this._pos._x;       this._sprite.y = this._pos._y;
+                
+                this.realAttackStarted = false;
+                this.move(door, battery, staticEffect);
+            }
+        }, this);
     }
         
 };
-Foxy.prototype.runAnim = function(door)
+Foxy.prototype.runAnim = function(door, battery, staticEffect)
 {
     this.game.time.events.add (200, function()
     {
-        this.runSprite.y = this.runSprite.y + 20;
+        this.notLookedWhileMoving();
+        if(this.spottedMoving && this.runSprite.y <= 430)
+        {
+            this.runSprite.y = this.runSprite.y + 20;
 
-        if(this.runSprite.y <= 430)
-            this.runAnim(door);
+            this.runAnim(door, battery, staticEffect);
+        }
         else
         {
+            this.runSound.stop();
+            
+            this.spottedMoving = false;
             this.runSprite.alpha = 0;
             this.runSprite.animations.stop('run');
 
-            this.attackingSpotted = this.game.time.events.add (2500, function()
+            this.attackingSpotted = this.game.time.events.add (5000, function()
             {  
-                this.realAttack(door);
+                this.realAttack(door, battery, staticEffect);
             }, this);
         }
     }, this);
+};
+Foxy.prototype.notLookedWhileMoving = function()
+{
+    if(this.game.camera.x != this.var._westHallPosX && this.spottedMoving)
+        this.spottedMoving = false; 
 };
 Foxy.prototype.startToMove = function()
 {
@@ -844,7 +906,7 @@ var Room = require('./room.js');
 
 
 //---------------------Freddy-------------------------//
-function Freddy(sprite, darkFreddy, attack, attackSound, move, song, endSong)
+function Freddy(sprite, darkFreddy, attack, attackSound, moveSound, laughSounds, intoTheOfficeSound, song, endSong)
 {
     this.var = new Const();
     
@@ -859,7 +921,7 @@ function Freddy(sprite, darkFreddy, attack, attackSound, move, song, endSong)
     this.lookAway = false;
     this.startedMoving = false;
 
-    Animatronics.apply(this,[sprite, attackSound, move,
+    Animatronics.apply(this,[sprite, attackSound, moveSound,
                             //ruta
                             [new Room (this.var._freddyRoom1X, this.var._freddyRoom1Y, this.var._showStagePosX, this.var._showStagePosY, 'showStage', 1, null, null), 
                             new Room (this.var._freddyRoom2X, this.var._freddyRoom2Y, this.var._dinningRoomPosX, this.var._dinningRoomPosY, 'diningRoom', 2, null,null), 
@@ -867,23 +929,40 @@ function Freddy(sprite, darkFreddy, attack, attackSound, move, song, endSong)
                             new Room (this.var._freddyRoom4X, this.var._freddyRoom4Y, this.var._kitchenPosX, this.var._kitchenPosY, 'kitchen', 4, null, null),
                             new Room (this.var._freddyRoom5X, this.var._freddyRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 5, null, null), 
                             new Room (this.var._freddyRoom6X, this.var._freddyRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', null, null, null, true)],
-                            //rango de horas de activacion
-                            [{min: 0, max: 0}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
+                            //rango de horas de activacion 
+                            [{min: 6, max: 6}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 8, max: 10}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+                            [{min: 2, max: 5}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
                             
     this._sprite.frame = 2;
 
     //Sonidos
         //musiquita
         this._song = song;
-        //final de musiquita
         this._endSong = endSong;
-
+        //risas
+        this._laughSounds = laughSounds;
+        this._laughSounds[0].volume = 0.2;
+        this._laughSounds[1].volume = 0.2;
+        this._laughSounds[2].volume = 0.2;
+        //in office
+        this._intoTheOfficeSound = intoTheOfficeSound;
+        this._intoTheOfficeSound.volume = 0.3;
 };
 Freddy.prototype = Object.create(Animatronics.prototype);
 Freddy.prototype.constructor = Freddy;
 
+Freddy.prototype.randomAnim = function(game)
+{
+    if (this._sprite.visible || this._sprite.alpha == 1)
+    {
+        this._sprite.frame = 1
+        game.time.events.add(1000, function()
+        {
+            this._sprite.frame = 0;
+        }, this);
+    }
+}
 Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
 {
     this.startedMoving = true;
@@ -892,10 +971,16 @@ Freddy.prototype.move = function(game, bonnie, chica, staticEffect)
     
     this.movement = game.time.events.add (timeToMove, function()
     {
-        if(timeToMove > 50)
+        var rnd = Math.random() * (1 - 0);
+        if (rnd > 0.5)
         {
-            this._moveSound.play();
+            var audio = Math.floor(Math.random() * (4 - 0));
+            if(audio == 3)
+                this._moveSound.play();
+            else
+                this._laughSounds[audio].play();
         }
+
         this._sprite.frame = 0;
         var antPos = this._pos;
         if(!this._pos._attack)
@@ -944,6 +1029,7 @@ Freddy.prototype.attack = function()
 Freddy.prototype.lookingAway = function()
 {
     this.lookAway = true;
+    this._intoTheOfficeSound.play();
 };
 Freddy.prototype.returnLookingAway = function()
 {
@@ -1046,10 +1132,10 @@ function Const()
     this._titlePosY = 50;
 
     this._nGPosX = 50; 
-    this._nGPosY = 600 - 250;
+    this._nGPosY = 600 - 175;
 
     this._contPosX = 50; 
-    this._contPosY = 600 - 180;
+    this._contPosY = 600 - 100;
 
     this._freddyPosX = 800 - 350; 
     this._freddyPosY = 0;
@@ -1062,6 +1148,12 @@ function Const()
     this._timeForHour = 90000;
 
     this._timeForReset = 1000;
+
+    //Mute Call
+    this._muteCallPosX = (this._tamX / 2) - 40;
+    this._muteCallPosY = 10;
+
+    this._muteCallScale = 0.5;
 
     //Luces
     this._lightButtonIzqPosX = 157;
@@ -1086,7 +1178,7 @@ function Const()
     //Edges
     this._edgeIzqPosX = 0;
     this._edgeIzqPosY = 0;
-    this._edgeDerPosX = this._tamX - 45;
+    this._edgeDerPosX = this._tamX - 325;
     this._edgeDerPosY = 0;
 
     //Cameras
@@ -1195,10 +1287,10 @@ function Const()
 
     this._spriteNumScale = 0.6;
 
-    this._timeToChange1 = 10000;
-    this._timeToChange2 = 5000;
-    this._timeToChange3 = 3000;
-    this._timeToChange4 = 2000;
+    this._timeToChange1 = 12000;
+    this._timeToChange2 = 8000;
+    this._timeToChange3 = 5000;
+    this._timeToChange4 = 4000;
 
     //==============================================================InsideMoniter===============================
 
@@ -1366,9 +1458,12 @@ module.exports = Const;
 },{}],11:[function(require,module,exports){
 'use strict';
 
-function Interact (sound) 
+function Interact (sound, errorSound) 
 {
     this._active = false;
+    this._block = false;
+    this._errorSound = errorSound;
+    this._errorSound.volume = 0.2;
     this._sound = sound;
 };
 Interact.prototype.resetInteract = function(){ this._active = false; }
@@ -1381,9 +1476,9 @@ module.exports = Interact;
 
 var Interact = require('./Interactions.js');
 
-function Door(game, posXButton, posYButton, posXDoor, posYDoor, sound)
+function Door(game, posXButton, posYButton, posXDoor, posYDoor, sound, errorSound)
 {
-    Interact.apply(this, [sound]);
+    Interact.apply(this, [sound, errorSound]);
     
     this.doorOpen = game.add.sprite(posXDoor, posYDoor, 'doorOpen', 2);
     this.doorOpenAnim = this.doorOpen.animations.add('open');
@@ -1411,26 +1506,31 @@ Door.prototype.reset = function()
 }
 Door.prototype.actionOnClick = function() 
 {
-    this._sound.play();
-    this.changeActive();
-    if (this._active)
+    if (!this._block)
     {
-        this.button.frame = 1;
-        this.doorOpenAnim.frame = 2;
-        this.doorCloseAnim.play(10, true);
-        this.doorCloseAnim.loop = false;
+        this._sound.play();
+        this.changeActive();
+        if (this._active)
+        {
+            this.button.frame = 1;
+            this.doorOpenAnim.frame = 2;
+            this.doorCloseAnim.play(10, true);
+            this.doorCloseAnim.loop = false;
+        }
+        else
+        {
+            this.button.frame = 0;
+            this.doorCloseAnim.frame = 0;
+            this.doorOpenAnim.play(10, true);
+            this.doorOpenAnim.loop = false;
+        }
     }
     else
-    {
-        this.button.frame = 0;
-        this.doorCloseAnim.frame = 0;
-        this.doorOpenAnim.play(10, true);
-        this.doorOpenAnim.loop = false;
-    }
+        this._errorSound.play();
 }
 Door.prototype.enabledInput = function(b)
 {
-    this.button.inputEnabled = b;
+    this._block = !b;
 }
 
 module.exports = Door;
@@ -1440,11 +1540,10 @@ module.exports = Door;
 var Interact = require('./Interactions.js');
 var Const = require('../const.js');
 
-function Light(game, posXButton, posYButton, sprite, animSprite, anim, sound)
+function Light(game, posXButton, posYButton, sprite, animSprite, anim, sound, errorSound, windowscare)
 {
     this.var = new Const();
-    Interact.apply(this, [sound]);
-    this._sound.loop = true;
+    Interact.apply(this, [sound, errorSound]);
 
     this.light = sprite;
     this.light.visible = false;
@@ -1455,6 +1554,12 @@ function Light(game, posXButton, posYButton, sprite, animSprite, anim, sound)
     this.animSprite.alpha = 0;
 
     this.anim = anim;
+
+    this.windowscareAlreadySound = false;
+
+    //Sounds
+    this._sound.loop = true;
+    this._windowscare = windowscare;
 };
 
 Light.prototype = Object.create(Interact.prototype);
@@ -1469,27 +1574,44 @@ Light.prototype.reset = function()
 }
 Light.prototype.turnOff = function() 
 {
-    this.changeActive();
-    if(this._active)
+    if (!this._block)
     {
-        this._sound.play();
-        this.button.frame = 1;
-        this.light.visible = true;
-        
-        if(this.anim.isAttacking())
-            this.animSprite.alpha = 1;
+        this.changeActive();
+        if(this._active)
+        {
+            this._sound.play();
+            this.button.frame = 1;
+            this.light.visible = true;
+            
+            if(this.anim.isAttacking())
+            {
+                this.animSprite.alpha = 1;
+                if (!this.windowscareAlreadySound)
+                {
+                    this._windowscare.play();
+                    this.windowscareAlreadySound = true;
+                }
+            }
+            else
+            {
+                if (this.windowscareAlreadySound)
+                    this.windowscareAlreadySound = false;
+            }
+        }
+        else
+        {
+            this._sound.stop();
+            this.button.frame = 0;
+            this.light.visible = false;
+            this.animSprite.alpha = 0;
+        }
     }
     else
-    {
-        this._sound.stop();
-        this.button.frame = 0;
-        this.light.visible = false;
-        this.animSprite.alpha = 0;
-    }
+        this._errorSound.play();
 }
 Light.prototype.enabledInput = function(b)
 {
-    this.button.inputEnabled = b;
+    this._block = !b;
 }
 module.exports = Light;
 
@@ -1528,12 +1650,28 @@ var PreloaderScene =
     // TODO: load here the assets for the game
   
   //------------------------------------------------------AUDIOS------------------------------------------
-    //Office
+  //Menu
+      this.game.load.audio('menuSound', ['./audios/Menu_music.wav', './audios/Menu_music.mp3', './audios/Menu_music.ogg']);
+  
+  //Death
+      this.game.load.audio('deathSound', ['./audios/death.wav', './audios/death.mp3', './audios/death.ogg']);
+
+  //Win
+      this.game.load.audio('bellrings', ['./audios/win/Bellrings.wav', './audios/win/Bellrings.mp3', './audios/win/Bellrings.ogg']);
+      this.game.load.audio('kidsScream', ['./audios/win/Kids_Scream.wav', './audios/win/Kids_Scream.mp3', './audios/win/Kids_Scream.ogg']);
+    
+  //Office
+      //Phone Guy
+      this.game.load.audio('call1', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call2', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call3', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call4', ['./audios/phoneGuy/Audio4.wav', './audios/phoneGuy/Audio4.mp3', './audios/phoneGuy/Audio4.ogg']);
+      this.game.load.audio('call5', ['./audios/phoneGuy/Audio5.wav', './audios/phoneGuy/Audio5.mp3', './audios/phoneGuy/Audio5.ogg']);
+
       //Ambient
       this.game.load.audio('ambient1', ['./audios/ambient/Ambient1.wav', './audios/ambient/Ambient1.mp3', './audios/ambient/Ambient1.ogg']);
       this.game.load.audio('ambient2', ['./audios/ambient/Ambient2.wav', './audios/ambient/Ambient2.mp3', './audios/ambient/Ambient2.ogg']);
       this.game.load.audio('ambient3', ['./audios/ambient/Ambient3.wav', './audios/ambient/Ambient3.mp3', './audios/ambient/Ambient3.ogg']);
-      this.game.load.audio('ambient4', ['./audios/ambient/Ambient4.wav', './audios/ambient/Ambient4.mp3', './audios/ambient/Ambient4.ogg']);
       this.game.load.audio('light_fan', ['./audios/ambient/Light_Fan.wav', './audios/ambient/Light_Fan.mp3', './audios/ambient/Light_Fan.ogg']);
 
   //Interactions
@@ -1546,9 +1684,27 @@ var PreloaderScene =
       this.game.load.audio('lightTurnOn', ['./audios/interactions/lights/Turn_on.wav', './audios/interactions/lights/Turn_on.mp3', './audios/interactions/lights/Turn_on.ogg']);
       this.game.load.audio('lightJumpscare', ['./audios/interactions/lights/Windowscare.wav', './audios/interactions/lights/Windowscare.mp3', './audios/interactions/lights/Windowscare.ogg']);
 
+  //Monitor
+      //Interact
+      this.game.load.audio('monitorUp', ['./audios/monitor/Put_up.wav', './audios/monitor/Put_up.mp3', './audios/monitor/Put_up.ogg']);
+      this.game.load.audio('monitorDown', ['./audios/monitor/Put_down.wav', './audios/monitor/Put_down.mp3', './audios/monitor/Put_down.ogg']);
+      //Error
+      this.game.load.audio('error1', ['./audios/monitor/error/Garble1.wav', './audios/monitor/error/Garble1.mp3', './audios/monitor/error/Garble1.ogg']);
+      this.game.load.audio('error2', ['./audios/monitor/error/Garble2.wav', './audios/monitor/error/Garble2.mp3', './audios/monitor/error/Garble2.ogg']);
+      this.game.load.audio('error3', ['./audios/monitor/error/Garble3.wav', './audios/monitor/error/Garble3.mp3', './audios/monitor/error/Garble3.ogg']);
+      this.game.load.audio('error4', ['./audios/monitor/error/Garble4.wav', './audios/monitor/error/Garble4.mp3', './audios/monitor/error/Garble4.ogg']);
+      //Buttons
+      this.game.load.audio('changeCam', ['./audios/monitor/changeCam/change.wav', './audios/monitor/changeCam/change.mp3', './audios/monitor/changeCam/change.ogg']);
+  
   //Battery
       this.game.load.audio('outBattery', ['./audios/battery/Power_down.wav', './audios/battery/Power_down.mp3', './audios/battery/Power_down.ogg']);
   
+  //Kitchen
+      this.game.load.audio('kitchen1', ['./audios/kitchen/kitchen1.wav', './audios/kitchen/kitchen1.mp3', './audios/kitchen/kitchen1.ogg']);
+      this.game.load.audio('kitchen2', ['./audios/kitchen/kitchen2.wav', './audios/kitchen/kitchen2.mp3', './audios/kitchen/kitchen2.ogg']);
+      this.game.load.audio('kitchen3', ['./audios/kitchen/kitchen3.wav', './audios/kitchen/kitchen3.mp3', './audios/kitchen/kitchen3.ogg']);
+      this.game.load.audio('kitchen4', ['./audios/kitchen/kitchen4.wav', './audios/kitchen/kitchen4.mp3', './audios/kitchen/kitchen4.ogg']);
+
   //Animatronics
       this.game.load.audio('animAttack', ['./audios/animatronics/Scream.wav', './audios/animatronics/Scream.mp3', './audios/animatronics/Scream.ogg']);
       this.game.load.audio('deepSteps', ['./audios/animatronics/Deep_steps.wav', './audios/animatronics/Deep_steps.mp3', './audios/animatronics/Deep_steps.ogg']);
@@ -1556,6 +1712,17 @@ var PreloaderScene =
     //Freddy
       this.game.load.audio('freddySong', ['./audios/animatronics/freddy/power out/Music_box.wav', './audios/animatronics/freddy/power out/Music_box.mp3', './audios/animatronics/freddy/power out/Music_box.ogg']);
       this.game.load.audio('freddyEndSong', ['./audios/animatronics/freddy/power out/End_song.wav', './audios/animatronics/freddy/power out/End_song.mp3', './audios/animatronics/freddy/power out/End_song.ogg']);
+      //Laugh
+      this.game.load.audio('freddyLaugh1', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_1d.ogg']);
+      this.game.load.audio('freddyLaugh2', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_2d.ogg']);
+      this.game.load.audio('freddyLaugh3', ['./audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.wav', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.mp3', './audios/animatronics/freddy/moves/laugh/Laugh_Giggle_Girl_8d.ogg']);
+      //Footsteps
+      this.game.load.audio('freddyInOffice', ['./audios/animatronics/freddy/moves/footsteps/Running_fast.wav', './audios/animatronics/freddy/moves/footsteps/Running_fast.mp3', './audios/animatronics/freddy/moves/footsteps/Running_fast.ogg']);
+
+    //Foxy
+      this.game.load.audio('foxyKnock', ['./audios/animatronics/foxy/attack/Knock2.wav', './audios/animatronics/foxy/attack/Knock2.mp3', './audios/animatronics/foxy/attack/Knock2.ogg']);
+      this.game.load.audio('foxyRun', ['./audios/animatronics/foxy/attack/Run.wav', './audios/animatronics/foxy/attack/Run.mp3', './audios/animatronics/foxy/attack/Run.ogg']);
+      this.game.load.audio('foxySong', ['./audios/animatronics/foxy/pirateCove/Pirate_song2.wav', './audios/animatronics/foxy/pirateCove/Pirate_song2.mp3', './audios/animatronics/foxy/pirateCove/Pirate_song2.ogg']);
 
   //----------------------------------------------IMAGES AND SPRITESHEETS---------------------------------  
     //Rooms
@@ -1604,6 +1771,7 @@ var PreloaderScene =
     this.game.load.image('leftLight', './images/items/LeftLight.png');
     this.game.load.image('rightLight', './images/items/rightLight.png');
     this.game.load.spritesheet('battery', './images/items/battery.png', 143, 66, 4);
+    this.game.load.spritesheet('muteCall', './images/items/MuteCall.png', 198, 66, 2);
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
@@ -1622,6 +1790,13 @@ var PreloaderScene =
     this.game.load.image('freddyMenu', './images/animatronics/FreddyMenu.png');
     this.game.load.spritesheet('win', './images/texts/WIN.png', 450, 186, 7);
     this.game.load.image('end', './images/texts/END.png');
+    this.game.load.image('1Night', './images/texts/1Night.png');
+    this.game.load.image('2Night', './images/texts/2Night.png');
+    this.game.load.image('3Night', './images/texts/3Night.png');
+    this.game.load.image('4Night', './images/texts/4Night.png');
+    this.game.load.image('5Night', './images/texts/5Night.png');
+    this.game.load.image('6Night', './images/texts/6Night.png');
+    this.game.load.image('Newspaper', './images/texts/Newspaper.png');
   },
 
   create: function () 
@@ -1699,7 +1874,7 @@ Night.prototype.startNight = function()
 }
 Night.prototype.finishNight = function()
 {
-    if(this._night < 6)
+    if(this._night <= 6)
     {
         this._night++;
         localStorage.setItem("numNight", JSON.stringify(this._night));
@@ -1718,57 +1893,6 @@ Night.prototype.changeHour = function(battery)
     }
 }
 module.exports = Night;
-//Se veran si se añaden mas
-
-
-
-
-
-    /*//Freddy
-    var pathFreddy = [];
-    pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
-    pathFreddy.push(new Room ('showStage', pathFreddy[1], null, null));
-    pathFreddy.push(new Room ('diningRoom', pathFreddy[2], null, null));
-    pathFreddy.push(new Room ('restroom', pathFreddy[3], null, null));
-    pathFreddy.push(new Room ('kitchen', pathFreddy[4], null, null));
-    pathFreddy.push(new Room ('eastHall', pathFreddy[5], null, null));
-    pathFreddy.push(new Room ('eHallCorner', null, null, null, Freddy.attack()));
-
-    this._Freddy = new Freddy('freddy', '', '', pathFreddy, 0, [[null, null], [null, null], [3, 4], [2, 3], [0, 1], [0, 0]], [[null, null], [null, null], [,], [,], [,], [,]]);
-
-    //Foxy
-    var pathFoxy = []; //Mirar mejor
-    pathFoxy.push('hide');
-    pathFoxy.push('half-hide');
-    pathFoxy.push('spotted');
-    pathFoxy.push('running');
-
-    this._Foxy = new Foxy('foxy', '', 'foxyRun', pathFoxy, 0, [[null, null], [null, null], [3, 4], [2, 3], [0, 1], [0, 0]], [[, ], [, ], [,], [,], [,], [,]]);*/
-
-    //Bonnie
-    /*var path = [];
-    path.push(new Room ('showStage', 1, null, null));
-    path.push(new Room ('diningRoom', 2, path[3], null));
-    path.push(new Room ('backStage', 1, null, null));
-    path.push(new Room ('westHall', 1, 4, path[5]));
-    path.push(new Room ('supplyCloset', path[3], path[5], null));
-    path.push(new Room ('wHallCorner', path[3], path[4], null, this.attack()));*/
-
-    /*this.hour =  [];
-    this.hour.push({min: 2, max: 2});
-    this.hour.push({min: 0, max: 1});
-    this.hour.push({min: 1, max: 2});
-    this.hour.push({min: 0, max: 1});
-    this.hour.push({min: 0, max: 1});
-    this.hour.push({min: 0, max: 0});
-
-    this.actTime = [];
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});
-    this.actTime.push({min: 5, max: 10});*/
 },{"./const.js":10}],16:[function(require,module,exports){
 'use strict';
 var Const = require ('../const.js');
@@ -1784,7 +1908,8 @@ var DeathScene =
     create: function()
     {
         //---------------------------------------------------SOUND--------------------------------------------------------
-
+        var sound = this.game.add.audio('deathSound');
+        sound.play();
         
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
         var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');
@@ -1796,10 +1921,16 @@ var DeathScene =
         this.staticEffect.alpha = 0.4;
 
         //----------------------------------------------------GAME OVER TEXT-----------------------------------------------
-        this.game.time.events.add(2000, function (){ this.game.add.sprite(this.var._gOTextPosX, this.var._gOTextPosY, 'gameOverText'); }, this);
+        this.game.time.events.add(2000, function ()
+        { 
+            this.game.add.sprite(this.var._gOTextPosX, this.var._gOTextPosY, 'gameOverText'); 
+        }, this);
 
         //---------------------------------------------------RETURN MENU-----------------------------------------------------
-        this.game.time.events.add(7000, function (){ this.game.state.start('menu'); }, this);
+        this.game.time.events.add(10000, function()
+        { 
+            this.game.state.start('menu'); 
+        }, this);
     }
     
 };
@@ -1827,11 +1958,11 @@ var GameScene =
     preload: function () 
     {
         this.var = new Const();
-        this.game.sound.stopAll();
     },
 
     create: function () 
     {
+        //=====================================================SOUND========================================================================
         this.game.world.resize(this.var._tamX * 13, this.var._tamY);
         this.game.camera.x = this.var._iniCamPos;
         this.realTimeToChange = this.var._timeForHour + this.game.time.now;
@@ -1858,21 +1989,50 @@ var GameScene =
 
         //=====================================================SOUND========================================================================
         //Office ambient
-        this.soundAmbient = this.game.add.audio('ambient1');
-        this.soundAmbient.loop = true;
-        this.soundAmbient.volume = 0.5;
-        this.soundAmbient.play();
+        this.soundAmbient = [this.game.add.audio('ambient1'), this.game.add.audio('ambient2'), this.game.add.audio('ambient3')];
+        var rnd = Math.floor(Math.random() * (3 - 0));
+        this.soundAmbient[rnd].loop = true;
+        this.soundAmbient[rnd].volume = 0.5;
+        this.soundAmbient[rnd].play();
 
         this.soundLight_fan = this.game.add.audio('light_fan');
         this.soundLight_fan.loop = true;
         this.soundLight_fan.volume = 0.1;
         this.soundLight_fan.play();
 
+        //Phone Guy
+        this.phoneGuy = [this.game.add.audio('call1'), this.game.add.audio('call2'), this.game.add.audio('call3'), this.game.add.audio('call4'), this.game.add.audio('call5')];
+        this.phoneGuy[0].volume = 1.5;
+        this.phoneGuy[1].volume = 1.5;
+        this.phoneGuy[2].volume = 1.5;
+        this.phoneGuy[3].volume = 1.5;
+        this.phoneGuy[4].volume = 1.5;
+
         //Battery out
         this.soundOutBattery = this.game.add.audio('outBattery');
 
-        //=====================================================OFFICE========================================================================
+        //Pirate song
+        this.pirateSong = this.game.add.audio('foxySong');
+        this.pirateSong.volume = 0.05;
 
+        //Kitchen
+        this._kitchenSound = [this.game.add.audio('kitchen1'), this.game.add.audio('kitchen2'), this.game.add.audio('kitchen3'), this.game.add.audio('kitchen4')];
+        this._kitchenSound[0].volume = 0.5;
+        this._kitchenSound[0].loop = true;
+        this._kitchenSound[1].volume = 0.5;
+        this._kitchenSound[1].loop = true;
+        this._kitchenSound[2].volume = 0.5;
+        this._kitchenSound[2].loop = true;
+        this._kitchenSound[3].volume = 0.5;
+        this._kitchenSound[3].loop = true;
+
+        //Monitor
+        this.monitorUp = this.game.add.audio('monitorUp');
+        this.monitorUp.volume = 0.5;
+        this.monitorDown = this.game.add.audio('monitorDown');
+        this.monitorDown.volume = 0.5;
+
+        //=====================================================OFFICE========================================================================
 
         var office = this.game.add.sprite(0, 0, 'office');
 
@@ -1938,18 +2098,20 @@ var GameScene =
                                 this.game.add.sprite(this.var._spriteFreddyAttackPosX, this.var._spriteFreddyAttackPosY, 'freddyAttack'),
                                 this.game.add.audio('animAttack'),
                                 this.game.add.audio('deepSteps'),
+                                [this.game.add.audio('freddyLaugh1'), this.game.add.audio('freddyLaugh2'), this.game.add.audio('freddyLaugh3')],
+                                this.game.add.audio('freddyInOffice'),
                                 this.game.add.audio('freddySong'),
                                 this.game.add.audio('freddyEndSong'));
                                 
         //Bonnie
         this.bonnie = new Bonnie(this.game.add.sprite(0, 0, 'bonnie'),
                                 this.game.add.audio('animAttack'),
-                                this.game.add.audio(),);
+                                this.game.add.audio('deepSteps'),);
          
         //Chica
         this.chica = new Chica(this.game.add.sprite(0, 0, 'chica'),
                                 this.game.add.audio('animAttack'),
-                                this.game.add.audio(),);
+                                this.game.add.audio('deepSteps'),);
 
         //Foxy
         this.foxy = new Foxy (this.game, this.game.add.sprite(0, 0, 'pirateCov1'),
@@ -1957,24 +2119,33 @@ var GameScene =
                                 this.game.add.sprite(0, 0, 'pirateCov3'),
                                 this.game.add.sprite(0, 0, 'foxy'),
                                 this.game.add.audio('animAttack'),
-                                this.game.add.audio(),
-                                this.game.add.sprite(0, 0, 'foxyRun'));
+                                this.game.add.audio('foxyKnock'),
+                                this.game.add.audio('foxyRun'),
+                                this.game.add.sprite(0, 0, 'foxyRun'),
+                                this.bonnie);
 
         //===================================================OFFICE 2.0=================================================================
 
         //Lights
-        this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.game.add.sprite(this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight'), this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'), this.bonnie, this.game.add.audio('lightTurnOn'));
-        this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.game.add.sprite(this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight'), this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'), this.chica, this.game.add.audio('lightTurnOn'));
+        this.lightLeft = new Light(this.game, this.var._lightButtonIzqPosX, this.var._lightButtonIzqPosY, this.game.add.sprite(this.var._lightIzqPosX, this.var._lightIzqPosY, 'leftLight'), 
+                                    this.game.add.sprite(this.var._spriteBonnieAttackPosX, this.var._spriteBonnieAttackPosY, 'bonnieAttack'), this.bonnie, this.game.add.audio('lightTurnOn'),
+                                    this.game.add.audio('interactError'), this.game.add.audio('lightJumpscare'));
+        this.lightRight = new Light(this.game, this.var._lightButtonDerPosX, this.var._lightButtonDerPosY, this.game.add.sprite(this.var._lightDerPosX, this.var._lightDerPosY, 'rightLight'), 
+                                    this.game.add.sprite(this.var._spriteChicaAttackPosX, this.var._spriteChicaAttackPosY, 'chicaAttack'), this.chica, this.game.add.audio('lightTurnOn'),
+                                    this.game.add.audio('interactError'), this.game.add.audio('lightJumpscare'));
         
         //Doors
-        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY, this.game.add.audio('doorTurnOnOff'));
-        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY, this.game.add.audio('doorTurnOnOff'));
+        this.doorLeft = new Door(this.game, this.var._doorButtonIzqPosX, this.var._doorButtonIzqPosY, this.var._doorIzqPosX, this.var._doorIzqPosY, this.game.add.audio('doorTurnOnOff'), 
+                                this.game.add.audio('interactError'));
+        this.doorRight = new Door(this.game, this.var._doorButtonDerPosX, this.var._doorButtonDerPosY, this.var._doorDerPosX, this.var._doorDerPosY, this.game.add.audio('doorTurnOnOff'), 
+                                this.game.add.audio('interactError'));
 
         //===============================================STATIC EFFECT MONITOR=============================================================
 
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
         this.staticEffect.animations.add('startEffect');
         this.staticEffect.animations.play('startEffect', 10, true);
+        this.staticEffect._audio = [this.game.add.audio('error1'), this.game.add.audio('error2'), this.game.add.audio('error3'), this.game.add.audio('error4')];
 
         this.staticEffect.fixedToCamera = true;
 
@@ -2021,24 +2192,45 @@ var GameScene =
                                                     this.game.add.sprite(this.var._nightNumber2PosX,  this.var._nightNumber2PosY, 'numbers'),
                                                     this.game.add.sprite(this.var._nightNumber3PosX,  this.var._nightNumber3PosY, 'numbers') );
 
-        //===================================================ANIMATRONICS MOVE===========================================================
+        //=======================================================PHONE GUY===========================================================
+        this.actualNight = this.night.getNight();
+        if (this.actualNight <= 5)
+        {
+            this.phoneGuy[this.actualNight - 1].play();
+            
+            this.game.time.events.add(5000, function()
+            {
+                this.muteCall = this.game.add.button(this.var._muteCallPosX, this.var._muteCallPosY, 'muteCall', function()
+                {
+                    this.phoneGuy[this.actualNight - 1].stop();
+                    this.muteCall.inputEnabled = false;
+                    this.muteCall.visible = false;
+                }, this, 1, 0);
+
+                this.muteCall.scale.setTo(this.var._muteCallScale, this.var._muteCallScale);
+                this.muteCall.alpha = this.var._changeViewAlpha;
+                this.muteCall.fixedToCamera = true;
+            }, this);
+        }
+
+        //=======================================================ANIMATRONICS MOVE===========================================================
 
         //Bonnie
-        this.bonnie.preChangeNight(this.night.getNight());
+        this.bonnie.preChangeNight(this.actualNight);
         this.game.time.events.add(this.bonnie.getHour() * this.var._timeForHour, function()
         {
             this.bonnie.move(this.game, this.chica, this.staticEffect,this.doorLeft, this.lightLeft, this.freddy)
         }, this);
 
         //Chica
-        this.chica.preChangeNight(this.night.getNight());
+        this.chica.preChangeNight(this.actualNight);
         this.game.time.events.add(this.chica.getHour() * this.var._timeForHour, function()
         {
            this.chica.move(this.game, this.bonnie, this.staticEffect,this.doorRight, this.lightRight, this.freddy)
         }, this);
 
         //Freddy
-        this.freddy.changeNight(this.night.getNight());
+        this.freddy.changeNight(this.actualNight);
         
         this.game.time.events.add(this.freddy.getHour() * this.var._timeForHour, function()
         {
@@ -2046,11 +2238,11 @@ var GameScene =
         }, this);
 
         //Foxy
-        this.foxy.changeNight(this.night.getNight());
+        this.foxy.changeNight(this.actualNight);
         
         this.game.time.events.add(this.foxy.getHour() * this.var._timeForHour, function()
         {
-            this.foxy.move(this.doorLeft, this.battery);
+            this.foxy.move(this.doorLeft, this.battery, this.staticEffect);
         }, this);
 
         //=====================================================MONITOR=====================================================================
@@ -2109,11 +2301,15 @@ var GameScene =
         
         this.changeView = this.game.add.button(this.var._changeViewPosX, this.var._changeViewPosY, 'buttonMonitor', function () 
         { 
-
             if (this.inOffice) 
             {
+                this.monitorDown.stop();
+                this.monitorUp.play();
+
                 this.game.camera.x = this.monitor.LastPos();
                 this.officeEffect.alpha = 0;
+                this.soundAmbient.volume = 0.1;
+                this.soundLight_fan.volume = 0.05;
 
                 this.mapEdge.alpha = 1;
                 this.staticEffect.alpha = 0.1;
@@ -2137,10 +2333,22 @@ var GameScene =
             }
             else 
             {
+                this.monitorUp.stop();
+                this.monitorDown.play();
+
                 this.game.camera.x = this.lastPosOffice;
                 this.officeEffect.alpha = 0.5;
+                this.soundAmbient.volume = 0.5;
+                this.soundLight_fan.volume = 0.1;
 
                 this.mapEdge.alpha = 0;
+                if(this.staticEffect.alpha == 1)
+                {
+                    this.staticEffect._audio[0].stop();
+                    this.staticEffect._audio[1].stop();
+                    this.staticEffect._audio[2].stop();
+                    this.staticEffect._audio[3].stop();
+                }
                 this.staticEffect.alpha = 0;
                 this.REC.alpha = 0;
                 this.RECPoint.alpha = 0;
@@ -2212,10 +2420,38 @@ var GameScene =
 
         this.attackForDark = false;
         this.alreadyChanged = false;
+
+        this.haveJustArrived = true;
+        this.watchingKitchen = false;
+
+        this.bonnieEventInProcess = false;
+        this.bonnieAnimDone = false;
+        this.chicaEventInProcess = false;
+        this.chicaAnimDone = false;
+        this.freddyEventInProcess = false;
+        this.freddyAnimDone = false;
+        this.rndFail = false;
     },
+
+// **************************************************************************************************************************************************** //
+// **************************************************************************************************************************************************** //
 
     update: function () 
     {
+
+        //------Phone Guy-----
+        if (this.actualNight < 6)
+            if (!this.phoneGuy[this.actualNight - 1].isPlaying && this.muteCall.visible)
+            {
+                this.muteCall.visible = false;
+                this.muteCall.inputEnabled = false;
+            }
+
+        //------General------
+
+        if (this.game.input.keyboard.addKey(Phaser.Keyboard.ESC).isDown)
+            this.game.state.start('menu');
+
         if (this.moveLeft.input.pointerOver())
         {
             this.lastPosOffice = this.game.camera.x = this.game.camera.x - this.var._camMovSpeed;
@@ -2223,6 +2459,7 @@ var GameScene =
                 this.lightRight.turnOff();
 
         }
+
         else if (this.moveRight.input.pointerOver() && this.game.camera.x < this.var._turnOffRightLightPos )
         {
             this.lastPosOffice = this.game.camera.x = this.game.camera.x + this.var._camMovSpeed;
@@ -2341,6 +2578,7 @@ var GameScene =
         }
 
         //==========================Freddy===================
+
         if(!this.inOffice)
         {
             if(!this.freddy.attack() && this.freddy.startToMove())
@@ -2352,14 +2590,33 @@ var GameScene =
                     this.freddy.lookingAway();
             }
         }
+
+        //======================Freddy and Chica===================
+
+        if (this.game.camera.x == this.var._kitchenPosX && (this.chica.getPos()._name == 'kitchen' || this.freddy.getPos()._name == 'kitchen') && !this.watchingKitchen)
+        {
+            this.watchingKitchen = true;
+            this.kitchenRnd = Math.floor(Math.random() * (4 - 0));
+            this._kitchenSound[this.kitchenRnd].play();
+        }
+
+        if (((this.game.camera.x == this.var._kitchenPosX && this.chica.getPos()._name != 'kitchen' && this.freddy.getPos()._name != 'kitchen') ||
+            (this.game.camera.x != this.var._kitchenPosX)) && this.watchingKitchen)
+        {
+            this.watchingKitchen = false;
+            this._kitchenSound[this.kitchenRnd].stop();
+        }
+
         //==========================Foxy===================
+
         if(!this.inOffice)
         {
             if(this.foxy.startToMove())
             {
-                this.foxy.spotted(this.var, this.doorLeft);
+                this.foxy.spotted(this.var, this.doorLeft, this.battery, this.staticEffect);
             }
         }
+
         if(this.foxy.returnIsAttacking() && !this.alreadyChanged)
         {
             if(!this.inOffice)
@@ -2385,8 +2642,86 @@ var GameScene =
 
             this.alreadyChanged = true;
         }
+
+        if (this.game.camera.x == this.var._pirateCovePosX && this.foxy.getPos()._connect == 1 && !this.pirateSong.isPlaying && this.haveJustArrived)
+        {
+            this.haveJustArrived = false;
+            var rnd = Math.random() * (1 - 0);
+            if (rnd >= 0.9)
+                this.pirateSong.play();
+        }
+
+        if (this.game.camera.x != this.var._pirateCovePosX && !this.haveJustArrived)
+        {
+            if (this.pirateSong.isPlaying)
+                this.pirateSong.stop();
+            this.haveJustArrived = true;
+        }
         //======================Bonnie=========
+
         this.bonnie.foxyAndMe(this.foxy, this.game, this.staticEffect);
+
+        //======================Animatronics=========
+
+        if (this.night.getNight() >= 4 && (!this.bonnieAnimDone || !this.chicaAnimDone || !this.freddyAnimDone))
+        {
+            var rnd = Math.random();
+            if (rnd > 0.9 && !this.rndFail)
+            {
+                if (this.game.camera.x == this.bonnie.getPos()._posCam.x && this.bonnie.getPos()._name != "showStage" && !this.bonnieAnimDone)
+                {
+                    this.bonnie.randomAnim(this.game);
+                    this.bonnieAnimDone = true;
+                }
+                else if (this.game.camera.x == this.chica.getPos()._posCam.x && this.chica.getPos()._name != "showStage" && !this.chicaAnimDone)
+                {
+                    this.chica.randomAnim(this.game);
+                    this.chicaAnimDone = true;
+                }
+                else if (this.game.camera.x == this.freddy.getPos()._posCam.x && this.freddy.getPos()._name != "showStage" && !this.freddyAnimDone)
+                {
+                    this.freddy.randomAnim(this.game);
+                    this.freddyAnimDone = true;
+                }
+            }
+            else
+            {
+                this.rndFail = true;
+
+                this.game.time.events.add(1000, function()
+                {
+                    this.rndFail = false;
+                }, this);
+            }
+        }
+
+        if (this.bonnieAnimDone && !this.bonnieEventInProcess)
+        {
+            this.bonnieEventInProcess = true;
+            this.game.time.events.add(10000, function()
+            {
+                this.bonnieAnimDone = false;
+                this.bonnieEventInProcess = false;
+            }, this);
+        }
+        else if (this.chicaAnimDone && !this.chicaEventInProcess)
+        {
+            this.chicaEventInProcess = true;
+            this.game.time.events.add(10000, function()
+            {
+                this.chicaAnimDone = false;
+                this.chicaEventInProcess = false;
+            }, this);
+        }
+        else if (this.freddyAnimDone && !this.freddyEventInProcess)
+        {
+            this.freddyEventInProcess = true;
+            this.game.time.events.add(10000, function()
+            {
+                this.freddyAnimDone = false;
+                this.freddyEventInProcess = false;
+            }, this);
+        }
     }
 
 }
@@ -2417,19 +2752,92 @@ var Menu =
     create: function()
     {
         //---------------------------------------------------SOUND--------------------------------------------------------
-
+        var song = this.game.add.audio('menuSound');
+        song.loop = true;
+        song.play();
+        
+        var click = this.game.add.audio('freddyEndSong');
         
         //---------------------------------------------------TITLE--------------------------------------------------------
         var title = this.game.add.sprite(this.var._titlePosX, this.var._titlePosY, 'titleText');
 
-        //---------------------------------------------------NEW GAME-----------------------------------------------------
-        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function (){ localStorage.removeItem('numNight'); this.game.state.start('game'); }, this, 1, 0, 1);
-
-        //---------------------------------------------------CONTINUE-----------------------------------------------------
-        var buttonContinue = this.game.add.button(this.var._contPosX, this.var._contPosY, 'continueText', function (){ this.game.state.start('game'); }, this, 1, 0, 1);
-
         //-------------------------------------------------FREDDY IMAGE---------------------------------------------------
         var freddy = this.game.add.sprite(this.var._freddyPosX, this.var._freddyPosY, 'freddyMenu');
+
+        //---------------------------------------------------IMAGES--------------------------------------------------------
+        this.getJob = this.game.add.sprite(0, 0, 'Newspaper');
+        this.getJob.alpha = 0;
+        this.introNight = [this.game.add.sprite(0, 0, '1Night'),
+                            this.game.add.sprite(0, 0, '2Night'),
+                            this.game.add.sprite(0, 0, '3Night'),
+                            this.game.add.sprite(0, 0, '4Night'),
+                            this.game.add.sprite(0, 0, '5Night'),
+                            this.game.add.sprite(0, 0, '6Night')]
+        this.introNight[0].alpha = 0;
+        this.introNight[1].alpha = 0;
+        this.introNight[2].alpha = 0;
+        this.introNight[3].alpha = 0;
+        this.introNight[4].alpha = 0;
+        this.introNight[5].alpha = 0;
+
+        //---------------------------------------------------NEW GAME-----------------------------------------------------
+        var buttonNewGame = this.game.add.button(this.var._nGPosX, this.var._nGPosY, 'newGameText', function ()
+        { 
+            click.play();
+            localStorage.removeItem('numNight');
+            this.game.time.events.add(500, function()
+            {
+                buttonNewGame.alpha = 0;
+                buttonNewGame.inputEnabled = false;
+                buttonContinue.alpha = 0;
+                buttonContinue.inputEnabled = false;
+
+                this.staticEffect.alpha = 0;
+                this.game.sound.stopAll();
+                this.getJob.alpha = 1;
+
+                this.game.time.events.add(5000, function()
+                {
+                    this.introNight[0].alpha = 1;
+                    this.game.time.events.add(3000, function()
+                    {
+                        this.game.state.start('game');
+                    }, this);
+                }, this);
+            }, this);
+        }, this, 1, 0, 1);
+
+        //---------------------------------------------------CONTINUE-----------------------------------------------------
+        var buttonContinue = this.game.add.button(this.var._contPosX, this.var._contPosY, 'continueText', function ()
+        { 
+            click.play();
+            this.game.time.events.add(500, function()
+            {
+                buttonNewGame.alpha = 0;
+                buttonNewGame.inputEnabled = false;
+                buttonContinue.alpha = 0;
+                buttonContinue.inputEnabled = false;
+
+                this.staticEffect.alpha = 0;
+                this.game.sound.stopAll();
+
+                this._night = JSON.parse(localStorage.getItem('numNight'));
+                if(this._night == 7)
+                {
+                    localStorage.setItem("numNight", JSON.stringify(6));
+                    this.introNight[5].alpha = 1;
+                }
+                else if (this._night == null)
+                    this.introNight[0].alpha = 1;
+                else
+                    this.introNight[this._night - 1].alpha = 1;
+
+                this.game.time.events.add(3000, function()
+                {
+                    this.game.state.start('game');
+                }, this);
+            }, this);
+        }, this, 1, 0, 1);
 
         //----------------------------------------------------STATIC EFFECT-----------------------------------------------
         this.staticEffect = this.game.add.sprite(0, 0, 'staticEffect');
@@ -2456,29 +2864,55 @@ var WinScene =
     create: function()
     {
         //---------------------------------------------------SOUND--------------------------------------------------------
-
+        var bellrings = this.game.add.audio('bellrings');
+        var kidsScream = this.game.add.audio('kidsScream');
         
         //--------------------------------------------------HORA-----------------------------------------------
         this.hourText = this.game.add.sprite(this.var._winTextX, this.var._winTextY, 'win');
         this.hourText.scale.setTo(0.5,0.5);
-        this.hourText.animations.add('hola');
-        this.hourText.animations.play('hola', 1, false);
+        this.hourText.animations.add('6am');
+
+        bellrings.play();
+        this.hourText.animations.play('6am', 0.9, false);
+
+        //---------------------------------------------------IMAGES--------------------------------------------------------
+        this.introNight = [this.game.add.sprite(0, 0, '2Night'),
+                            this.game.add.sprite(0, 0, '3Night'),
+                            this.game.add.sprite(0, 0, '4Night'),
+                            this.game.add.sprite(0, 0, '5Night'),
+                            this.game.add.sprite(0, 0, '6Night')]
+        this.introNight[0].alpha = 0;
+        this.introNight[1].alpha = 0;
+        this.introNight[2].alpha = 0;
+        this.introNight[3].alpha = 0;
+        this.introNight[4].alpha = 0;
 
         //---------------------------------------------------CHANGE SCENE-----------------------------------------------------
         this.game.time.events.add(9000, function()
         {
-            this._night = JSON.parse(localStorage.getItem('numNight'));
-            if(this._night == 6)
+            kidsScream.play();
+            this.game.time.events.add(7000, function()
             {
-                this.winText = this.game.add.sprite(this.var._winTalX, this.var._winTalY, 'end');
-
-                this.game.time.events.add(5000, function()
+                this._night = JSON.parse(localStorage.getItem('numNight'));
+                if(this._night == 7)
                 {
-                    this.game.state.start('menu');
-                },this);
-            }
-            else
-                this.game.state.start('game');
+                    this.winText = this.game.add.sprite(this.var._winTalX, this.var._winTalY, 'end');
+
+                    this.game.time.events.add(7000, function()
+                    {
+                          this.game.state.start('menu');
+                    },this);
+                }
+                else
+                {
+                    this.game.sound.stopAll();
+                    this.introNight[this._night - 2].alpha = 1;
+                    this.game.time.events.add(3000, function()
+                    {
+                        this.game.state.start('game');
+                    }, this);
+                }
+            }, this);
         },this);
     }
     
