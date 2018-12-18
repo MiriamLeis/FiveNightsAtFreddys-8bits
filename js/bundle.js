@@ -1287,10 +1287,10 @@ function Const()
 
     this._spriteNumScale = 0.6;
 
-    this._timeToChange1 = 12000;
-    this._timeToChange2 = 8000;
-    this._timeToChange3 = 5000;
-    this._timeToChange4 = 4000;
+    this._timeToChange1 = 10000;
+    this._timeToChange2 = 5000;
+    this._timeToChange3 = 3000;
+    this._timeToChange4 = 2000;
 
     //==============================================================InsideMoniter===============================
 
