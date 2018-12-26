@@ -44,9 +44,9 @@ var PreloaderScene =
     
   //Office
       //Phone Guy
-      this.game.load.audio('call1', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call1', ['./audios/phoneGuy/Audio1.wav', './audios/phoneGuy/Audio1.mp3', './audios/phoneGuy/Audio1.ogg']);
       this.game.load.audio('call2', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
-      this.game.load.audio('call3', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call3', ['./audios/phoneGuy/Audio3.wav', './audios/phoneGuy/Audio3.mp3', './audios/phoneGuy/Audio3.ogg']);
       this.game.load.audio('call4', ['./audios/phoneGuy/Audio4.wav', './audios/phoneGuy/Audio4.mp3', './audios/phoneGuy/Audio4.ogg']);
       this.game.load.audio('call5', ['./audios/phoneGuy/Audio5.wav', './audios/phoneGuy/Audio5.mp3', './audios/phoneGuy/Audio5.ogg']);
 
