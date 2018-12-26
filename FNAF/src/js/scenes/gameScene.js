@@ -53,12 +53,12 @@ var GameScene =
         this.soundAmbient = [this.game.add.audio('ambient1'), this.game.add.audio('ambient2'), this.game.add.audio('ambient3')];
         var rnd = Math.floor(Math.random() * (3 - 0));
         this.soundAmbient[rnd].loop = true;
-        this.soundAmbient[rnd].volume = 0.5;
+        this.soundAmbient[rnd].volume = 0.2;
         this.soundAmbient[rnd].play();
 
         this.soundLight_fan = this.game.add.audio('light_fan');
         this.soundLight_fan.loop = true;
-        this.soundLight_fan.volume = 0.1;
+        this.soundLight_fan.volume = 0.05;
         this.soundLight_fan.play();
 
         //Phone Guy
@@ -370,7 +370,7 @@ var GameScene =
                 this.game.camera.x = this.monitor.LastPos();
                 this.officeEffect.alpha = 0;
                 this.soundAmbient.volume = 0.1;
-                this.soundLight_fan.volume = 0.05;
+                this.soundLight_fan.volume = 0.02;
 
                 this.mapEdge.alpha = 1;
                 this.staticEffect.alpha = 0.1;
@@ -399,8 +399,8 @@ var GameScene =
 
                 this.game.camera.x = this.lastPosOffice;
                 this.officeEffect.alpha = 0.5;
-                this.soundAmbient.volume = 0.5;
-                this.soundLight_fan.volume = 0.1;
+                this.soundAmbient.volume = 0.2;
+                this.soundLight_fan.volume = 0.05;
 
                 this.mapEdge.alpha = 0;
                 if(this.staticEffect.alpha == 1)
