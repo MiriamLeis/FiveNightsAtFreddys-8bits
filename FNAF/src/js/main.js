@@ -31,6 +31,8 @@ var PreloaderScene =
     this.loadingBar = this.game.add.sprite(0, 590, 'preloader_bar');
     this.load.setPreloadSprite(this.loadingBar);
 
+    this.load.onLoadComplete.add(this.loadComplete, this);
+
     // TODO: load here the assets for the game
   
   //------------------------------------------------------AUDIOS------------------------------------------
@@ -156,6 +158,7 @@ var PreloaderScene =
     this.game.load.image('rightLight', './images/items/rightLight.png');
     this.game.load.spritesheet('battery', './images/items/battery.png', 143, 66, 4);
     this.game.load.spritesheet('muteCall', './images/items/MuteCall.png', 198, 66, 2);
+    this.game.load.spritesheet('startButton', './images/startButton.png', 150, 70, 2);
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
@@ -183,9 +186,12 @@ var PreloaderScene =
     this.game.load.image('Newspaper', './images/texts/Newspaper.png');
   },
 
-  create: function () 
+  loadComplete: function () 
   {
-    this.game.state.start('menu');
+    this.loadingBar.visible = false;
+    var button = this.game.add.button(400 - 59.5, 500, 'startButton', function () { this.game.state.start('menu'); }, this, 1, 0, 1);
+    button.alpha = 0.5;
+    button.scale.setTo(0.7);
   }
 };
 

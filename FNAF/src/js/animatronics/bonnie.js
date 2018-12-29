@@ -19,7 +19,7 @@ function Bonnie(sprite, attackSound, moveSound)
                         //rango de horas de activacion
                         [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 15, max: 30}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
+                        [{min: 15, max: 25}, {min: 10, max: 20}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
                         //rango de segundos de ataque
                         [{min: 10, max: 15}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
 

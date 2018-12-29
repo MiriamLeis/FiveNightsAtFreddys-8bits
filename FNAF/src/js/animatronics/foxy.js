@@ -28,9 +28,9 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSou
                             new RoomStates(this.var._foxyRoom3X, this.var._foxyRoom3Y, room3, this.var, 3, false),
                             new RoomStates(this.var._foxyRoom4X, this.var._foxyRoom4Y, room3, this.var, 0, true)],
                             //rango de horas de activacion
-                            [{min: 3, max: 6}, {min: 1, max: 5}, {min: 1, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 0}],
+                            [{min: 3, max: 5}, {min: 1, max: 4}, {min: 1, max: 3}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 30, max: 40}, {min: 20, max: 32}, {min: 15, max: 25}, {min: 10, max: 15}, {min: 7, max: 12}, {min: 6, max: 10}], this.var]);
+                            [{min: 20, max: 30}, {min: 18, max: 25}, {min: 12, max: 20}, {min: 10, max: 15}, {min: 7, max: 12}, {min: 6, max: 10}], this.var]);
     this._sprite.visible = false;
 
     //Sonidos
