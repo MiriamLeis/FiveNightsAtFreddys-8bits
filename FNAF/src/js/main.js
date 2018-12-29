@@ -12,6 +12,7 @@ var BootScene =
   {
     // load here assets required for the loading screen
     this.game.load.image('preloader_bar', 'images/preloader_bar.png');
+    this.game.load.image('logoMA', 'images/LogoMABlanco.png');
   },
 
   create: function () 
@@ -25,8 +26,9 @@ var PreloaderScene =
 {
   preload: function () 
   {
-    this.loadingBar = this.game.add.sprite(0, 240, 'preloader_bar');
-    this.loadingBar.anchor.setTo(0, 0.5);
+    this.logo = this.game.add.sprite(400 - 170, 100, 'logoMA');
+    this.logo.scale.setTo(2);
+    this.loadingBar = this.game.add.sprite(0, 590, 'preloader_bar');
     this.load.setPreloadSprite(this.loadingBar);
 
     // TODO: load here the assets for the game
