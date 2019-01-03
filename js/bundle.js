@@ -369,7 +369,7 @@ function Bonnie(sprite, attackSound, moveSound)
                         //rango de horas de activacion
                         [{min: 2, max: 2}, {min: 0, max: 1}, {min: 1.5, max: 2}, {min: 0, max: 0.5}, {min: 0, max: 0}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 15, max: 30}, {min: 15, max: 25}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
+                        [{min: 15, max: 25}, {min: 10, max: 20}, {min: 7, max: 15}, {min: 5, max: 12}, {min: 3, max: 6}, {min: 2, max: 5}],
                         //rango de segundos de ataque
                         [{min: 10, max: 15}, {min: 8, max: 12}, {min: 6.5, max: 11}, {min: 5.5, max: 9}, {min: 3, max: 5}, {min: 2, max: 4}], this.var]);
 
@@ -672,7 +672,7 @@ function Chica(sprite, attackSound, moveSound)
                         //rango de horas de activacion 
                         [{min: 2, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                         //rango de segundos de movimiento
-                        [{min: 20, max: 35}, {min: 15, max: 30}, {min: 5, max: 10}, {min: 15, max: 20}, {min: 7, max: 10}, {min: 5, max: 8}],
+                        [{min: 20, max: 30}, {min: 15, max: 25}, {min: 5, max: 10}, {min: 15, max: 20}, {min: 7, max: 10}, {min: 5, max: 8}],
                         //rango de segundos de ataque
                         [{min: 10, max: 15}, {min: 8, max: 12}, {min: 7, max: 11}, {min: 6, max: 9}, {min: 3, max: 5}, {min: 3.5, max: 4.5}], this.var]);
 
@@ -712,9 +712,9 @@ function Foxy (game, room1, room2, room3, sprite, attackSound, moveSound, runSou
                             new RoomStates(this.var._foxyRoom3X, this.var._foxyRoom3Y, room3, this.var, 3, false),
                             new RoomStates(this.var._foxyRoom4X, this.var._foxyRoom4Y, room3, this.var, 0, true)],
                             //rango de horas de activacion
-                            [{min: 3, max: 6}, {min: 1, max: 5}, {min: 1, max: 3}, {min: 0, max: 3}, {min: 0, max: 1}, {min: 0, max: 0}],
+                            [{min: 3, max: 5}, {min: 1, max: 4}, {min: 1, max: 3}, {min: 0, max: 2}, {min: 0, max: 1}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 30, max: 40}, {min: 20, max: 32}, {min: 15, max: 25}, {min: 10, max: 15}, {min: 7, max: 12}, {min: 6, max: 10}], this.var]);
+                            [{min: 20, max: 30}, {min: 18, max: 25}, {min: 12, max: 20}, {min: 10, max: 15}, {min: 7, max: 12}, {min: 6, max: 10}], this.var]);
     this._sprite.visible = false;
 
     //Sonidos
@@ -930,9 +930,9 @@ function Freddy(sprite, darkFreddy, attack, attackSound, moveSound, laughSounds,
                             new Room (this.var._freddyRoom5X, this.var._freddyRoom5Y, this.var._eastHallPosX, this.var._eastHallPosY, 'eastHall', 5, null, null), 
                             new Room (this.var._freddyRoom6X, this.var._freddyRoom6Y, this.var._eHallCornerPosX, this.var._eHallCornerPosY, 'eHallCorner', null, null, null, true)],
                             //rango de horas de activacion 
-                            [{min: 6, max: 6}, {min: 6, max: 6}, {min: 3, max: 5}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
+                            [{min: 6, max: 6}, {min: 2, max: 5}, {min: 3, max: 4}, {min: 3, max: 3}, {min: 0, max: 0.5}, {min: 0, max: 0}],
                             //rango de segundos de movimiento
-                            [{min: 2, max: 5}, {min: 50, max: 100}, {min: 15, max: 40}, {min: 15, max: 30}, {min: 10, max: 20}, {min: 8, max: 15}], this.var]);
+                            [{min: 2, max: 20}, {min: 20, max: 25}, {min: 15, max: 25}, {min: 10, max: 15}, {min: 8, max: 14}, {min: 4, max: 10}], this.var]);
                             
     this._sprite.frame = 2;
 
@@ -1630,6 +1630,7 @@ var BootScene =
   {
     // load here assets required for the loading screen
     this.game.load.image('preloader_bar', 'images/preloader_bar.png');
+    this.game.load.image('logoMA', 'images/LogoMABlanco.png');
   },
 
   create: function () 
@@ -1643,9 +1644,12 @@ var PreloaderScene =
 {
   preload: function () 
   {
-    this.loadingBar = this.game.add.sprite(0, 240, 'preloader_bar');
-    this.loadingBar.anchor.setTo(0, 0.5);
+    this.logo = this.game.add.sprite(400 - 170, 100, 'logoMA');
+    this.logo.scale.setTo(2);
+    this.loadingBar = this.game.add.sprite(0, 590, 'preloader_bar');
     this.load.setPreloadSprite(this.loadingBar);
+
+    this.load.onLoadComplete.add(this.loadComplete, this);
 
     // TODO: load here the assets for the game
   
@@ -1662,9 +1666,9 @@ var PreloaderScene =
     
   //Office
       //Phone Guy
-      this.game.load.audio('call1', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call1', ['./audios/phoneGuy/Audio1.wav', './audios/phoneGuy/Audio1.mp3', './audios/phoneGuy/Audio1.ogg']);
       this.game.load.audio('call2', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
-      this.game.load.audio('call3', ['./audios/phoneGuy/Audio2.wav', './audios/phoneGuy/Audio2.mp3', './audios/phoneGuy/Audio2.ogg']);
+      this.game.load.audio('call3', ['./audios/phoneGuy/Audio3.wav', './audios/phoneGuy/Audio3.mp3', './audios/phoneGuy/Audio3.ogg']);
       this.game.load.audio('call4', ['./audios/phoneGuy/Audio4.wav', './audios/phoneGuy/Audio4.mp3', './audios/phoneGuy/Audio4.ogg']);
       this.game.load.audio('call5', ['./audios/phoneGuy/Audio5.wav', './audios/phoneGuy/Audio5.mp3', './audios/phoneGuy/Audio5.ogg']);
 
@@ -1772,6 +1776,7 @@ var PreloaderScene =
     this.game.load.image('rightLight', './images/items/rightLight.png');
     this.game.load.spritesheet('battery', './images/items/battery.png', 143, 66, 4);
     this.game.load.spritesheet('muteCall', './images/items/MuteCall.png', 198, 66, 2);
+    this.game.load.spritesheet('startButton', './images/startButton.png', 150, 70, 2);
 
     //Effects
     this.game.load.spritesheet('staticEffect', './images/effect/static.png', 800, 600, 5);
@@ -1799,9 +1804,12 @@ var PreloaderScene =
     this.game.load.image('Newspaper', './images/texts/Newspaper.png');
   },
 
-  create: function () 
+  loadComplete: function () 
   {
-    this.game.state.start('menu');
+    this.loadingBar.visible = false;
+    var button = this.game.add.button(400 - 59.5, 500, 'startButton', function () { this.game.state.start('menu'); }, this, 1, 0, 1);
+    button.alpha = 0.5;
+    button.scale.setTo(0.7);
   }
 };
 
@@ -1992,12 +2000,12 @@ var GameScene =
         this.soundAmbient = [this.game.add.audio('ambient1'), this.game.add.audio('ambient2'), this.game.add.audio('ambient3')];
         var rnd = Math.floor(Math.random() * (3 - 0));
         this.soundAmbient[rnd].loop = true;
-        this.soundAmbient[rnd].volume = 0.5;
+        this.soundAmbient[rnd].volume = 0.2;
         this.soundAmbient[rnd].play();
 
         this.soundLight_fan = this.game.add.audio('light_fan');
         this.soundLight_fan.loop = true;
-        this.soundLight_fan.volume = 0.1;
+        this.soundLight_fan.volume = 0.05;
         this.soundLight_fan.play();
 
         //Phone Guy
@@ -2309,7 +2317,7 @@ var GameScene =
                 this.game.camera.x = this.monitor.LastPos();
                 this.officeEffect.alpha = 0;
                 this.soundAmbient.volume = 0.1;
-                this.soundLight_fan.volume = 0.05;
+                this.soundLight_fan.volume = 0.02;
 
                 this.mapEdge.alpha = 1;
                 this.staticEffect.alpha = 0.1;
@@ -2338,8 +2346,8 @@ var GameScene =
 
                 this.game.camera.x = this.lastPosOffice;
                 this.officeEffect.alpha = 0.5;
-                this.soundAmbient.volume = 0.5;
-                this.soundLight_fan.volume = 0.1;
+                this.soundAmbient.volume = 0.2;
+                this.soundLight_fan.volume = 0.05;
 
                 this.mapEdge.alpha = 0;
                 if(this.staticEffect.alpha == 1)
